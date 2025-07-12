@@ -1,0 +1,40 @@
+SDK DE FIREBASE:
+npm install --save firebase
+
+JQUERY DATATABLE PLUGIN:
+npm i angular-datatables
+npm i @types/datatables.net --save-dev
+
+CONFIRMATION POPOVER PLUGIN:
+npm install --save angular-confirmation-popover
+
+NOTIE ALERT PLUGIN:
+npm install notie
+
+CREACIÓN DE COOKIES EN ANGULAR:
+npm install js-cookie --save
+npm install @types/js-cookie --save
+
+CREACIÓN DE ALGORITMO MD5:
+npm i md5-typescript
+
+EDITOR DE TEXTO ENRIQUECIDO: SUMMERNOTE
+npm install --save summernote ngx-summernote
+
+INPUT TAG:
+npm i ngx-chips
+
+DROPZONE:
+npm install --save ngx-dropzone
+
+INICIAR ANGULAR SIN "HOT RELOAD":
+ng serve --live-reload false
+
+
+
+
+
+
+
+
+

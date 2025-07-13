@@ -259,7 +259,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('list')) {
       let shoppingCart = JSON.parse(localStorage.getItem('list'));
 
-      shoppingCart.forEach((list, index) => {
+      shoppingCart.forEach((list:any, index:any) => {
         if (list.product == product && list.details == details.toString()) {
           shoppingCart.splice(index, 1);
         }

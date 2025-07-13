@@ -56,9 +56,9 @@ export class ReviewsComponent implements OnInit {
         =============================================*/
 
     //Necesitamos un array vacío para almacenar los review
-    let arrayReview = [];
+    let arrayReview: any[] = [];
 
-    JSON.parse(this.childItem['reviews']).forEach((rev) => {
+    JSON.parse(this.childItem['reviews']).forEach((rev:any) => {
       arrayReview.push(rev.review);
     });
 

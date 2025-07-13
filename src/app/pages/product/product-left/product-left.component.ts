@@ -488,7 +488,7 @@ export class ProductLeftComponent implements OnInit {
                 Traer el correo de la tienda
                 =============================================*/
 
-        let emailStore = null;
+        let emailStore:any = null;
 
         this.storesService.getFilterData('store', store).subscribe((resp) => {
           for (const i in resp) {

@@ -53,7 +53,7 @@ export class RelatedProductComponent implements OnInit {
 	Declaramos función para mostrar los productos recomendados
 	=============================================*/
 
-  productsFnc(response) {
+  productsFnc(response:any) {
     this.products = [];
 
     /*=============================================
@@ -120,7 +120,7 @@ export class RelatedProductComponent implements OnInit {
 	Función para agregar productos a la lista de deseos	
 	=============================================*/
 
-  addWishlist(product) {
+  addWishlist(product:any) {
     this.usersService.addWishlist(product);
   }
 
@@ -128,7 +128,7 @@ export class RelatedProductComponent implements OnInit {
 	Función para agregar productos al carrito de compras
 	=============================================*/
 
-  addShoppingCart(product, unit, details) {
+  addShoppingCart(product:any, unit:any, details:any) {
     let url = this.router.url;
 
     let item = {

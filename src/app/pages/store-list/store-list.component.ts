@@ -76,7 +76,7 @@ export class StoreListComponent implements OnInit {
 	Declaramos función para mostrar el catálogo de tiendas
 	=============================================*/	
 
-	storeFnc(response){
+	storeFnc(response:any){
 
 		this.stores = [];
 

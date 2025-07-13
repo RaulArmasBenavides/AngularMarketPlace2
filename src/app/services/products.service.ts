@@ -24,7 +24,7 @@ export class ProductsService {
 			
 			map((resp:any)=>{
 
-				let newResp = [];
+				let newResp:any[] = [];
 				let count = 0;
 
 				for(const i in resp){
@@ -57,7 +57,7 @@ export class ProductsService {
 			
 			map((resp:any)=>{
 
-				let newResp = [];
+				let newResp:any = [];
 				let count = 0;
 
 				for(const i in resp){
@@ -90,7 +90,7 @@ export class ProductsService {
 			
 			map((resp:any)=>{
 
-				let newResp = [];
+				let newResp:any[] = [];
 				let count = 0;
 
 				for(const i in resp){
@@ -162,7 +162,7 @@ export class ProductsService {
 			
 			map((resp:any)=>{
 
-				let newResp = [];
+				let newResp:any[] = [];
 				let count = 0;
 
 				for(const i in resp){

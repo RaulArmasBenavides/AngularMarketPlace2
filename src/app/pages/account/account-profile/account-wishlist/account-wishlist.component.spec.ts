@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync , ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountWishlistComponent } from './account-wishlist.component';
 
@@ -6,7 +6,7 @@ describe('AccountWishlistComponent', () => {
   let component: AccountWishlistComponent;
   let fixture: ComponentFixture<AccountWishlistComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync (() => {
     TestBed.configureTestingModule({
       declarations: [ AccountWishlistComponent ]
     })

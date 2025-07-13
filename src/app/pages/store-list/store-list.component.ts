@@ -14,7 +14,8 @@ declare var $:any;
 @Component({
   selector: 'app-store-list',
   templateUrl: './store-list.component.html',
-  styleUrls: ['./store-list.component.css']
+  styleUrls: ['./store-list.component.css'],
+   standalone:false
 })
 export class StoreListComponent implements OnInit {
 

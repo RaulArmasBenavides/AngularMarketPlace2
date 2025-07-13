@@ -5,60 +5,51 @@ import { ProductsService } from '../../services/products.service';
 @Component({
   selector: 'app-header-promotion',
   templateUrl: './header-promotion.component.html',
-  styleUrls: ['./header-promotion.component.css']
+  styleUrls: ['./header-promotion.component.css'],
+  standalone: false
 })
 export class HeaderPromotionComponent implements OnInit {
+  path: string = Path.url;
+  top_banner: object = null;
+  category: object = null;
+  url: object = null;
+  preload: boolean = false;
 
-	path:string = Path.url;	
-	top_banner:object = null;
-	category:object = null;
-	url:object = null;
-	preload:boolean = false;
+  constructor(private productsService: ProductsService) {}
 
-	constructor(private productsService: ProductsService ) { }
+  ngOnInit(): void {
+    this.preload = true;
 
-	ngOnInit(): void {
+    this.productsService.getData().subscribe((resp) => {
+      // console.log("resp", resp[Object.keys(resp)[1]]);
 
-		this.preload = true;
-
-		this.productsService.getData()
-		.subscribe(resp =>{
-			
-			// console.log("resp", resp[Object.keys(resp)[1]]);
-
-			/*=============================================
+      /*=============================================
 			Tomar la longitud del objeto
 			=============================================*/
 
-			let i;
-			let size = 0;
+      let i;
+      let size = 0;
 
-			for(i in resp){
+      for (i in resp) {
+        size++;
+      }
 
-				size++			
-
-			}
-
-			/*=============================================
+      /*=============================================
 			Generar un número aleatorio 
 			=============================================*/
 
-			let index = Math.floor(Math.random()*size);
+      let index = Math.floor(Math.random() * size);
 
-			/*=============================================
+      /*=============================================
 			Devolvemos a la vista un banner aleatorio
 			=============================================*/
 
-			this.top_banner = JSON.parse(resp[Object.keys(resp)[index]].top_banner);
-			
-			this.category = resp[Object.keys(resp)[index]].category;
-			this.url = resp[Object.keys(resp)[index]].url;
-			
-			this.preload = false;
-		
+      this.top_banner = JSON.parse(resp[Object.keys(resp)[index]].top_banner);
 
-		})
+      this.category = resp[Object.keys(resp)[index]].category;
+      this.url = resp[Object.keys(resp)[index]].url;
 
-	}
-
+      this.preload = false;
+    });
+  }
 }

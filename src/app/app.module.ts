@@ -1,23 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
-
 import {HttpClientModule} from '@angular/common/http';
-
 import { FormsModule } from '@angular/forms';
-
-import { DataTablesModule } from 'angular-datatables';
-
-import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-
-import { NgxSummernoteModule } from 'ngx-summernote';
-
-import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+// import { NgxSummernoteModule } from 'ngx-summernote';
+import { DataTablesModule } from 'angular-datatables';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-
+import { TagInputModule } from 'ngx-chips';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
 import { HeaderPromotionComponent } from './modules/header-promotion/header-promotion.component';
@@ -134,8 +125,8 @@ import { StoreListComponent } from './pages/store-list/store-list.component';
     ConfirmationPopoverModule.forRoot({
         confirmButtonType:'danger'
     }),
-    NgxSummernoteModule,
-    TagInputModule, 
+ 
+    TagInputModule,
     BrowserAnimationsModule,
     NgxDropzoneModule
   ],

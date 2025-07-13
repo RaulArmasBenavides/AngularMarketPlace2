@@ -5,22 +5,19 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-search-breadcrumb',
   templateUrl: './search-breadcrumb.component.html',
-  styleUrls: ['./search-breadcrumb.component.css']
+  styleUrls: ['./search-breadcrumb.component.css'],
+  standalone: false
 })
 export class SearchBreadcrumbComponent implements OnInit {
+  breadcrumb: string = null;
 
-	breadcrumb:string = null;
+  constructor(private activateRoute: ActivatedRoute) {}
 
- 	constructor(private activateRoute: ActivatedRoute) { }
-
-  	ngOnInit(): void {
-
-  		/*=============================================
+  ngOnInit(): void {
+    /*=============================================
 		Capturamos el parámetro URL
-		=============================================*/	
+		=============================================*/
 
-		this.breadcrumb = this.activateRoute.snapshot.params["param"].replace(/[_]/g, " ");
-
-  	}
-
+    this.breadcrumb = this.activateRoute.snapshot.params['param'].replace(/[_]/g, ' ');
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 
 import { Path, Server } from '../../../config';
 import { Sweetalert, Tooltip } from '../../../functions';
@@ -12,432 +12,348 @@ import { MessagesService } from '../../../services/messages.service';
 
 import { ActivatedRoute } from '@angular/router';
 
-declare var jQuery:any;
-declare var $:any;
+declare var jQuery: any;
+declare var $: any;
 
 @Component({
   selector: 'app-account-profile',
   templateUrl: './account-profile.component.html',
-  styleUrls: ['./account-profile.component.css']
+  styleUrls: ['./account-profile.component.css'],
+  standalone: false
 })
 export class AccountProfileComponent implements OnInit {
+  path: string = Path.url;
+  vendor: boolean = false;
+  displayName: string;
+  username: string;
+  email: string;
+  picture: string;
+  id: string;
+  method: boolean = false;
+  preload: boolean = false;
+  server: string = Server.url;
+  image: File = null;
+  accountUrl: string = null;
+  store: any[] = [];
+  ordersPending: number = 0;
+  disputes: any[] = [];
+  messages: any[] = [];
 
-	path:string = Path.url;
-	vendor:boolean = false;
-	displayName:string;
-	username:string;
-	email:string;
-	picture:string;
-	id:string;
-	method:boolean = false;
-	preload:boolean = false;
-	server:string = Server.url;
-	image:File = null;
-	accountUrl:string = null;
-	store:any[] = [];
-	ordersPending:number = 0;
-	disputes:any[] = [];
-	messages:any[] = [];
+  constructor(
+    private usersService: UsersService,
+    private storesService: StoresService,
+    private ordersService: OrdersService,
+    private disputesService: DisputesService,
+    private messagesService: MessagesService,
+    private http: HttpClient,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-	constructor(private usersService: UsersService,
-				private storesService: StoresService,
-				private ordersService: OrdersService,
-				private disputesService: DisputesService,
-				private messagesService: MessagesService,
-				private http: HttpClient,
-				private activatedRoute:ActivatedRoute) { }
+  ngOnInit(): void {
+    this.preload = true;
 
-	ngOnInit(): void {
-
-
-		this.preload = true;
-
-		/*=============================================
+    /*=============================================
 		Capturamos la Url de la página de cuentas
 		=============================================*/
 
-		if(this.activatedRoute.snapshot.params["param"] != undefined){
+    if (this.activatedRoute.snapshot.params['param'] != undefined) {
+      this.accountUrl = this.activatedRoute.snapshot.params['param'].split('&')[0];
+    }
 
-			this.accountUrl = this.activatedRoute.snapshot.params["param"].split("&")[0];
-
-		}
-		
-		/*=============================================
+    /*=============================================
 		Validar si existe usuario autenticado
 		=============================================*/
-		this.usersService.authActivate().then(resp =>{
+    this.usersService.authActivate().then((resp) => {
+      if (resp) {
+        this.usersService
+          .getFilterData('idToken', localStorage.getItem('idToken'))
+          .subscribe((resp) => {
+            this.id = Object.keys(resp).toString();
 
-			if(resp){
-
-				this.usersService.getFilterData("idToken", localStorage.getItem("idToken"))
-				.subscribe(resp=>{
-
-					this.id = Object.keys(resp).toString();
-
-					for(const i in resp){
-
-						/*=============================================
+            for (const i in resp) {
+              /*=============================================
 						Preguntamos si es vendedor para traernos la información de la tienda
 						=============================================*/
 
-						this.storesService.getFilterData("username", resp[i].username)
-						.subscribe(resp=>{
-							
-							if(Object.keys(resp).length > 0){
+              this.storesService.getFilterData('username', resp[i].username).subscribe((resp) => {
+                if (Object.keys(resp).length > 0) {
+                  this.vendor = true;
 
-								this.vendor = true;
+                  for (const i in resp) {
+                    this.store.push(resp[i]);
 
-								for(const i in resp){
-
-									this.store.push(resp[i]);
-
-									/*=============================================
+                    /*=============================================
 									Preguntamos si esta tienda tiene órdenes
 									=============================================*/
-									
-									this.ordersService.getFilterData("store", resp[i].store)
-									.subscribe(resp=>{
-										
-										if(Object.keys(resp).length > 0){
 
-											for(const i in resp){
+                    this.ordersService.getFilterData('store', resp[i].store).subscribe((resp) => {
+                      if (Object.keys(resp).length > 0) {
+                        for (const i in resp) {
+                          if (resp[i].status == 'pending') {
+                            this.ordersPending++;
+                          }
+                        }
+                      }
+                    });
 
-												if(resp[i].status == "pending"){
-
-													this.ordersPending++;
-												}
-											
-											}
-
-										}
-
-									})
-
-									/*=============================================
+                    /*=============================================
 									Preguntamos si esta tienda tiene disputas
 									=============================================*/
 
-									this.disputesService.getFilterData("receiver", resp[i].store)
-									.subscribe(resp=>{
-										
-										if(Object.keys(resp).length > 0){
+                    this.disputesService
+                      .getFilterData('receiver', resp[i].store)
+                      .subscribe((resp) => {
+                        if (Object.keys(resp).length > 0) {
+                          for (const i in resp) {
+                            if (resp[i].answer == undefined) {
+                              this.disputes.push(resp[i]);
+                            }
+                          }
+                        }
+                      });
 
-											for(const i in resp){
-
-												if(resp[i].answer == undefined){								
-
-													this.disputes.push(resp[i]);
-
-												}				
-											
-											}
-
-										}
-
-
-									})
-
-									/*=============================================
+                    /*=============================================
 									Preguntamos si esta tienda tiene mensajes
 									=============================================*/
 
-									this.messagesService.getFilterData("receiver", resp[i].store)
-									.subscribe(resp=>{
-										
-										if(Object.keys(resp).length > 0){
+                    this.messagesService
+                      .getFilterData('receiver', resp[i].store)
+                      .subscribe((resp) => {
+                        if (Object.keys(resp).length > 0) {
+                          for (const i in resp) {
+                            if (resp[i].answer == undefined) {
+                              this.messages.push(resp[i]);
+                            }
+                          }
+                        }
+                      });
+                  }
+                }
+              });
 
-											for(const i in resp){
-
-												if(resp[i].answer == undefined){								
-
-													this.messages.push(resp[i]);	
-
-												}			
-											
-											}
-
-										}
-
-
-									})
-									
-								}
-
-							}
-
-						})
-
-						/*=============================================
+              /*=============================================
 						Asignamos nombre completo del usuario
 						=============================================*/
 
-						this.displayName = resp[i].displayName;
+              this.displayName = resp[i].displayName;
 
-						/*=============================================
+              /*=============================================
 						Asignamos username
 						=============================================*/
 
-						this.username = resp[i].username;
+              this.username = resp[i].username;
 
-						/*=============================================
+              /*=============================================
 						Asignamos email
 						=============================================*/
 
-						this.email = resp[i].email;
+              this.email = resp[i].email;
 
-						/*=============================================
+              /*=============================================
 						Asignamos foto del usuario
 						=============================================*/
 
-						if(resp[i].picture != undefined){
+              if (resp[i].picture != undefined) {
+                if (resp[i].method != 'direct') {
+                  this.picture = resp[i].picture;
+                } else {
+                  this.picture = `assets/img/users/${resp[i].username.toLowerCase()}/${resp[i].picture}`;
+                }
+              } else {
+                this.picture = `assets/img/users/default/default.png`;
+              }
 
-							if(resp[i].method != "direct"){
-
-								this.picture = resp[i].picture;
-							
-							}else{
-
-								this.picture = `assets/img/users/${resp[i].username.toLowerCase()}/${resp[i].picture}`;
-							}
-
-						}else{
-
-							this.picture = `assets/img/users/default/default.png`;
-						}
-
-						/*=============================================
+              /*=============================================
 						Método de registro
 						=============================================*/
 
-						if(resp[i].method != "direct"){
+              if (resp[i].method != 'direct') {
+                this.method = true;
+              }
 
-							this.method = true;
-						}
+              this.preload = false;
+            }
+          });
+      }
+    });
 
-						this.preload = false; 
-					}
-
-				})
-
-			}
-
-		})
-
-		/*=============================================
+    /*=============================================
 		Función para ejecutar el Tooltip de Bootstrap 4
 		=============================================*/
 
-		Tooltip.fnc();
+    Tooltip.fnc();
 
-		/*=============================================
+    /*=============================================
 		Validar formulario de Bootstrap 4
 		=============================================*/
 
-		// Disable form submissions if there are invalid fields
-		(function() {
-			'use strict';
-			window.addEventListener('load', function() {
-		// Get the forms we want to add validation styles to
-		var forms = document.getElementsByClassName('needs-validation');
-		// Loop over them and prevent submission
-		var validation = Array.prototype.filter.call(forms, function(form) {
-			form.addEventListener('submit', function(event) {
-				if (form.checkValidity() === false) {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-				form.classList.add('was-validated');
-			}, false);
-		});
-		}, false);
-		})();
+    // Disable form submissions if there are invalid fields
+    (function () {
+      'use strict';
+      window.addEventListener(
+        'load',
+        function () {
+          // Get the forms we want to add validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener(
+              'submit',
+              function (event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              },
+              false
+            );
+          });
+        },
+        false
+      );
+    })();
 
-		/*=============================================
+    /*=============================================
 		Script para subir imagen con el input de boostrap
 		=============================================*/
 
-		// Add the following code if you want the name of the file appear on select
-		$(".custom-file-input").on("change", function() {
-		  var fileName = $(this).val().split("\\").pop();
-		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-		});
+    // Add the following code if you want the name of the file appear on select
+    $('.custom-file-input').on('change', function () {
+      var fileName = $(this).val().split('\\').pop();
+      $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
+    });
+  }
 
-	}
-
-	/*=============================================
+  /*=============================================
     Validación de expresión regular del formulario
     =============================================*/
-   
-    validate(input){
 
-      let pattern;
+  validate(input) {
+    let pattern;
 
-      if($(input).attr("name") == "password"){
-
-        pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
-        
-      }
-
-      if(!pattern.test(input.value)){
-
-        $(input).parent().addClass('was-validated')
-
-        input.value = "";
-      
-      }
-
+    if ($(input).attr('name') == 'password') {
+      pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
     }
 
-    /*=============================================
+    if (!pattern.test(input.value)) {
+      $(input).parent().addClass('was-validated');
+
+      input.value = '';
+    }
+  }
+
+  /*=============================================
    	Enviar nueva Contraseña
     =============================================*/
 
-    newPassword(value){
+  newPassword(value) {
+    if (value != '') {
+      Sweetalert.fnc('loading', 'Loading...', null);
 
-    	if(value != ""){
+      let body = {
+        idToken: localStorage.getItem('idToken'),
+        password: value,
+        returnSecureToken: true
+      };
 
-	    	Sweetalert.fnc("loading", "Loading...", null)
+      this.usersService.changePasswordFnc(body).subscribe(
+        (resp1) => {
+          let value = {
+            idToken: resp1['idToken']
+          };
 
-	    	let body = {
-
-	    		idToken: localStorage.getItem('idToken'),
-	    		password: value,
-	    		returnSecureToken: true
-
-	    	}
-
-	    	this.usersService.changePasswordFnc(body)
-	    	.subscribe(resp1=>{	
-
-      			let value = {
-
-      				idToken: resp1["idToken"]
-      			}
-
-      			this.usersService.patchData(this.id, value)
-      			.subscribe(resp2=>{
-
-		    		/*=============================================
+          this.usersService.patchData(this.id, value).subscribe((resp2) => {
+            /*=============================================
 					Almacenamos el Token de seguridad en el localstorage
 					=============================================*/
 
-					localStorage.setItem("idToken", resp1["idToken"]);
+            localStorage.setItem('idToken', resp1['idToken']);
 
-					/*=============================================
+            /*=============================================
 					Almacenamos la fecha de expiración localstorage
 					=============================================*/
 
-					let today = new Date();
+            let today = new Date();
 
-					today.setSeconds(resp1["expiresIn"]);
+            today.setSeconds(resp1['expiresIn']);
 
-					localStorage.setItem("expiresIn", today.getTime().toString());
+            localStorage.setItem('expiresIn', today.getTime().toString());
 
-					Sweetalert.fnc("success", "Password change successful", "account")
-
-				})
-
-	    	}, err =>{
-
-	    		Sweetalert.fnc("error", err.error.error.message, null)
-
-	    	})
-
-	    }
-
+            Sweetalert.fnc('success', 'Password change successful', 'account');
+          });
+        },
+        (err) => {
+          Sweetalert.fnc('error', err.error.error.message, null);
+        }
+      );
     }
+  }
 
-  	/*=============================================
+  /*=============================================
    	Validar Imagen
     =============================================*/
 
-    validateImage(e){
-    	
-    	this.image = e.target.files[0];
+  validateImage(e) {
+    this.image = e.target.files[0];
 
-	  	/*=============================================
+    /*=============================================
         Validamos el formato
         =============================================*/
 
-        if(this.image["type"] !== "image/jpeg" && this.image["type"] !== "image/png"){
+    if (this.image['type'] !== 'image/jpeg' && this.image['type'] !== 'image/png') {
+      Sweetalert.fnc('error', 'The image must be in JPG or PNG format', null);
 
-	    	Sweetalert.fnc("error", "The image must be in JPG or PNG format", null)
-
-	    	return;
-
-        }
-
-        /*=============================================
-        Validamos el tamaño
-        =============================================*/
-
-        else if(this.image["size"] > 2000000){
-
-        	Sweetalert.fnc("error", "Image must not weigh more than 2MB", null)
-
-	    	return;
-
-        }
-
-        /*=============================================
-        Mostramos la imagen temporal
-        =============================================*/
-
-        else{
-
-        	let data = new FileReader();
-        	data.readAsDataURL(this.image);
-
-            $(data).on("load", function(event){
-
-            	let path = event.target.result; 
-
-            	$(".changePicture").attr("src", path)     
-
-            })
-
-        }
-
-    }
+      return;
+    } else if (this.image['size'] > 2000000) {
 
     /*=============================================
+        Validamos el tamaño
+        =============================================*/
+      Sweetalert.fnc('error', 'Image must not weigh more than 2MB', null);
+
+      return;
+    } else {
+
+    /*=============================================
+        Mostramos la imagen temporal
+        =============================================*/
+      let data = new FileReader();
+      data.readAsDataURL(this.image);
+
+      $(data).on('load', function (event) {
+        let path = event.target.result;
+
+        $('.changePicture').attr('src', path);
+      });
+    }
+  }
+
+  /*=============================================
    	Subir imagen al servidor
     =============================================*/
 
-    uploadImage(){
+  uploadImage() {
+    const formData = new FormData();
 
-    	const formData = new FormData();
+    formData.append('file', this.image);
+    formData.append('folder', this.username);
+    formData.append('path', 'users');
+    formData.append('width', '200');
+    formData.append('height', '200');
 
-    	formData.append('file', this.image);
-    	formData.append('folder', this.username);
-    	formData.append('path', 'users');
-    	formData.append('width', '200');
-    	formData.append('height', '200');
+    this.http.post(this.server, formData).subscribe((resp) => {
+      if (resp['status'] == 200) {
+        let body = {
+          picture: resp['result']
+        };
 
-    	this.http.post(this.server, formData)
-    	.subscribe(resp =>{
-    		
-    		if(resp["status"] == 200){
-
-    			let body = {
-
-    				picture: resp["result"]
-    			}
-
-    			this.usersService.patchData(this.id, body)
-    			.subscribe(resp=>{
-
-    				if(resp["picture"] != ""){
-
-    					Sweetalert.fnc("success", "¡Your photo has been updated!", "account")
-    				}
-
-    			})
-
-    		}
-
-    	})
-
-    }
-
+        this.usersService.patchData(this.id, body).subscribe((resp) => {
+          if (resp['picture'] != '') {
+            Sweetalert.fnc('success', '¡Your photo has been updated!', 'account');
+          }
+        });
+      }
+    });
+  }
 }

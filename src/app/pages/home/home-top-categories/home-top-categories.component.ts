@@ -6,63 +6,50 @@ import { CategoriesService } from '../../../services/categories.service';
 @Component({
   selector: 'app-home-top-categories',
   templateUrl: './home-top-categories.component.html',
-  styleUrls: ['./home-top-categories.component.css']
+  styleUrls: ['./home-top-categories.component.css'],
+  standalone: false
 })
 export class HomeTopCategoriesComponent implements OnInit {
+  path: string = Path.url;
+  categories: any[] = [];
+  cargando: boolean = false;
+  preCategories: any[] = [];
+  constructor(private categoriesService: CategoriesService) {}
 
-	path:string = Path.url;	
-	categories:any[] = [];
-	cargando:boolean = false;
+  ngOnInit(): void {
+    this.cargando = true;
 
-	constructor(private categoriesService: CategoriesService) { }
-
-	ngOnInit(): void {
-
-		this.cargando = true;
-
-		/*=============================================
+    /*=============================================
 		Tomamos la data de las categorias
 		=============================================*/
 
-		let getCategories = [];
+    let getCategories = [];
 
-		this.categoriesService.getData()		
-		.subscribe( resp => {
-			
-			let i;
+    this.categoriesService.getData().subscribe((resp) => {
+      let i;
 
-			for(i in resp){
+      for (i in resp) {
+        getCategories.push(resp[i]);
+      }
 
-				getCategories.push(resp[i])
-
-			}
-
-			/*=============================================
+      /*=============================================
 			Ordenamos de mayor vistas a menor vistas el arreglo de objetos
 			=============================================*/
-			
-			getCategories.sort(function(a,b){
 
-				return(b.view - a.view)
+      getCategories.sort(function (a, b) {
+        return b.view - a.view;
+      });
 
-			})
-
-			/*=============================================
+      /*=============================================
 			Filtramos hasta 6 categorías
-			=============================================*/	
+			=============================================*/
 
-			getCategories.forEach((category, index)=>{
-
-				if(index < 6){
-
-					this.categories[index] = getCategories[index];
-					this.cargando = false;
-				}
-
-			})
-
-		})
-			
-	}
-
+      getCategories.forEach((category, index) => {
+        if (index < 6) {
+          this.categories[index] = getCategories[index];
+          this.cargando = false;
+        }
+      });
+    });
+  }
 }

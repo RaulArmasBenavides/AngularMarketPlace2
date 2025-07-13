@@ -1,20 +1,22 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "types": ["minimatch"],
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
     "sourceMap": true,
     "declaration": false,
-    "strict": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
-    "lib": ["es2018", "dom"]
+    "target": "es2022",
+    "lib": ["es2022", "dom"]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

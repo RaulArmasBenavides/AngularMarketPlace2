@@ -1,28 +1,21 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'],
+  standalone: false
 })
 export class AccountComponent implements OnInit {
+  constructor(private usersService: UsersService) {}
 
-  	constructor(private usersService: UsersService) { }
-
-  	ngOnInit(): void {
-
-   		this.usersService.authActivate().then(resp =>{
-   			
-   			if(!resp){
-
-   				window.open("login", "_top")
-
-   			}
-
-   		})
-
-  	}
-
+  ngOnInit(): void {
+    this.usersService.authActivate().then((resp) => {
+      if (!resp) {
+        window.open('login', '_top');
+      }
+    });
+  }
 }

@@ -6,7 +6,8 @@ declare var $:any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  standalone:false
 })
 
 export class AppComponent implements OnInit {
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
 
  		(function($) {
 		    "use strict";
-		    var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+		    // var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 		    var isMobile = {
 		        Android: function() {

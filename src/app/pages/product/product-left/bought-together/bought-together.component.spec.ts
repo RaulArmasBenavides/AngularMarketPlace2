@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync , ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BoughtTogetherComponent } from './bought-together.component';
 
@@ -6,7 +6,7 @@ describe('BoughtTogetherComponent', () => {
   let component: BoughtTogetherComponent;
   let fixture: ComponentFixture<BoughtTogetherComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync (() => {
     TestBed.configureTestingModule({
       declarations: [ BoughtTogetherComponent ]
     })

@@ -4,15 +4,13 @@ import { Path } from '../../config.js';
 @Component({
   selector: 'app-become-a-vendor',
   templateUrl: './become-a-vendor.component.html',
-  styleUrls: ['./become-a-vendor.component.css']
+  styleUrls: ['./become-a-vendor.component.css'],
+  standalone: false
 })
 export class BecomeAVendorComponent implements OnInit {
+  path: string = Path.url;
 
-	path:string = Path.url;
+  constructor() {}
 
-	constructor() { }
-
-	ngOnInit(): void {
-	}
-
+  ngOnInit(): void {}
 }

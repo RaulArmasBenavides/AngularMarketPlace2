@@ -6,74 +6,58 @@ import { ProductsService } from '../../../services/products.service';
 @Component({
   selector: 'app-home-promotions',
   templateUrl: './home-promotions.component.html',
-  styleUrls: ['./home-promotions.component.css']
+  styleUrls: ['./home-promotions.component.css'],
+  standalone: false
 })
 export class HomePromotionsComponent implements OnInit {
+  path: string = Path.url;
+  banner_default: any[] = [];
+  category: any[] = [];
+  url: any[] = [];
+  preload: boolean = false;
 
-	path:string = Path.url;
-	banner_default:any[] = [];	
-	category:any[] = [];
-	url:any[] = [];
-	preload:boolean = false;
+  constructor(private productsService: ProductsService) {}
 
-  	constructor(private productsService: ProductsService) { }
+  ngOnInit(): void {
+    this.preload = true;
 
-  	ngOnInit(): void {
+    let index = 0;
 
-		this.preload = true;
-
-		let index = 0;
-
-		this.productsService.getData()
-		.subscribe(resp =>{
-			
-			/*=============================================
+    this.productsService.getData().subscribe((resp) => {
+      /*=============================================
 			Tomar la longitud del objeto
 			=============================================*/
 
-			let i;
-			let size = 0;
+      let i;
+      let size = 0;
 
-			for(i in resp){
+      for (i in resp) {
+        size++;
+      }
 
-				size++			
-
-			}
-
-			/*=============================================
+      /*=============================================
 			Generar un número aleatorio 
 			=============================================*/
 
-			if(size > 2){
+      if (size > 2) {
+        index = Math.floor(Math.random() * (size - 2));
+      }
 
-				index = Math.floor(Math.random()*(size-2));
-
-			}
-
-			/*=============================================
+      /*=============================================
 			Seleccionar data de productos con límites
 			=============================================*/
 
+      this.productsService.getLimitData(Object.keys(resp)[index], 2).subscribe((resp) => {
+        let i;
 
-			this.productsService.getLimitData(Object.keys(resp)[index], 2)
-			.subscribe( resp => { 
+        for (i in resp) {
+          this.banner_default.push(resp[i].default_banner);
+          this.category.push(resp[i].category);
+          this.url.push(resp[i].url);
 
-				let i;
-
-				for(i in resp){
-				
-					this.banner_default.push(resp[i].default_banner)
-					this.category.push(resp[i].category)
-					this.url.push(resp[i].url)
-
-					this.preload = false;
-
-				}
-
-			})
-
-		})
-
-	}
-
+          this.preload = false;
+        }
+      });
+    });
+  }
 }

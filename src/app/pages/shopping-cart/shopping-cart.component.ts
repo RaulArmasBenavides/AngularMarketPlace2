@@ -8,7 +8,7 @@ import { ProductsService } from '../../services/products.service';
 import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
-  
+
 declare var jQuery: any;
 declare var $: any;
 
@@ -49,7 +49,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 		=============================================*/
 
     if (localStorage.getItem('list')) {
-      let list = JSON.parse(localStorage.getItem('list'));
+      let list = JSON.parse(localStorage.getItem('list') ?? '');
 
       this.totalShoppingCart = list.length;
 
@@ -63,7 +63,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 				Filtramos los productos del carrito de compras
 				=============================================*/
 
-        this.productsService.getFilterData('url', list[i].product).subscribe((resp) => {
+        this.productsService.getFilterData('url', list[i].product).subscribe((resp: any) => {
           for (const f in resp) {
             load++;
 
@@ -104,7 +104,6 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
               image: resp[f].image,
               delivery_time: resp[f].delivery_time,
               quantity: list[i].unit,
-              price: DinamicPrice.fnc(resp[f])[0],
               shipping: Number(resp[f].shipping) * Number(list[i].unit),
               details: details,
               listDetails: list[i].details
@@ -139,7 +138,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     Función cambio de cantidad
     =============================================*/
 
-  changeQuantity(quantity:any, unit:any, move:any, product:any, details:any, index:any) {
+  changeQuantity(quantity: any, unit: any, move: any, product: any, details: any, index: any) {
     let number = 1;
 
     /*=============================================
@@ -170,9 +169,9 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
         Actualizar la variable list del localStorage
         =============================================*/
     if (localStorage.getItem('list')) {
-      let shoppingCart = JSON.parse(localStorage.getItem('list'));
+      let shoppingCart = JSON.parse(localStorage.getItem('list') ?? '');
 
-      shoppingCart.forEach((list:any) => {
+      shoppingCart.forEach((list: any) => {
         if (list.product == product && list.details == details.toString()) {
           list.unit = number;
         }
@@ -190,7 +189,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     Actualizar subtotal y total
     =============================================*/
 
-  totalPrice(totalShoppingCart:any) {
+  totalPrice(totalShoppingCart: any) {
     let localShoppingCart = this.shoppingCart;
 
     setTimeout(function () {
@@ -251,15 +250,15 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 	Función para remover productos de la lista de carrito de compras
 	=============================================*/
 
-  removeProduct(product:any, details:any) {
+  removeProduct(product: any, details: any) {
     /*=============================================
 	    Buscamos coincidencia para remover el producto
 	    =============================================*/
 
     if (localStorage.getItem('list')) {
-      let shoppingCart = JSON.parse(localStorage.getItem('list'));
+      let shoppingCart = JSON.parse(localStorage.getItem('list') ?? '');
 
-      shoppingCart.forEach((list:any, index:any) => {
+      shoppingCart.forEach((list: any, index: any) => {
         if (list.product == product && list.details == details.toString()) {
           shoppingCart.splice(index, 1);
         }

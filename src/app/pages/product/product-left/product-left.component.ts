@@ -46,7 +46,7 @@ export class ProductLeftComponent implements OnInit {
   countd: any[] = [];
   gallery: any[] = [];
   renderGallery: boolean = true;
-  video: string = null;
+  video: string = '';
   tags: any[] = [];
   totalReviews: string;
   offer: boolean = false;
@@ -63,13 +63,13 @@ export class ProductLeftComponent implements OnInit {
   linkedin: string;
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private productsService: ProductsService,
-    private usersService: UsersService,
-    private messagesService: MessagesService,
-    private storesService: StoresService,
-    private router: Router,
-    private http: HttpClient
+    private readonly activateRoute: ActivatedRoute,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+    private readonly messagesService: MessagesService,
+    private readonly storesService: StoresService,
+    private readonly router: Router,
+    private readonly http: HttpClient
   ) {
     this.messages = new MessagesModel();
   }
@@ -89,14 +89,14 @@ export class ProductLeftComponent implements OnInit {
         =============================================*/
     this.messagesService
       .getFilterData('url_product', this.activateRoute.snapshot.params['param'])
-      .subscribe((resp) => {
+      .subscribe((resp: any) => {
         if (Object.keys(resp).length > 0) {
           let count = 0;
 
           for (const i in resp) {
             count++;
 
-            this.storesService.getFilterData('store', resp[i].receiver).subscribe((resp1) => {
+            this.storesService.getFilterData('store', resp[i].receiver).subscribe((resp1: any) => {
               for (const f in resp1) {
                 resp[i].store = resp1[f];
               }
@@ -306,7 +306,7 @@ export class ProductLeftComponent implements OnInit {
         Agregamos detalles del producto al localstorage
         =============================================*/
 
-      $(document).on('click', '.details', function () {
+      $(document).on('click', '.details', function (this: HTMLElement) {
         /*=============================================
             Señalar el detalle escogido
             =============================================*/
@@ -324,7 +324,7 @@ export class ProductLeftComponent implements OnInit {
             =============================================*/
 
         if (localStorage.getItem('details')) {
-          let details = JSON.parse(localStorage.getItem('details'));
+          let details = JSON.parse(localStorage.getItem('details') ?? '');
 
           for (const i in details) {
             details[i][$(this).attr('detailType')] = $(this).attr('detailValue');
@@ -364,7 +364,7 @@ export class ProductLeftComponent implements OnInit {
     Función para agregar productos a la lista de deseos 
     =============================================*/
 
-  addWishlist(product) {
+  addWishlist(product: any) {
     this.usersService.addWishlist(product);
   }
 
@@ -372,7 +372,7 @@ export class ProductLeftComponent implements OnInit {
     Función cambio de cantidad
     =============================================*/
 
-  changeQuantity(quantity, unit, move) {
+  changeQuantity(quantity: number, unit: any, move: any) {
     let number = 1;
 
     /*=============================================
@@ -439,7 +439,7 @@ export class ProductLeftComponent implements OnInit {
     Función para agregar productos al carrito de compras
     =============================================*/
 
-  buyNow(product, unit, details) {
+  buyNow(product: any, unit: any, details: any) {
     /*=============================================
         Preguntamos si existe detalles en localStorage
         =============================================*/
@@ -468,7 +468,7 @@ export class ProductLeftComponent implements OnInit {
     Función para crear nueva pregunta
     =============================================*/
 
-  newQuestion(question, url, store) {
+  newQuestion(question: any, url: string, store: any) {
     this.messages.message = question.value;
     this.messages.url_product = url;
     this.messages.receiver = store;
@@ -488,7 +488,7 @@ export class ProductLeftComponent implements OnInit {
                 Traer el correo de la tienda
                 =============================================*/
 
-        let emailStore:any = null;
+        let emailStore: any = null;
 
         this.storesService.getFilterData('store', store).subscribe((resp) => {
           for (const i in resp) {
@@ -527,7 +527,7 @@ export class ProductLeftComponent implements OnInit {
                       formData.append('address', emailStore);
                       formData.append('name', store);
 
-                      this.http.post(this.email, formData).subscribe((resp) => {
+                      this.http.post(this.email, formData).subscribe((resp: any) => {
                         if (resp['status'] == 200) {
                           Sweetalert.fnc('success', 'The message has been sent', 'product/' + url);
                         }

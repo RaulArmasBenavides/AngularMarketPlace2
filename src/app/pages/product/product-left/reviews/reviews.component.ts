@@ -58,7 +58,7 @@ export class ReviewsComponent implements OnInit {
     //Necesitamos un array vacío para almacenar los review
     let arrayReview: any[] = [];
 
-    JSON.parse(this.childItem['reviews']).forEach((rev:any) => {
+    JSON.parse(this.childItem['reviews']).forEach((rev: any) => {
       arrayReview.push(rev.review);
     });
 
@@ -74,7 +74,7 @@ export class ReviewsComponent implements OnInit {
     };
 
     //Identificamos que valores se repitem y cuales no se repiten
-    arrayReview.forEach((value, index, arr) => {
+    arrayReview.forEach((value: any, index: number, arr: any) => {
       //Tomamos del array completo el primer índice de cada valor
       let first_index = arr.indexOf(value);
       //Tomamos del array completo el último índice de cada valor

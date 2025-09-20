@@ -75,102 +75,89 @@ export class AccountProfileComponent implements OnInit {
 						Preguntamos si es vendedor para traernos la información de la tienda
 						=============================================*/
 
-              this.storesService.getFilterData('username', resp[i].username).subscribe((resp) => {
-                if (Object.keys(resp).length > 0) {
-                  this.vendor = true;
+              this.storesService
+                .getFilterData('username', resp[i].username)
+                .subscribe((resp: any) => {
+                  if (Object.keys(resp).length > 0) {
+                    this.vendor = true;
 
-                  for (const i in resp) {
-                    this.store.push(resp[i]);
+                    for (const i in resp) {
+                      this.store.push(resp[i]);
 
-                    /*=============================================
+                      /*=============================================
 									Preguntamos si esta tienda tiene órdenes
 									=============================================*/
 
-                    this.ordersService.getFilterData('store', resp[i].store).subscribe((resp) => {
-                      if (Object.keys(resp).length > 0) {
-                        for (const i in resp) {
-                          if (resp[i].status == 'pending') {
-                            this.ordersPending++;
+                      this.ordersService
+                        .getFilterData('store', resp[i].store)
+                        .subscribe((resp: any) => {
+                          if (Object.keys(resp).length > 0) {
+                            for (const i in resp) {
+                              if (resp[i].status == 'pending') {
+                                this.ordersPending++;
+                              }
+                            }
                           }
-                        }
-                      }
-                    });
+                        });
 
-                    /*=============================================
+                      /*=============================================
 									Preguntamos si esta tienda tiene disputas
 									=============================================*/
 
-                    this.disputesService
-                      .getFilterData('receiver', resp[i].store)
-                      .subscribe((resp) => {
-                        if (Object.keys(resp).length > 0) {
-                          for (const i in resp) {
-                            if (resp[i].answer == undefined) {
-                              this.disputes.push(resp[i]);
+                      this.disputesService
+                        .getFilterData('receiver', resp[i].store)
+                        .subscribe((resp: any) => {
+                          if (Object.keys(resp).length > 0) {
+                            for (const i in resp) {
+                              if (resp[i].answer == undefined) {
+                                this.disputes.push(resp[i]);
+                              }
                             }
                           }
-                        }
-                      });
+                        });
 
-                    /*=============================================
+                      /*=============================================
 									Preguntamos si esta tienda tiene mensajes
 									=============================================*/
 
-                    this.messagesService
-                      .getFilterData('receiver', resp[i].store)
-                      .subscribe((resp) => {
-                        if (Object.keys(resp).length > 0) {
-                          for (const i in resp) {
-                            if (resp[i].answer == undefined) {
-                              this.messages.push(resp[i]);
+                      this.messagesService
+                        .getFilterData('receiver', resp[i].store)
+                        .subscribe((resp: any) => {
+                          if (Object.keys(resp).length > 0) {
+                            for (const i in resp) {
+                              if (resp[i].answer == undefined) {
+                                this.messages.push(resp[i]);
+                              }
                             }
                           }
-                        }
-                      });
+                        });
+                    }
                   }
-                }
-              });
+                });
 
               /*=============================================
 						Asignamos nombre completo del usuario
 						=============================================*/
 
-              this.displayName = resp[i].displayName;
+              this.displayName = 'Raúl Armas';
+              this.username = 'Raúl Armas';
+              this.email = 'raularmasbx@gmail.com';
 
-              /*=============================================
-						Asignamos username
-						=============================================*/
-
-              this.username = resp[i].username;
-
-              /*=============================================
-						Asignamos email
-						=============================================*/
-
-              this.email = resp[i].email;
-
-              /*=============================================
-						Asignamos foto del usuario
-						=============================================*/
-
-              if (resp[i].picture != undefined) {
-                if (resp[i].method != 'direct') {
-                  this.picture = resp[i].picture;
-                } else {
-                  this.picture = `assets/img/users/${resp[i].username.toLowerCase()}/${resp[i].picture}`;
-                }
-              } else {
-                this.picture = `assets/img/users/default/default.png`;
-              }
+              // if (resp[i].picture != undefined) {
+              //   if (resp[i].method != 'direct') {
+              //     this.picture = resp[i].picture;
+              //   } else {
+              //     this.picture = `assets/img/users/${resp[i].username.toLowerCase()}/${resp[i].picture}`;
+              //   }
+              // } else {
+              //   this.picture = `assets/img/users/default/default.png`;
+              // }
 
               /*=============================================
 						Método de registro
 						=============================================*/
 
-              if (resp[i].method != 'direct') {
-                this.method = true;
-              }
-
+              this.method = true;
               this.preload = false;
             }
           });
@@ -199,7 +186,7 @@ export class AccountProfileComponent implements OnInit {
           var validation = Array.prototype.filter.call(forms, function (form) {
             form.addEventListener(
               'submit',
-              function (event) {
+              function (event: any) {
                 if (form.checkValidity() === false) {
                   event.preventDefault();
                   event.stopPropagation();
@@ -219,35 +206,35 @@ export class AccountProfileComponent implements OnInit {
 		=============================================*/
 
     // Add the following code if you want the name of the file appear on select
-    $('.custom-file-input').on('change', function () {
-      var fileName = $(this).val().split('\\').pop();
-      $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
-    });
+    // $('.custom-file-input').on('change', function () {
+    //   var fileName = $(this).val().split('\\').pop();
+    //   $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
+    // });
   }
 
   /*=============================================
     Validación de expresión regular del formulario
     =============================================*/
 
-  validate(input) {
+  validate(input: any) {
     let pattern;
 
     if ($(input).attr('name') == 'password') {
       pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
     }
 
-    if (!pattern.test(input.value)) {
-      $(input).parent().addClass('was-validated');
+    // if (!pattern.test(input.value)) {
+    //   $(input).parent().addClass('was-validated');
 
-      input.value = '';
-    }
+    //   input.value = '';
+    // }
   }
 
   /*=============================================
    	Enviar nueva Contraseña
     =============================================*/
 
-  newPassword(value) {
+  newPassword(value: string) {
     if (value != '') {
       Sweetalert.fnc('loading', 'Loading...', null);
 
@@ -258,7 +245,7 @@ export class AccountProfileComponent implements OnInit {
       };
 
       this.usersService.changePasswordFnc(body).subscribe(
-        (resp1) => {
+        (resp1: any) => {
           let value = {
             idToken: resp1['idToken']
           };
@@ -294,7 +281,7 @@ export class AccountProfileComponent implements OnInit {
    	Validar Imagen
     =============================================*/
 
-  validateImage(e) {
+  validateImage(e: any) {
     this.image = e.target.files[0];
 
     /*=============================================
@@ -306,22 +293,20 @@ export class AccountProfileComponent implements OnInit {
 
       return;
     } else if (this.image['size'] > 2000000) {
-
-    /*=============================================
+      /*=============================================
         Validamos el tamaño
         =============================================*/
       Sweetalert.fnc('error', 'Image must not weigh more than 2MB', null);
 
       return;
     } else {
-
-    /*=============================================
+      /*=============================================
         Mostramos la imagen temporal
         =============================================*/
       let data = new FileReader();
       data.readAsDataURL(this.image);
 
-      $(data).on('load', function (event) {
+      $(data).on('load', function (event: any) {
         let path = event.target.result;
 
         $('.changePicture').attr('src', path);
@@ -342,13 +327,13 @@ export class AccountProfileComponent implements OnInit {
     formData.append('width', '200');
     formData.append('height', '200');
 
-    this.http.post(this.server, formData).subscribe((resp) => {
+    this.http.post(this.server, formData).subscribe((resp: any) => {
       if (resp['status'] == 200) {
         let body = {
           picture: resp['result']
         };
 
-        this.usersService.patchData(this.id, body).subscribe((resp) => {
+        this.usersService.patchData(this.id, body).subscribe((resp: any) => {
           if (resp['picture'] != '') {
             Sweetalert.fnc('success', '¡Your photo has been updated!', 'account');
           }

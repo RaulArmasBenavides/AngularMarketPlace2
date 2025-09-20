@@ -33,21 +33,21 @@ export class SearchShowcaseComponent implements OnInit {
   reviews: any[] = [];
   price: any[] = [];
   params: string = '';
-  page;
+  page:number=0;
   productFound: number = 0;
   currentRoute: string = ' ';
   totalPage: number = 0;
-  sort;
+  sort:any;
   sortItems: any[] = [];
   sortValues: any[] = [];
   properties: any[] = ['category', 'name', 'store', 'sub_category', 'tags', 'title_list', 'url'];
   listProducts: any[] = [];
 
   constructor(
-    private productsService: ProductsService,
-    private activateRoute: ActivatedRoute,
-    private usersService: UsersService,
-    private router: Router
+    private readonly productsService: ProductsService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly usersService: UsersService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -83,7 +83,7 @@ export class SearchShowcaseComponent implements OnInit {
 		Filtramos data de productos con todas las propiedades
 		=============================================*/
     this.properties.forEach((property) => {
-      this.productsService.getSearchData(property, this.params).subscribe((resp) => {
+      this.productsService.getSearchData(property, this.params).subscribe((resp:any) => {
         let i;
 
         for (i in resp) {
@@ -99,7 +99,7 @@ export class SearchShowcaseComponent implements OnInit {
 	Declaramos función para mostrar el catálogo de productos
 	=============================================*/
 
-  productsFnc(response) {
+  productsFnc(response:any) {
     if (response.length > 0) {
       this.products = [];
 
@@ -255,7 +255,7 @@ export class SearchShowcaseComponent implements OnInit {
 
             this.reviews.push(DinamicReviews.fnc(this.rating[index]));
 
-            this.price.push(DinamicPrice.fnc(getProducts[first]));
+            // this.price.push(DinamicPrice.fnc(getProducts[first]));
 
             this.cargando = false;
           }
@@ -283,7 +283,7 @@ export class SearchShowcaseComponent implements OnInit {
 			Captura del Select Sort Items
 			=============================================*/
 
-      $('.sortItems').change(function () {
+      $('.sortItems').change(function (this: HTMLElement) {
         window.open(`search/${params}&${$(this).val()}`, '_top');
       });
     }

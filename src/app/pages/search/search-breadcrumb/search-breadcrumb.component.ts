@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   standalone: false
 })
 export class SearchBreadcrumbComponent implements OnInit {
-  breadcrumb: string = null;
+  breadcrumb: string = '';
 
   constructor(private activateRoute: ActivatedRoute) {}
 

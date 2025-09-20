@@ -13,7 +13,7 @@ import * as Cookies from 'js-cookie';
   standalone: false
 })
 export class ProductBreadcrumbComponent implements OnInit {
-  breadcrumb: string = null;
+  breadcrumb: string = '';
 
   constructor(
     private activateRoute: ActivatedRoute,

@@ -13,7 +13,7 @@ export const OwlCarouselConfig = {
   fnc(): void {
     const target = $('.owl-slider');
     if (target.length > 0) {
-      target.each(function () {
+      target.each(function (this: HTMLElement) {
         const el = $(this);
         const duration = el.data('owl-duration');
         if (target.children('div, span, a, img, h1, h2, h3, h4, h5').length >= 1) {
@@ -55,7 +55,7 @@ export const OwlCarouselConfig = {
 
 export const BackgroundImage = {
   fnc(): void {
-    $('[data-background]').each(function () {
+    $('[data-background]').each(function (this: HTMLElement) {
       const el = $(this);
       const imagePath = el.attr('data-background');
       if (imagePath) {
@@ -168,7 +168,7 @@ export const Search = {
 
 export const Tabs = {
   fnc(): void {
-    $('.ps-tab-list  li > a ').on('click', function (e: Event) {
+    $('.ps-tab-list  li > a ').on('click', function (this: HTMLElement,e: Event) {
       e.preventDefault();
       const target = $(this).attr('href');
       $(this).closest('li').siblings('li').removeClass('active');
@@ -176,7 +176,7 @@ export const Tabs = {
       $(target).addClass('active').siblings('.ps-tab').removeClass('active');
     });
 
-    $('.ps-tab-list.owl-slider .owl-item a').on('click', function (e: Event) {
+    $('.ps-tab-list.owl-slider .owl-item a').on('click', function (this: HTMLElement,e: Event) {
       e.preventDefault();
       const target = $(this).attr('href');
       $(this).closest('.owl-item').siblings('.owl-item').removeClass('active');
@@ -273,3 +273,286 @@ export class DinamicPrice {
     return [priceHtml, discountBadge];
   }
 }
+
+export const DinamicRating = {
+  fnc(product: any): number {
+    try {
+      const reviews: Array<{ review: number }> = JSON.parse(product?.reviews ?? '[]');
+      if (!reviews.length) return 0;
+      const sum = reviews.reduce((acc, r) => acc + Number(r.review || 0), 0);
+      const avg = sum / reviews.length;
+      return Math.round(avg); // lo que tu componente usa como "this.rating[0]"
+    } catch {
+      return 0;
+    }
+  }
+};
+
+/** Devuelve la lista de opciones permitidas para “reviews” (1..5) */
+export const DinamicReviews = {
+  fnc(_: number): number[] {
+    // Si en el futuro quieres condicionar por rating promedio, lo tienes aquí.
+    return [1, 2, 3, 4, 5];
+  }
+};
+
+/** Aplica efectos visuales: setea widths de .ps-progress y selecciona <select [reviews]> */
+export const Rating = {
+  fnc(): void {
+    // Barra de progreso de estrellas (usa data-value="%" que ya construyes en el componente)
+    $('.ps-progress').each(function (this: HTMLElement) {
+      const val = Number($(this).data('value') || 0);
+      $(this).find('span').css('width', `${val}%`);
+    });
+
+    // Selects con atributo [reviews] -> setear value visible
+    $('[reviews]').each(function (this: HTMLElement) {
+      const v = $(this).attr('reviews');
+      if (v != null) $(this).val(v);
+    });
+  }
+};
+
+/* =============================================
+   Paginación con jQuery (clase .pagination)
+   ============================================= */
+export const Pagination = {
+  fnc(): void {
+    if ($('.pagination').length > 0) {
+      $('.pagination a').on('click', function (this: HTMLElement,e: Event) {
+        e.preventDefault();
+        const page = $(this).attr('href');
+        if (page) {
+          // Navegar a la página
+          window.location.href = page;
+        }
+      });
+    }
+  }
+};
+
+/* =============================================
+   Configuración para Select2
+   ============================================= */
+export const Select2Cofig = {
+  fnc(): void {
+    if ($('.select2').length > 0) {
+      $('.select2').each(function (this: HTMLElement) {
+        const el = $(this);
+        el.select2({
+          placeholder: el.data('placeholder') || 'Select an option',
+          allowClear: true,
+          width: '100%'
+        });
+      });
+    }
+  }
+};
+
+/* =============================================
+   CountDown: [data-countdown="2025-12-31T23:59:59Z"]
+   Rellena el texto con: DDd HH:MM:SS y se detiene al llegar a 0.
+   ============================================= */
+export const CountDown = {
+  fnc(): void {
+    $('[data-countdown]').each(function (this: HTMLElement) {
+      const el = $(this);
+      const endStr = el.attr('data-countdown');
+      if (!endStr) return;
+      const end = new Date(endStr).getTime();
+      if (isNaN(end)) return;
+
+      const tick = () => {
+        const now = Date.now();
+        const dist = end - now;
+        if (dist <= 0) {
+          el.text('Expired');
+          clearInterval(timer);
+          return;
+        }
+        const days = Math.floor(dist / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((dist % (1000 * 60)) / 1000);
+        el.text(
+          `${days}d ${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+        );
+      };
+
+      tick();
+      const timer = setInterval(tick, 1000);
+    });
+  }
+};
+
+/* =============================================
+   ProgressBar: .progress-bar[data-value="70"]
+   Setea el width y (opcional) el texto.
+   ============================================= */
+export const ProgressBar = {
+  fnc(): void {
+    $('.progress-bar').each(function (this: HTMLElement) {
+      const el = $(this);
+      const val = Number(el.data('value') ?? 0);
+      const pct = Math.max(0, Math.min(100, val));
+      el.css('width', `${pct}%`);
+      const label = el.find('.progress-label');
+      if (label.length) label.text(`${pct}%`);
+    });
+  }
+};
+
+/* =============================================
+   SlickConfig: inicializa slick si está presente
+   Requiere: slick-carousel (jQuery plugin)
+   ============================================= */
+export const SlickConfig = {
+  fnc(): void {
+    const hasSlick = ($ as any).fn && ($ as any).fn.slick;
+    if (!hasSlick) {
+      console.warn(
+        '[SlickConfig] slick no encontrado. Instala "slick-carousel" o agrega el script.'
+      );
+      return;
+    }
+    $('.slick-slider').each(function (this: HTMLElement) {
+      const el = $(this);
+      // lee opciones por data-attrs si existen
+      el.slick({
+        slidesToShow: Number(el.data('slides')) || 4,
+        slidesToScroll: Number(el.data('scroll')) || 1,
+        autoplay: el.data('auto') ?? true,
+        autoplaySpeed: Number(el.data('speed')) || 3000,
+        arrows: el.data('arrows') ?? true,
+        dots: el.data('dots') ?? false,
+        infinite: el.data('loop') ?? true,
+        responsive: [
+          { breakpoint: 1200, settings: { slidesToShow: Number(el.data('xl')) || 4 } },
+          { breakpoint: 992, settings: { slidesToShow: Number(el.data('lg')) || 3 } },
+          { breakpoint: 768, settings: { slidesToShow: Number(el.data('md')) || 2 } },
+          { breakpoint: 576, settings: { slidesToShow: Number(el.data('sm')) || 1 } }
+        ]
+      });
+    });
+  }
+};
+
+/* =============================================
+   ProductLightbox: abre imágenes en lightbox si existe magnificPopup/lightGallery;
+   si no, fallback a abrir en nueva pestaña.
+   HTML esperado: <a class="product-lightbox" href="img.jpg"><img .../></a>
+   ============================================= */
+export const ProductLightbox = {
+  fnc(): void {
+    const hasMagnific = ($ as any).fn && ($ as any).fn.magnificPopup;
+    const sel = '.product-lightbox';
+
+    if (hasMagnific) {
+      $(sel).magnificPopup({
+        type: 'image',
+        gallery: { enabled: true },
+        delegate: 'a'
+      });
+      return;
+    }
+
+    // Fallback simple
+    $(sel).on('click', function (this: HTMLElement,e: Event) {
+      const href = ($(this).attr('href') || $(this).data('src')) as string;
+      if (!href) return;
+      e.preventDefault();
+      window.open(href, '_blank');
+    });
+  }
+};
+
+/* =============================================
+   Quantity: botones +/− que afectan input.qty-input
+   Estructura: <div class="qty"><button class="qty-dec">-</button>
+               <input class="qty-input" type="number" min="1" value="1">
+               <button class="qty-inc">+</button></div>
+   ============================================= */
+export const Quantity = {
+  fnc(): void {
+    $(document).on('click', '.qty-inc, .qty-dec', function (this: HTMLElement,e: Event) {
+      e.preventDefault();
+      const isInc = $(this).hasClass('qty-inc');
+      const container = $(this).closest('.qty');
+      const input = container.find('.qty-input');
+      const min = Number(input.attr('min') ?? 1);
+      const max = Number(input.attr('max') ?? 9999999);
+      let val = Number(input.val() ?? min);
+
+      val = isNaN(val) ? min : val;
+      val = isInc ? val + 1 : val - 1;
+      if (val < min) val = min;
+      if (val > max) val = max;
+
+      input.val(val).trigger('change');
+    });
+  }
+};
+
+/* =============================================
+   Tooltip: usa Bootstrap si está; fallback title nativo
+   data-toggle="tooltip" title="Texto"
+   ============================================= */
+export const Tooltip = {
+  fnc(): void {
+    const hasBs = ($ as any).fn && ($ as any).fn.tooltip;
+    if (hasBs) {
+      $('[data-toggle="tooltip"]').tooltip();
+    } else {
+      // Fallback: nada que inicializar; el atributo title funciona nativo
+      console.warn('[Tooltip] Bootstrap tooltip no encontrado; usando title nativo.');
+    }
+  }
+};
+
+/* =============================================
+   Share: usa Web Share API si disponible; fallback a copiar URL.
+   Elementos con [data-share] y opcional:
+     data-title="..." data-text="..." data-url="..."
+   ============================================= */
+export const Share = {
+  fnc(): void {
+    $(document).on('click', '[data-share]', async function (this: HTMLElement,e: Event) {
+      e.preventDefault();
+      const el = $(this);
+      const data = {
+        title: el.data('title') || document.title,
+        text: el.data('text') || '',
+        url: el.data('url') || window.location.href
+      };
+
+      // Web Share API
+      if ((navigator as any).share) {
+        try {
+          await (navigator as any).share(data);
+          return;
+        } catch (err) {
+          // usuario canceló o no soportado; continuamos fallback
+        }
+      }
+
+      // Fallback: copiar al portapapeles
+      try {
+        await navigator.clipboard.writeText(data.url);
+        if (typeof (window as any).Swal !== 'undefined') {
+          (window as any).Swal.fire({ icon: 'success', title: 'Link copied', text: data.url });
+        } else {
+          alert('Link copied: ' + data.url);
+        }
+      } catch {
+        // Fallback final: abrir popup de redes si shapeShare estuviera disponible
+        if (typeof (window as any).shapeShare !== 'undefined') {
+          try {
+            (window as any).shapeShare(data.url);
+          } catch {}
+        } else {
+          window.open(data.url, '_blank');
+        }
+      }
+    });
+  }
+};

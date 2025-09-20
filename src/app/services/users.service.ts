@@ -18,6 +18,7 @@ import { UsersModel } from '../models/users.model';
 import { ProductsService } from '../services/products.service';
 
 import { Sweetalert } from '../functions';
+import { CartItem } from '../models/CartItem.model';
 
 declare var jQuery: any;
 declare var $: any;
@@ -38,8 +39,8 @@ export class UsersService {
   private changePassword: string = ChangePassword.url;
 
   constructor(
-    private http: HttpClient,
-    private productsService: ProductsService
+    private readonly http: HttpClient,
+    private readonly productsService: ProductsService
   ) {}
 
   /*=============================================
@@ -66,7 +67,7 @@ export class UsersService {
   	Filtrar data para buscar coincidencias
   	=============================================*/
 
-  getFilterData(orderBy: string, equalTo: string) {
+  getFilterData(orderBy: string, equalTo: any) {
     return this.http.get(
       `${this.api}users.json?orderBy="${orderBy}"&equalTo="${equalTo}"&print=pretty`
     );
@@ -84,7 +85,7 @@ export class UsersService {
   	Enviar verificación de correo electrónico
   	=============================================*/
 
-  sendEmailVerificationFnc(body: object) {
+  sendEmailVerificationFnc(body: any) {
     return this.http.post(`${this.sendEmailVerification}`, body);
   }
 
@@ -92,7 +93,7 @@ export class UsersService {
   	Confirmar email de verificación
   	=============================================*/
 
-  confirmEmailVerificationFnc(body: object) {
+  confirmEmailVerificationFnc(body: any) {
     return this.http.post(`${this.confirmEmailVerification}`, body);
   }
 
@@ -100,7 +101,7 @@ export class UsersService {
   	Actualizar data de usuario
   	=============================================*/
 
-  patchData(id: string, value: object) {
+  patchData(id: string, value: any) {
     return this.http.patch(`${this.api}users/${id}.json`, value);
   }
 
@@ -162,7 +163,7 @@ export class UsersService {
 	Resetear la contraseña
 	=============================================*/
 
-  sendPasswordResetEmailFnc(body: object) {
+  sendPasswordResetEmailFnc(body: any) {
     return this.http.post(`${this.sendPasswordResetEmail}`, body);
   }
 
@@ -170,7 +171,7 @@ export class UsersService {
 	Confirmar el cambio de la contraseña
 	=============================================*/
 
-  verifyPasswordResetCodeFnc(body: object) {
+  verifyPasswordResetCodeFnc(body: any) {
     return this.http.post(`${this.verifyPasswordResetCode}`, body);
   }
 
@@ -178,7 +179,7 @@ export class UsersService {
 	Enviar la contraseña
 	=============================================*/
 
-  confirmPasswordResetFnc(body: object) {
+  confirmPasswordResetFnc(body: any) {
     return this.http.post(`${this.confirmPasswordReset}`, body);
   }
 
@@ -186,7 +187,7 @@ export class UsersService {
 	Cambiar la contraseña
 	=============================================*/
 
-  changePasswordFnc(body: object) {
+  changePasswordFnc(body: any) {
     return this.http.post(`${this.changePassword}`, body);
   }
 
@@ -207,7 +208,7 @@ export class UsersService {
     	Validamos que el usuario esté autenticado
     	=============================================*/
 
-    this.authActivate().then((resp) => {
+    this.authActivate().then((resp: any) => {
       if (!resp) {
         Sweetalert.fnc('error', 'The user must be logged in', null);
 
@@ -216,7 +217,7 @@ export class UsersService {
         /*=============================================
     		Traemos la lista de deseos que ya tenga el usuario
     		=============================================*/
-        this.getFilterData('idToken', localStorage.getItem('idToken')).subscribe((resp) => {
+        this.getFilterData('idToken', localStorage.getItem('idToken')).subscribe((resp: any) => {
           /*=============================================
     			Capturamos el id del usuario
     			=============================================*/
@@ -259,7 +260,7 @@ export class UsersService {
                     wishlist: JSON.stringify(wishlist)
                   };
 
-                  this.patchData(id, body).subscribe((resp) => {
+                  this.patchData(id, body).subscribe((resp:any) => {
                     if (resp['wishlist'] != '') {
                       let totalWishlist = Number($('.totalWishlist').html());
 
@@ -276,7 +277,7 @@ export class UsersService {
                   wishlist: JSON.stringify(wishlist)
                 };
 
-                this.patchData(id, body).subscribe((resp) => {
+                this.patchData(id, body).subscribe((resp: any) => {
                   if (resp['wishlist'] != '') {
                     let totalWishlist = Number($('.totalWishlist').html());
 
@@ -295,7 +296,7 @@ export class UsersService {
                 wishlist: `["${product}"]`
               };
 
-              this.patchData(id, body).subscribe((resp) => {
+              this.patchData(id, body).subscribe((resp:any) => {
                 if (resp['wishlist'] != '') {
                   let totalWishlist = Number($('.totalWishlist').html());
 
@@ -315,12 +316,12 @@ export class UsersService {
     Función para agregar productos al carrito de compras
     =============================================*/
 
-  addSoppingCart(item: object) {
+  addSoppingCart(item: CartItem) {
     /*=============================================
         Filtramos el producto en la data
         =============================================*/
 
-    this.productsService.getFilterData('url', item['product']).subscribe((resp) => {
+    this.productsService.getFilterData('url', item['product']).subscribe((resp: any) => {
       /*=============================================
             Recorremos el producto para encontrar su información
             =============================================*/
@@ -365,7 +366,7 @@ export class UsersService {
         =============================================*/
 
     if (localStorage.getItem('list')) {
-      let arrayList = JSON.parse(localStorage.getItem('list'));
+      let arrayList = JSON.parse(localStorage.getItem('list') ?? '');
 
       /*=============================================
             Preguntar si el producto se repite
@@ -393,7 +394,7 @@ export class UsersService {
       if (count == arrayList.length) {
         arrayList.push(item);
       } else {
-        arrayList[index].unit += item['unit'];
+        // arrayList[index].unit += item['unit'];
       }
 
       localStorage.setItem('list', JSON.stringify(arrayList));

@@ -29,10 +29,10 @@ export class RelatedProductComponent implements OnInit {
   preload: boolean = false;
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private productsService: ProductsService,
-    private usersService: UsersService,
-    private router: Router
+    private readonly activateRoute: ActivatedRoute,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class RelatedProductComponent implements OnInit {
 
     this.productsService
       .getFilterData('url', this.activateRoute.snapshot.params['param'])
-      .subscribe((resp) => {
+      .subscribe((resp: any) => {
         for (const i in resp) {
           this.productsService.getFilterData('category', resp[i].category).subscribe((resp) => {
             this.productsFnc(resp);
@@ -53,7 +53,7 @@ export class RelatedProductComponent implements OnInit {
 	Declaramos función para mostrar los productos recomendados
 	=============================================*/
 
-  productsFnc(response:any) {
+  productsFnc(response: any) {
     this.products = [];
 
     /*=============================================
@@ -120,7 +120,7 @@ export class RelatedProductComponent implements OnInit {
 	Función para agregar productos a la lista de deseos	
 	=============================================*/
 
-  addWishlist(product:any) {
+  addWishlist(product: any) {
     this.usersService.addWishlist(product);
   }
 
@@ -128,7 +128,7 @@ export class RelatedProductComponent implements OnInit {
 	Función para agregar productos al carrito de compras
 	=============================================*/
 
-  addShoppingCart(product:any, unit:any, details:any) {
+  addShoppingCart(product: any, unit: any, details: any) {
     let url = this.router.url;
 
     let item = {

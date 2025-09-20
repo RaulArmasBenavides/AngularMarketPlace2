@@ -52,7 +52,7 @@ export class ProductsRecommendedComponent implements OnInit {
 		Filtramos data de productos con categorías
 		=============================================*/
 
-    this.productsService.getFilterData('category', params).subscribe((resp1) => {
+    this.productsService.getFilterData('category', params).subscribe((resp1:any) => {
       if (Object.keys(resp1).length > 0) {
         this.productsFnc(resp1);
       } else {
@@ -60,7 +60,7 @@ export class ProductsRecommendedComponent implements OnInit {
 				Filtramos data de subategorías
 				=============================================*/
 
-        this.productsService.getFilterData('sub_category', params).subscribe((resp2) => {
+        this.productsService.getFilterData('sub_category', params).subscribe((resp2: any) => {
           if (Object.keys(resp2).length > 0) {
             this.productsFnc(resp2);
           } else {
@@ -76,7 +76,7 @@ export class ProductsRecommendedComponent implements OnInit {
 	Declaramos función para mostrar los productos recomendados
 	=============================================*/
 
-  productsFnc(response:any) {
+  productsFnc(response: any) {
     this.recommendedItems = [];
 
     /*=============================================
@@ -130,7 +130,7 @@ export class ProductsRecommendedComponent implements OnInit {
       this.render = false;
 
       OwlCarouselConfig.fnc();
-      CarouselNavigation.fnc();
+      // CarouselNavigation.fnc();
     }
   }
 
@@ -138,7 +138,7 @@ export class ProductsRecommendedComponent implements OnInit {
 	Función para agregar productos a la lista de deseos	
 	=============================================*/
 
-  addWishlist(product:any) {
+  addWishlist(product: any) {
     this.usersService.addWishlist(product);
   }
 
@@ -146,7 +146,7 @@ export class ProductsRecommendedComponent implements OnInit {
 	Función para agregar productos al carrito de compras
 	=============================================*/
 
-  addShoppingCart(product:any, unit:any, details:any) {
+  addShoppingCart(product: any, unit: any, details: any) {
     let url = this.router.url;
 
     let item = {

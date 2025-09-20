@@ -469,7 +469,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 					=============================================*/
 
           if (this.loadProduct == this.products.length) {
-           this.dtTrigger.next(null);
+            this.dtTrigger.next(null);
           }
         });
 
@@ -1822,7 +1822,11 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                         =============================================*/
 
             this.productsService
-              .patchDataAuth(this.idProduct, this.productModel, localStorage.getItem('idToken'))
+              .patchDataAuth(
+                this.idProduct,
+                this.productModel,
+                localStorage.getItem('idToken') ?? ''
+              )
               .subscribe(
                 (resp) => {
                   Sweetalert.fnc(
@@ -1845,7 +1849,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Eliminar el producto
     =============================================*/
 
-  deleteProduct(idProduct, products, i) {
+  deleteProduct(idProduct: any, products: any, i: number) {
     /*=============================================
         Preguntamos si hay más de un producto para borrar
         =============================================*/
@@ -1881,13 +1885,13 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
             formData.append('fileDelete', allImages[i]);
 
-            this.http.post(this.serverDelete, formData).subscribe((resp) => {
+            this.http.post(this.serverDelete, formData).subscribe((resp: any) => {
               if (resp['status'] == 200) {
                 countDelete++;
 
                 if (countDelete == allImages.length) {
                   this.productsService
-                    .deleteDataAuth(idProduct, localStorage.getItem('idToken'))
+                    .deleteDataAuth(idProduct, localStorage.getItem('idToken') ?? '')
                     .subscribe(
                       (resp) => {
                         Sweetalert.fnc('success', 'The product was removed', 'account/my-store');

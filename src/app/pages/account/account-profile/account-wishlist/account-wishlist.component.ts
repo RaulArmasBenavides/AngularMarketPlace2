@@ -11,9 +11,6 @@ import { StoresService } from '../../../../services/stores.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
-import notie from 'notie';
-import { confirm } from 'notie';
-
 declare var jQuery: any;
 declare var $: any;
 
@@ -59,12 +56,12 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
   	Seleccionamos el id del usuario
   	=============================================*/
 
-    this.usersService.getUniqueData(this.childItem).subscribe((resp) => {
+    this.usersService.getUniqueData(this.childItem).subscribe((resp: any) => {
       /*=============================================
       Validamos si el usuario ya tiene una tienda habilitada
       =============================================*/
 
-      this.storesService.getFilterData('username', resp['username']).subscribe((resp) => {
+      this.storesService.getFilterData('username', resp['username']).subscribe((resp: any) => {
         if (Object.keys(resp).length > 0) {
           this.is_vendor = true;
         }
@@ -93,7 +90,7 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
         			Filtramos la data de productos 
     				=============================================*/
 
-            this.productsService.getFilterData('url', list).subscribe((resp) => {
+            this.productsService.getFilterData('url', list).subscribe((resp: any) => {
               /*=============================================
               recorremos la data de productos
               =============================================*/
@@ -111,14 +108,14 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
          			  validamos los precios en oferta
           			=============================================*/
 
-                this.price.push(DinamicPrice.fnc(resp[i]));
+                // this.price.push(DinamicPrice.fnc(resp[i]));
 
                 /*=============================================
             	  preguntamos cuando termina de cargar toda la data en el DOM
             	  =============================================*/
 
                 if (load == this.wishlist.length) {
-                 this.dtTrigger.next(null);
+                  this.dtTrigger.next(null);
                 }
               }
             });
@@ -132,7 +129,7 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
   Removemos el producto de la lista de deseos
   =============================================*/
 
-  removeProduct(product) {
+  removeProduct(product:any) {
     /*=============================================
     Buscamos coincidencia para remover el producto
     =============================================*/
@@ -151,7 +148,7 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
       wishlist: JSON.stringify(this.wishlist)
     };
 
-    this.usersService.patchData(this.childItem, body).subscribe((resp) => {
+    this.usersService.patchData(this.childItem, body).subscribe((resp: any) => {
       if (resp['wishlist'] != '') {
         Sweetalert.fnc('success', 'Product removed', 'account');
       }
@@ -170,40 +167,8 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
         let localUsersService = this.usersService;
         let localChildItem = this.childItem;
 
-        $(document).on('click', '.removeProduct', function () {
+        $(document).on('click', '.removeProduct', function (this: HTMLElement) {
           let product = $(this).attr('remove');
-
-          notie.confirm({
-            text: 'Are you sure to remove it?',
-            cancelCallback: function () {
-              return;
-            },
-            submitCallback: function () {
-              /*=============================================
-              Buscamos coincidencia para remover el producto
-              =============================================*/
-
-              localWishlist.forEach((list, index) => {
-                if (list == product) {
-                  localWishlist.splice(index, 1);
-                }
-              });
-
-              /*=============================================
-              Actualizamos en Firebase la lista de deseos
-              =============================================*/
-
-              let body = {
-                wishlist: JSON.stringify(localWishlist)
-              };
-
-              localUsersService.patchData(localChildItem, body).subscribe((resp) => {
-                if (resp['wishlist'] != '') {
-                  Sweetalert.fnc('success', 'Product removed', 'account');
-                }
-              });
-            }
-          });
         });
       }
     }
@@ -213,7 +178,7 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
   Función para agregar productos al carrito de compras
   =============================================*/
 
-  addShoppingCart(product, unit, details) {
+  addShoppingCart(product: any, unit: any, details: any) {
     let url = this.router.url;
 
     let item = {

@@ -33,12 +33,12 @@ export class ProductsShowcaseComponent implements OnInit {
   reviews: any[] = [];
   price: any[] = [];
   params: string = '';
-  page:any;
+  page: any;
   placeholder: any[] = [];
   productFound: number = 0;
   currentRoute: string = '';
   totalPage: number = 0;
-  sort:any;
+  sort: any;
   sortItems: any[] = [];
   sortValues: any[] = [];
 
@@ -63,7 +63,7 @@ export class ProductsShowcaseComponent implements OnInit {
     /*=============================================
 		Evaluamos que el segundo parámetro sea de paginación
 		=============================================*/
-    if ((Number(this.sort))) {
+    if (Number(this.sort)) {
       this.page = this.sort;
       this.sort = undefined;
     }
@@ -82,7 +82,7 @@ export class ProductsShowcaseComponent implements OnInit {
 		Filtramos data de productos con categorías
 		=============================================*/
 
-    this.productsService.getFilterData('category', this.params).subscribe((resp1) => {
+    this.productsService.getFilterData('category', this.params).subscribe((resp1:any) => {
       if (Object.keys(resp1).length > 0) {
         this.productsFnc(resp1);
       } else {
@@ -101,7 +101,7 @@ export class ProductsShowcaseComponent implements OnInit {
 	Declaramos función para mostrar el catálogo de productos
 	=============================================*/
 
-  productsFnc(response:any) {
+  productsFnc(response: any) {
     this.products = [];
 
     /*=============================================
@@ -256,7 +256,7 @@ export class ProductsShowcaseComponent implements OnInit {
 
           this.reviews.push(DinamicReviews.fnc(this.rating[index]));
 
-          this.price.push(DinamicPrice.fnc(getProducts[first]));
+          // this.price.push(DinamicPrice.fnc(getProducts[first]));
 
           this.preload = false;
         }
@@ -268,7 +268,7 @@ export class ProductsShowcaseComponent implements OnInit {
 	Función que nos avisa cuando finaliza el renderizado de Angular
 	=============================================*/
 
-  callback(params:any) {
+  callback(params: any) {
     if (this.render) {
       this.render = false;
 
@@ -281,7 +281,7 @@ export class ProductsShowcaseComponent implements OnInit {
 			Captura del Select Sort Items
 			=============================================*/
 
-      $('.sortItems').change(function () {
+      $('.sortItems').change(function (this: HTMLElement) {
         window.open(`products/${params}&${$(this).val()}`, '_top');
       });
     }
@@ -291,7 +291,7 @@ export class ProductsShowcaseComponent implements OnInit {
 	Función para agregar productos a la lista de deseos	
 	=============================================*/
 
-  addWishlist(product) {
+  addWishlist(product: any) {
     this.usersService.addWishlist(product);
   }
 
@@ -299,7 +299,7 @@ export class ProductsShowcaseComponent implements OnInit {
 	Función para agregar productos al carrito de compras
 	=============================================*/
 
-  addShoppingCart(product:any, unit:any, details:any) {
+  addShoppingCart(product: any, unit: any, details: any) {
     let url = this.router.url;
 
     let item = {

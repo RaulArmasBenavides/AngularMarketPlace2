@@ -30,10 +30,10 @@ declare var $: any;
 export class CheckoutComponent implements OnInit {
   path: string = Path.url;
   user: UsersModel;
-  id: string = null;
+  id: string = '';
   saveAddress: boolean = false;
   countries: any = null;
-  dialCode: string = null;
+  dialCode: string = '';
   shoppingCart: any[] = [];
   totalShoppingCart: number = 0;
   render: boolean = true;
@@ -45,13 +45,13 @@ export class CheckoutComponent implements OnInit {
   validateCoupon: boolean = false;
 
   constructor(
-    private router: Router,
-    private usersService: UsersService,
-    private productsService: ProductsService,
-    private ordersService: OrdersService,
-    private salesService: SalesService,
-    private storesService: StoresService,
-    private activatedRoute: ActivatedRoute
+    private readonly router: Router,
+    private readonly usersService: UsersService,
+    private readonly productsService: ProductsService,
+    private readonly ordersService: OrdersService,
+    private readonly salesService: SalesService,
+    private readonly storesService: StoresService,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     this.user = new UsersModel();
   }
@@ -61,7 +61,7 @@ export class CheckoutComponent implements OnInit {
   		Validar la existencia de un cupón de la tienda
   		=============================================*/
     if (Cookies.get('coupon') != undefined) {
-      this.storesService.getFilterData('url', Cookies.get('coupon')).subscribe((resp) => {
+      this.storesService.getFilterData('url', Cookies.get('coupon') ?? '').subscribe((resp) => {
         this.validateCoupon = true;
       });
     }
@@ -74,7 +74,7 @@ export class CheckoutComponent implements OnInit {
       if (resp) {
         this.usersService
           .getFilterData('idToken', localStorage.getItem('idToken'))
-          .subscribe((resp) => {
+          .subscribe((resp: any) => {
             this.id = Object.keys(resp).toString();
 
             for (const i in resp) {
@@ -108,7 +108,7 @@ export class CheckoutComponent implements OnInit {
 		=============================================*/
 
     if (localStorage.getItem('list')) {
-      let list = JSON.parse(localStorage.getItem('list'));
+      let list = JSON.parse(localStorage.getItem('list') ?? '');
 
       this.totalShoppingCart = list.length;
 
@@ -127,7 +127,7 @@ export class CheckoutComponent implements OnInit {
 				Filtramos los productos del carrito de compras
 				=============================================*/
 
-        this.productsService.getFilterData('url', list[i].product).subscribe((resp) => {
+        this.productsService.getFilterData('url', list[i].product).subscribe((resp: any) => {
           for (const f in resp) {
             let details = `<div class="list-details small text-secondary">`;
 
@@ -217,8 +217,8 @@ export class CheckoutComponent implements OnInit {
 	Agregar código dial al input telefónico
 	=============================================*/
 
-  changeCountry(inputCountry) {
-    this.countries.forEach((country) => {
+  changeCountry(inputCountry: any) {
+    this.countries.forEach((country: any) => {
       if (inputCountry.value == country.name) {
         this.dialCode = country.dial_code;
         this.user.country_code = country.code;
@@ -319,7 +319,7 @@ export class CheckoutComponent implements OnInit {
                 };
 
                 localProductsService
-                  .patchDataAuth(id, value, localStorage.getItem('idToken'))
+                  .patchDataAuth(id, value, localStorage.getItem('idToken') ?? '')
                   .subscribe((resp) => {});
               }
             });
@@ -383,8 +383,8 @@ export class CheckoutComponent implements OnInit {
             };
 
             localOrdersService
-              .registerDatabase(body, localStorage.getItem('idToken'))
-              .subscribe((resp) => {
+              .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+              .subscribe((resp: any) => {
                 if (resp['name'] != '') {
                   /*=============================================
 								Separamos la comisión del Marketplace y el pago a la tienda del precio total de cada producto
@@ -493,7 +493,7 @@ export class CheckoutComponent implements OnInit {
 						Enviar actualización de cantidad de producto vendido a la base de datos
 						=============================================*/
 
-            this.productsService.getFilterData('url', product.url).subscribe((resp) => {
+            this.productsService.getFilterData('url', product.url).subscribe((resp: any) => {
               for (const i in resp) {
                 let id = Object.keys(resp).toString();
 
@@ -569,7 +569,7 @@ export class CheckoutComponent implements OnInit {
 
             this.ordersService
               .registerDatabase(body, localStorage.getItem('idToken'))
-              .subscribe((resp) => {
+              .subscribe((resp: any) => {
                 if (resp['name'] != '') {
                   /*=============================================
 								Separamos la comisión del Marketplace y el pago a la tienda del precio total de cada producto
@@ -609,7 +609,7 @@ export class CheckoutComponent implements OnInit {
 
                   this.salesService
                     .registerDatabase(body, localStorage.getItem('idToken'))
-                    .subscribe((resp) => {});
+                    .subscribe((resp: any) => {});
                 }
               });
           });
@@ -673,9 +673,9 @@ export class CheckoutComponent implements OnInit {
 
       let totalRender = 0;
 
-      let idOrders = [];
-      let idSales = [];
-      let idProducts = [];
+      let idOrders: any[] = [];
+      let idSales: any[] = [];
+      let idProducts: any[] = [];
 
       /*=============================================
 			Tomamos la información de la venta
@@ -967,7 +967,7 @@ export class CheckoutComponent implements OnInit {
                 };
 
                 localProductsService
-                  .patchDataAuth(id, value, localStorage.getItem('idToken'))
+                  .patchDataAuth(id, value, localStorage.getItem('idToken') ?? '')
                   .subscribe((resp) => {});
               }
             });
@@ -1032,7 +1032,7 @@ export class CheckoutComponent implements OnInit {
             };
 
             localOrdersService
-              .registerDatabase(body, localStorage.getItem('idToken'))
+              .registerDatabase(body, localStorage.getItem('idToken') ?? '')
               .subscribe((resp) => {
                 if (resp['name'] != '') {
                   /*=============================================
@@ -1070,7 +1070,7 @@ export class CheckoutComponent implements OnInit {
                   };
 
                   localSalesService
-                    .registerDatabase(body, localStorage.getItem('idToken'))
+                    .registerDatabase(body, localStorage.getItem('idToken') ?? '')
                     .subscribe((resp) => {});
                 }
               });

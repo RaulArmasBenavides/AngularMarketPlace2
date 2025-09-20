@@ -17,16 +17,16 @@ export class CallToActionComponent implements OnInit {
   price: any[] = [];
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private productsService: ProductsService,
-    private usersService: UsersService,
-    private router: Router
+    private readonly activateRoute: ActivatedRoute,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
     this.productsService
       .getFilterData('url', this.activateRoute.snapshot.params['param'])
-      .subscribe((resp) => {
+      .subscribe((resp:any) => {
         for (const i in resp) {
           this.call_to_action.push(resp[i]);
 
@@ -70,7 +70,7 @@ export class CallToActionComponent implements OnInit {
 	Función para agregar productos al carrito de compras
 	=============================================*/
 
-  addShoppingCart(product, unit, details) {
+  addShoppingCart(product:any, unit:any, details:any) {
     let url = this.router.url;
 
     let item = {

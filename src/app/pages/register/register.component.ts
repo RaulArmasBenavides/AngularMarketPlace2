@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
           var validation = Array.prototype.filter.call(forms, function (form) {
             form.addEventListener(
               'submit',
-              function (event:any) {
+              function (event: any) {
                 if (form.checkValidity() === false) {
                   event.preventDefault();
                   event.stopPropagation();
@@ -63,14 +63,14 @@ export class RegisterComponent implements OnInit {
   Capitalizar la primera letra de nombre y apellido
   =============================================*/
 
-  capitalize(input:any) {
+  capitalize(input: any) {
     input.value = Capitalize.fnc(input.value);
   }
 
   /*=============================================
   Validación de expresión regular del formulario
   =============================================*/
-  validate(input:any) {
+  validate(input: any) {
     let pattern;
 
     if ($(input).attr('name') == 'username') {
@@ -95,11 +95,11 @@ export class RegisterComponent implements OnInit {
       pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
     }
 
-    if (!pattern.test(input.value)) {
-      $(input).parent().addClass('was-validated');
+    // if (!pattern.test(input.value)) {
+    //   $(input).parent().addClass('was-validated');
 
-      input.value = '';
-    }
+    //   input.value = '';
+    // }
   }
 
   /*=============================================
@@ -124,7 +124,7 @@ export class RegisterComponent implements OnInit {
     this.user.returnSecureToken = true;
 
     this.usersService.registerAuth(this.user).subscribe(
-      (resp) => {
+      (resp: any) => {
         if (resp['email'] == this.user.email) {
           /*=============================================
         Enviar correo de verificación
@@ -135,7 +135,7 @@ export class RegisterComponent implements OnInit {
             idToken: resp['idToken']
           };
 
-          this.usersService.sendEmailVerificationFnc(body).subscribe((resp) => {
+          this.usersService.sendEmailVerificationFnc(body).subscribe((resp: any) => {
             if (resp['email'] == this.user.email) {
               /*=============================================
             Registro en Firebase Database
@@ -221,7 +221,7 @@ export class RegisterComponent implements OnInit {
     Registramos al usuario en Firebase Database
     =============================================*/
 
-    function registerFirebaseDatabase(result:any, localUser:any, localUsersService:any) {
+    function registerFirebaseDatabase(result: any, localUser: any, localUsersService: any) {
       var user = result.user;
 
       if (user.P) {
@@ -236,7 +236,7 @@ export class RegisterComponent implements OnInit {
         Evitar que se dupliquen los registros en Firebase Database
         =============================================*/
 
-        localUsersService.getFilterData('email', user.email).subscribe((resp:any) => {
+        localUsersService.getFilterData('email', user.email).subscribe((resp: any) => {
           if (Object.keys(resp).length > 0) {
             Sweetalert.fnc(
               'error',
@@ -244,7 +244,7 @@ export class RegisterComponent implements OnInit {
               'login'
             );
           } else {
-            localUsersService.registerDatabase(localUser).subscribe((resp:any) => {
+            localUsersService.registerDatabase(localUser).subscribe((resp: any) => {
               if (resp['name'] != '') {
                 Sweetalert.fnc('success', 'Please Login with facebook', 'login');
               }
@@ -299,7 +299,7 @@ export class RegisterComponent implements OnInit {
     Registramos al usuario en Firebase Database
     =============================================*/
 
-    function registerFirebaseDatabase(result:any, localUser:any, localUsersService:any) {
+    function registerFirebaseDatabase(result: any, localUser: any, localUsersService: any) {
       var user = result.user;
 
       if (user.P) {
@@ -314,7 +314,7 @@ export class RegisterComponent implements OnInit {
         Evitar que se dupliquen los registros en Firebase Database
         =============================================*/
 
-        localUsersService.getFilterData('email', user.email).subscribe((resp:any) => {
+        localUsersService.getFilterData('email', user.email).subscribe((resp: any) => {
           if (Object.keys(resp).length > 0) {
             Sweetalert.fnc(
               'error',
@@ -322,7 +322,7 @@ export class RegisterComponent implements OnInit {
               'login'
             );
           } else {
-            localUsersService.registerDatabase(localUser).subscribe((resp:any) => {
+            localUsersService.registerDatabase(localUser).subscribe((resp: any) => {
               if (resp['name'] != '') {
                 Sweetalert.fnc('success', 'Please Login with google', 'login');
               }

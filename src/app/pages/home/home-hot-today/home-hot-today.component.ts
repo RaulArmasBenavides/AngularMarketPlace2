@@ -48,7 +48,7 @@ export class HomeHotTodayComponent implements OnInit {
 		Tomamos la data de los productos
 		=============================================*/
 
-    this.productsService.getData().subscribe((resp) => {
+    this.productsService.getData().subscribe((resp: any) => {
       /*=============================================
 			Recorremos cada producto para separar las ofertas y el stock
 			=============================================*/
@@ -123,10 +123,10 @@ export class HomeHotTodayComponent implements OnInit {
 			Sacamos del arreglo los productos repetidos dejando los de mayor venta
 			=============================================*/
 
-      let filterSales = [];
+      let filterSales: any = [];
 
-      getSales.forEach((sale) => {
-        if (!filterSales.find((resp) => resp.product == sale.product)) {
+      getSales.forEach((sale: any) => {
+        if (!filterSales.find((resp: any) => resp.product == sale.product)) {
           const { product, quantity } = sale;
 
           filterSales.push({ product, quantity });
@@ -139,7 +139,7 @@ export class HomeHotTodayComponent implements OnInit {
 
       let block = 0;
 
-      filterSales.forEach((sale, index) => {
+      filterSales.forEach((sale: any, index: any) => {
         /*=============================================
 				Filtramos hasta 20 ventas
 				=============================================*/

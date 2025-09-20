@@ -115,7 +115,7 @@ export class HomeShowcaseComponent implements OnInit {
 				=============================================*/
         this.productsService
           .getFilterDataWithLimit('category', category.url, 6)
-          .subscribe((resp) => {
+          .subscribe((resp: any) => {
             let i;
 
             for (i in resp) {

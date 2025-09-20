@@ -58,7 +58,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
 		Preguntamos si esta tienda tiene órdenes
 		=============================================*/
 
-    this.ordersService.getFilterData('store', this.childItem).subscribe((resp) => {
+    this.ordersService.getFilterData('store', this.childItem).subscribe((resp: any) => {
       if (Object.keys(resp).length > 0) {
         for (const i in resp) {
           load++;
@@ -71,7 +71,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
         }
 
         if (load == this.orders.length) {
-        this.dtTrigger.next(null);
+          this.dtTrigger.next(null);
         }
       }
     });
@@ -81,7 +81,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
     Editar Proceso
     =============================================*/
 
-  nextProcess(idOrder, index) {
+  nextProcess(idOrder: any, index: any) {
     this.editNextProcess = this.process[index];
 
     /*=============================================
@@ -114,7 +114,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
 	Recoger información al cambiar el proceso
 	=============================================*/
 
-  changeProcess(type, item, index) {
+  changeProcess(type: any, item: any, index: any) {
     console.log('item', item.value);
 
     this.newNextProcess[index][type] = item.value;
@@ -168,7 +168,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
                 =============================================*/
 
         this.salesService
-          .patchDataAuth(idSale, body, localStorage.getItem('idToken'))
+          .patchDataAuth(idSale, body, localStorage.getItem('idToken') ?? '')
           .subscribe((resp) => {});
       });
     } else {
@@ -202,7 +202,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
         formData.append('address', this.orders[$('#indexOrder').val()].email);
         formData.append('name', this.orders[$('#indexOrder').val()].user);
 
-        this.http.post(this.email, formData).subscribe((resp) => {
+        this.http.post(this.email, formData).subscribe((resp: any) => {
           if (resp['status'] == 200) {
             Sweetalert.fnc('success', 'The order was successfully updated', '/account/orders');
           } else {

@@ -52,7 +52,7 @@ export class AccountNewStoreComponent implements OnInit {
     Variable para el número indicativo del país
     =============================================*/
 
-  dialCode: string = null;
+  dialCode: string = '';
 
   /*=============================================
     Variable para capturar el listado de paises
@@ -183,13 +183,13 @@ export class AccountNewStoreComponent implements OnInit {
     Variables para almacenar los archivos de imagen de la tienda y del producto
     =============================================*/
 
-  logoStore: File = null;
-  coverStore: File = null;
-  imageProduct: File = null;
-  topBannerImg: File = null;
-  defaultBannerImg: File = null;
-  hSliderImg: File = null;
-  vSliderImg: File = null;
+  logoStore: File | null = null;
+  coverStore: File | null = null;
+  imageProduct: File | null = null;
+  topBannerImg: File | null = null;
+  defaultBannerImg: File | null = null;
+  hSliderImg: File | null = null;
+  vSliderImg: File | null = null;
 
   /*=============================================
     Constructor
@@ -227,7 +227,7 @@ export class AccountNewStoreComponent implements OnInit {
         Traer la información del usuario existente
         =============================================*/
 
-    this.usersService.getFilterData('username', this.childItem).subscribe((resp) => {
+    this.usersService.getFilterData('username', this.childItem).subscribe((resp: any) => {
       for (const i in resp) {
         this.store.email = resp[i].email;
         this.store.country = resp[i].country;
@@ -330,7 +330,7 @@ export class AccountNewStoreComponent implements OnInit {
             Traer data de categorías
             =============================================*/
 
-      this.categoriesService.getData().subscribe((resp) => {
+      this.categoriesService.getData().subscribe((resp: any) => {
         for (const i in resp) {
           this.categories.push(resp[i]);
         }
@@ -346,7 +346,7 @@ export class AccountNewStoreComponent implements OnInit {
             Agregar Imagen Banner Top por defecto
             =============================================*/
 
-      this.topBanner['IMG tag'] = `assets/img/products/default/default-top-banner.jpg`;
+      // this.topBanner['IMG tag'] = `assets/img/products/default/default-top-banner.jpg`;
 
       /*=============================================
             Agregar Imagen Banner Default por defecto
@@ -372,7 +372,7 @@ export class AccountNewStoreComponent implements OnInit {
     Validación extra para cada campo del formulario
     =============================================*/
 
-  validate(input) {
+  validate(input: any) {
     /*=============================================
         Validamos el nombre de la tienda
         =============================================*/
@@ -424,7 +424,7 @@ export class AccountNewStoreComponent implements OnInit {
                     Validamos que el nombre de la tienda no esté repetido
                     =============================================*/
 
-          this.productsService.getFilterData('name', input.value).subscribe((resp) => {
+          this.productsService.getFilterData('name', input.value).subscribe((resp:any) => {
             if (Object.keys(resp).length > 0) {
               $(input).parent().addClass('was-validated');
               input.value = '';
@@ -644,7 +644,7 @@ export class AccountNewStoreComponent implements OnInit {
     Validación para las imágenes del formulario
     =============================================*/
 
-  validateImage(e, tagPicture) {
+  validateImage(e: any, tagPicture: any) {
     switch (tagPicture) {
       case 'changeLogo':
         this.logoStore = e.target.files[0];
@@ -686,16 +686,14 @@ export class AccountNewStoreComponent implements OnInit {
 
       return;
     } else if (image['size'] > 2000000) {
-
-    /*=============================================
+      /*=============================================
         Validamos el tamaño
         =============================================*/
       Sweetalert.fnc('error', 'Image must not weigh more than 2MB', null);
 
       return;
     } else {
-
-    /*=============================================
+      /*=============================================
         Mostramos la imagen temporal
         =============================================*/
       let data = new FileReader();
@@ -713,7 +711,7 @@ export class AccountNewStoreComponent implements OnInit {
     Agregar código dial al input telefónico
     =============================================*/
 
-  changeCountry(input) {
+  changeCountry(input: any) {
     this.countries.forEach((country) => {
       if (input.value == country.name) {
         this.dialCode = country.dial_code;
@@ -725,7 +723,7 @@ export class AccountNewStoreComponent implements OnInit {
     Traer la data de subcategorías de acuerdo a la categoría seleccionada
     =============================================*/
 
-  changeCategory(input) {
+  changeCategory(input: any) {
     let category = input.value.split('_')[0];
 
     this.subCategoriesService.getFilterData('category', category).subscribe((resp) => {
@@ -741,7 +739,7 @@ export class AccountNewStoreComponent implements OnInit {
     Adicionar Input's de forma dinámica
     =============================================*/
 
-  addInput(type) {
+  addInput(type: any) {
     if (type == 'summary') {
       if (this.summaryGroup.length < 5) {
         this.summaryGroup.push({
@@ -779,7 +777,7 @@ export class AccountNewStoreComponent implements OnInit {
     Quitar Input's de forma dinámica
     =============================================*/
 
-  removeInput(i, type) {
+  removeInput(i: number, type: any) {
     if (i > 0) {
       if (type == 'summary') {
         this.summaryGroup.splice(i, 1);
@@ -799,11 +797,11 @@ export class AccountNewStoreComponent implements OnInit {
     Funciones de Dropzone
     =============================================*/
 
-  onSelect(event) {
+  onSelect(event: any) {
     this.gallery.push(...event.addedFiles);
   }
 
-  onRemove(event) {
+  onRemove(event: any) {
     this.gallery.splice(this.gallery.indexOf(event), 1);
   }
 
@@ -940,7 +938,7 @@ export class AccountNewStoreComponent implements OnInit {
         formData.append('width', allImages[i].width);
         formData.append('height', allImages[i].height);
 
-        this.http.post(this.server, formData).subscribe((resp) => {
+        this.http.post(this.server, formData).subscribe((resp: any) => {
           if (resp['status'] == 200) {
             switch (allImages[i].type) {
               case 'logoStore':
@@ -956,7 +954,7 @@ export class AccountNewStoreComponent implements OnInit {
                 break;
 
               case 'topBannerImg':
-                this.topBanner['IMG tag'] = resp['result'];
+                // this.topBanner['IMG tag'] = resp['result'];
                 break;
 
               case 'defaultBannerImg':
@@ -964,7 +962,7 @@ export class AccountNewStoreComponent implements OnInit {
                 break;
 
               case 'hSliderImg':
-                this.hSlider['IMG tag'] = resp['result'];
+                // this.hSlider['IMG tag'] = resp['result'];
                 break;
 
               case 'vSliderImg':
@@ -994,7 +992,7 @@ export class AccountNewStoreComponent implements OnInit {
                 formData.append('width', '1000');
                 formData.append('height', '1000');
 
-                this.http.post(this.server, formData).subscribe((resp) => {
+                this.http.post(this.server, formData).subscribe((resp: any) => {
                   if (resp['status'] == 200) {
                     newGallery.push(resp['result']);
 
@@ -1176,18 +1174,21 @@ export class AccountNewStoreComponent implements OnInit {
                                             =============================================*/
 
                       this.storesService
-                        .registerDatabase(this.store, localStorage.getItem('idToken'))
+                        .registerDatabase(this.store, localStorage.getItem('idToken') ?? '')
                         .subscribe(
-                          (resp) => {
+                          (resp: any) => {
                             if (resp['name'] != '') {
                               /*=============================================
                                                     Crear el producto en la BD
                                                     =============================================*/
 
                               this.productsService
-                                .registerDatabase(this.product, localStorage.getItem('idToken'))
+                                .registerDatabase(
+                                  this.product,
+                                  localStorage.getItem('idToken') ?? ''
+                                )
                                 .subscribe(
-                                  (resp) => {
+                                  (resp: any) => {
                                     if (resp['name'] != '') {
                                       Sweetalert.fnc(
                                         'success',

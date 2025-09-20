@@ -63,7 +63,7 @@ export class BestSalesItemComponent implements OnInit {
 				Filtramos data de subategorías
 				=============================================*/
 
-        this.productsService.getFilterData('sub_category', params).subscribe((resp2) => {
+        this.productsService.getFilterData('sub_category', params).subscribe((resp2: any) => {
           if (Object.keys(resp2).length > 0) {
             this.productsFnc(resp2);
           } else {
@@ -79,7 +79,7 @@ export class BestSalesItemComponent implements OnInit {
 	Declaramos función para mostrar las mejores ventas
 	=============================================*/
 
-  productsFnc(response:any) {
+  productsFnc(response: any) {
     this.bestSalesItem = [];
 
     /*=============================================
@@ -133,7 +133,7 @@ export class BestSalesItemComponent implements OnInit {
       this.render = false;
 
       OwlCarouselConfig.fnc();
-      CarouselNavigation.fnc();
+      // CarouselNavigation.fnc();
     }
   }
 
@@ -141,7 +141,7 @@ export class BestSalesItemComponent implements OnInit {
 	Función para agregar productos a la lista de deseos
 	=============================================*/
 
-  addWishlist(product:any) {
+  addWishlist(product: any) {
     this.usersService.addWishlist(product);
   }
 
@@ -149,7 +149,7 @@ export class BestSalesItemComponent implements OnInit {
 	Función para agregar productos al carrito de compras
 	=============================================*/
 
-  addShoppingCart(product:any, unit:any, details:any) {
+  addShoppingCart(product: any, unit: any, details: any) {
     let url = this.router.url;
 
     let item = {

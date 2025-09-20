@@ -1768,7 +1768,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                                         =============================================*/
 
                     this.productsService
-                      .registerDatabase(this.productModel, localStorage.getItem('idToken'))
+                      .registerDatabase(this.productModel, localStorage.getItem('idToken') ?? '')
                       .subscribe(
                         (resp) => {
                           if (resp['name'] != '') {

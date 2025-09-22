@@ -36,10 +36,10 @@ export class BestSalesItemComponent implements OnInit {
   notFound: boolean = false;
 
   constructor(
-    private productsService: ProductsService,
-    private activateRoute: ActivatedRoute,
-    private usersService: UsersService,
-    private router: Router
+    private readonly productsService: ProductsService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly usersService: UsersService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +55,7 @@ export class BestSalesItemComponent implements OnInit {
 		Filtramos data de productos con categorías
 		=============================================*/
 
-    this.productsService.getFilterData('category', params).subscribe((resp1) => {
+    this.productsService.getFilterData('category', params).subscribe((resp1: any) => {
       if (Object.keys(resp1).length > 0) {
         this.productsFnc(resp1);
       } else {
@@ -113,7 +113,7 @@ export class BestSalesItemComponent implements OnInit {
 
         this.reviews.push(DinamicReviews.fnc(this.rating[index]));
 
-        this.price.push(DinamicPrice.fnc(this.bestSalesItem[index]));
+        // this.price.push(DinamicPrice.fnc(this.bestSalesItem[index]));
 
         this.preload = false;
 

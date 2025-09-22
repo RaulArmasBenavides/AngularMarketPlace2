@@ -21,7 +21,7 @@ export class AccountBreadcrumbComponent implements OnInit {
       if (resp) {
         this.usersService
           .getFilterData('idToken', localStorage.getItem('idToken'))
-          .subscribe((resp) => {
+          .subscribe((resp: any) => {
             for (const i in resp) {
               this.displayName = resp[i].displayName;
             }

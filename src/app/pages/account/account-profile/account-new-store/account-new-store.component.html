@@ -477,7 +477,6 @@ Nav Account
                     name="twitter"
                     social="socialNetwork"
                     pattern="[-\\_\\.\\0-9a-zA-Z]{1,}"
-                    [(ngModel)]="social['twitter']"
                     (change)="validate(twitter)"
                     #twitter
                   />
@@ -501,7 +500,6 @@ Nav Account
                     name="linkedin"
                     social="socialNetwork"
                     pattern="[-\\_\\.\\0-9a-zA-Z]{1,}"
-                    [(ngModel)]="social['linkedin']"
                     (change)="validate(linkedin)"
                     #linkedin
                   />
@@ -525,7 +523,6 @@ Nav Account
                     name="youtube"
                     social="socialNetwork"
                     pattern="[-\\_\\.\\0-9a-zA-Z]{1,}"
-                    [(ngModel)]="social['youtube']"
                     (change)="validate(youtube)"
                     #youtube
                   />
@@ -984,7 +981,6 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: 20%"
                       name="topBannerH3Tag"
-                      [(ngModel)]="topBanner['H3 tag']"
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerH3Tag)"
@@ -1005,13 +1001,13 @@ Nav Account
                     <div class="input-group-append">
                       <span class="input-group-text"> P1 Tag: </span>
                     </div>
-
+   <!-- [(ngModel)]="topBanner['P1 tag']" -->
                     <input
                       type="text"
                       class="form-control formProduct"
                       placeholder="Ex: Disccount"
                       name="topBannerP1Tag"
-                      [(ngModel)]="topBanner['P1 tag']"
+                   
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerP1Tag)"
@@ -1038,7 +1034,6 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: For Books Of March"
                       name="topBannerH4Tag"
-                      [(ngModel)]="topBanner['H4 tag']"
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerH4Tag)"
@@ -1119,7 +1114,6 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: Shop now"
                       name="topBannerButtonTag"
-                      [(ngModel)]="topBanner['Button tag']"
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerButtonTag)"
@@ -1141,7 +1135,7 @@ Nav Account
 
                     <div class="form-group__content">
                       <label class="pb-3" for="topBanner">
-                        <img src="{{ topBanner['IMG tag'] }}" class="img-fluid changeTopBanner" />
+                        <!-- <img src="{{ topBanner['IMG tag'] }}" class="img-fluid changeTopBanner" /> -->
                       </label>
 
                       <div class="custom-file">
@@ -1256,7 +1250,6 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: Happy Summer"
                       name="hSliderH3_1Tag"
-                      [(ngModel)]="hSlider['H3-1 tag']"
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(hSliderH3_1Tag)"
@@ -1336,7 +1329,6 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: 40%"
                       name="hSliderH3_4sTag"
-                      [(ngModel)]="hSlider['H3-4s tag']"
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(hSliderH3_4sTag)"

@@ -33,8 +33,8 @@ export class HomeHotTodayComponent implements OnInit {
   renderBestSeller: boolean = true;
 
   constructor(
-    private productsService: ProductsService,
-    private salesService: SalesService
+    private readonly productsService: ProductsService,
+    private readonly salesService: SalesService
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +97,7 @@ export class HomeHotTodayComponent implements OnInit {
 
     let getSales = [];
 
-    this.salesService.getData().subscribe((resp) => {
+    this.salesService.getData().subscribe((resp:any) => {
       /*=============================================
 			Recorremos cada venta para separar los productos y las cantidades
 			=============================================*/
@@ -147,7 +147,7 @@ export class HomeHotTodayComponent implements OnInit {
         if (index < 20) {
           block++;
 
-          this.productsService.getFilterData('name', sale.product).subscribe((resp) => {
+          this.productsService.getFilterData('name', sale.product).subscribe((resp:any) => {
             let i;
 
             for (i in resp) {
@@ -328,7 +328,7 @@ export class HomeHotTodayComponent implements OnInit {
         $('.ps-carousel--deal-hot').show();
 
         OwlCarouselConfig.fnc();
-        CarouselNavigation.fnc();
+        // CarouselNavigation.fnc();
         SlickConfig.fnc();
         ProductLightbox.fnc();
 
@@ -357,7 +357,7 @@ export class HomeHotTodayComponent implements OnInit {
 	Función que nos avisa cuando finaliza el renderizado de Angular
 	=============================================*/
 
-  callbackBestSeller(topSales) {
+  callbackBestSeller(topSales:any) {
     if (this.renderBestSeller) {
       this.renderBestSeller = false;
 

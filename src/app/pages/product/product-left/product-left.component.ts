@@ -102,11 +102,13 @@ export class ProductLeftComponent implements OnInit {
               }
             });
 
-            this.usersService.getFilterData('username', resp[i].transmitter).subscribe((resp1) => {
-              for (const f in resp1) {
-                resp[i].user = resp1[f];
-              }
-            });
+            this.usersService
+              .getFilterData('username', resp[i].transmitter)
+              .subscribe((resp1: any) => {
+                for (const f in resp1) {
+                  resp[i].user = resp1[f];
+                }
+              });
 
             let localQuestions = this.questions;
 
@@ -122,7 +124,7 @@ export class ProductLeftComponent implements OnInit {
 	Declaramos función para mostrar los productos recomendados
 	=============================================*/
 
-  productsFnc(response) {
+  productsFnc(response:any) {
     this.product = [];
 
     /*=============================================
@@ -147,7 +149,7 @@ export class ProductLeftComponent implements OnInit {
 
       this.reviews.push(DinamicReviews.fnc(this.rating[index]));
 
-      this.price.push(DinamicPrice.fnc(this.product[index]));
+      // this.price.push(DinamicPrice.fnc(this.product[index]));
 
       this.summary.push(JSON.parse(this.product[index].summary));
 
@@ -244,7 +246,7 @@ export class ProductLeftComponent implements OnInit {
           Recorremos el array de objetos de detalles
           =============================================*/
 
-        JSON.parse($('.ps-product__variations').attr('specification')).forEach((detail, index) => {
+        JSON.parse($('.ps-product__variations').attr('specification')).forEach((detail:any, index:number) => {
           /*=============================================
               Seleccionamos el nombre de propiedad de cada detalle
               =============================================*/
@@ -345,7 +347,7 @@ export class ProductLeftComponent implements OnInit {
     Función Callback Galería
     =============================================*/
 
-  callbackGallery(i) {
+  callbackGallery(i: any) {
     if (this.renderGallery) {
       this.renderGallery = false;
 
@@ -408,7 +410,7 @@ export class ProductLeftComponent implements OnInit {
     Función para agregar productos al carrito de compras
     =============================================*/
 
-  addShoppingCart(product, unit, details) {
+  addShoppingCart(product:any, unit:any, details:any) {
     /*=============================================
         Preguntamos si existe detalles en localStorage
         =============================================*/
@@ -490,9 +492,9 @@ export class ProductLeftComponent implements OnInit {
 
         let emailStore: any = null;
 
-        this.storesService.getFilterData('store', store).subscribe((resp) => {
+        this.storesService.getFilterData('store', store).subscribe((res: any) => {
           for (const i in resp) {
-            emailStore = resp[i].email;
+            // emailStore = resp[i].email;
           }
         });
 
@@ -502,7 +504,7 @@ export class ProductLeftComponent implements OnInit {
 
         this.usersService
           .getFilterData('idToken', localStorage.getItem('idToken'))
-          .subscribe((resp) => {
+          .subscribe((resp: any) => {
             for (const i in resp) {
               this.messages.transmitter = resp[i].username;
 
@@ -511,9 +513,9 @@ export class ProductLeftComponent implements OnInit {
                         =============================================*/
 
               this.messagesService
-                .registerDatabase(this.messages, localStorage.getItem('idToken'))
+                .registerDatabase(this.messages, localStorage.getItem('idToken') ?? '')
                 .subscribe(
-                  (resp) => {
+                  (resp: any) => {
                     if (resp['name'] != '') {
                       /*=============================================
                                 Enviar notificación por correo electrónico

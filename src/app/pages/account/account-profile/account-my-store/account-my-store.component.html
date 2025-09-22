@@ -369,21 +369,7 @@ class="ps-section__content">
 
                                                 <figcaption>{{ spec | keys}}: <strong>Choose an option</strong></figcaption>
                                                 
-                                                <div 
-                                                *ngIf="(spec | keys) == 'Color'"
-                                                class="d-flex">
-
-                                                    <div
-                                                    *ngFor="let value of spec[spec|keys]"
-                                                    class="rounded-circle mr-3 details"
-                                                    data-toggle="tooltip" title="{{value}}"
-                                                    style="background-color:{{value}}; 
-                                                           width:30px; 
-                                                           height:30px; 
-                                                           cursor:pointer;
-                                                           border:1px solid #bbb"></div>
-                                            
-                                                </div>
+                                
 
                                                 <div 
                                                 *ngIf="(spec | keys) != 'Color'"
@@ -953,7 +939,6 @@ class="ps-section__content">
                                 name="facebook"
                                 social="socialNetwork"
                                 pattern="[-\\_\\.\\0-9a-zA-Z]{1,}"
-                                [(ngModel)]="social['facebook']"
                                 (change)="validate(facebook)"
                                 #facebook> 
 
@@ -979,7 +964,6 @@ class="ps-section__content">
                                 name="instagram"
                                 social="socialNetwork"
                                 pattern="[-\\_\\.\\0-9a-zA-Z]{1,}"
-                                [(ngModel)]="social['instagram']"
                                 (change)="validate(instagram)"
                                 #instagram> 
 
@@ -1005,7 +989,6 @@ class="ps-section__content">
                                 name="twitter"
                                 social="socialNetwork"
                                 pattern="[-\\_\\.\\0-9a-zA-Z]{1,}"
-                                [(ngModel)]="social['twitter']"
                                 (change)="validate(twitter)"
                                 #twitter> 
 
@@ -1634,7 +1617,6 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: 20%"
                                     name="topBannerH3Tag"
-                                    [(ngModel)]="topBanner['H3 tag']"
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(topBannerH3Tag)" 
@@ -1694,7 +1676,6 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: For Books Of March"
                                     name="topBannerH4Tag"
-                                    [(ngModel)]="topBanner['H4 tag']"
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(topBannerH4Tag)" 
@@ -1784,7 +1765,6 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Shop now"
                                     name="topBannerButtonTag"
-                                    [(ngModel)]="topBanner['Button tag']"
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(topBannerButtonTag)" 
@@ -1943,7 +1923,6 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Limit Edition"
                                     name="hSliderH4Tag"
-                                    [(ngModel)]="hSlider['H4 tag']"
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(hSliderH4Tag)" 
@@ -1973,7 +1952,6 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Happy Summer"
                                     name="hSliderH3_1Tag"
-                                    [(ngModel)]="hSlider['H3-1 tag']"
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(hSliderH3_1Tag)" 

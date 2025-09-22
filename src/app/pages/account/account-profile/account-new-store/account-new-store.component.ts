@@ -358,7 +358,7 @@ export class AccountNewStoreComponent implements OnInit {
             Agregar Imagen Slide Horizontal por defecto
             =============================================*/
 
-      this.hSlider['IMG tag'] = `assets/img/products/default/default-horizontal-slider.jpg`;
+      // this.hSlider['IMG tag'] = `assets/img/products/default/default-horizontal-slider.jpg`;
 
       /*=============================================
             Agregar Imagen Slide Vertical por defecto
@@ -683,8 +683,7 @@ export class AccountNewStoreComponent implements OnInit {
 
     if (image['type'] !== 'image/jpeg' && image['type'] !== 'image/png') {
       Sweetalert.fnc('error', 'The image must be in JPG or PNG format', null);
-
-      return;
+ 
     } else if (image['size'] > 2000000) {
       /*=============================================
         Validamos el tamaño
@@ -712,7 +711,7 @@ export class AccountNewStoreComponent implements OnInit {
     =============================================*/
 
   changeCountry(input: any) {
-    this.countries.forEach((country) => {
+    this.countries.forEach((country:any) => {
       if (input.value == country.name) {
         this.dialCode = country.dial_code;
       }
@@ -932,7 +931,7 @@ export class AccountNewStoreComponent implements OnInit {
       for (const i in allImages) {
         const formData = new FormData();
 
-        formData.append('file', allImages[i].file);
+        // formData.append('file', allImages[i].file);
         formData.append('folder', allImages[i].folder);
         formData.append('path', allImages[i].path);
         formData.append('width', allImages[i].width);
@@ -1021,10 +1020,10 @@ export class AccountNewStoreComponent implements OnInit {
                                             =============================================*/
 
                       for (const i in Object.keys(this.social)) {
-                        if (this.social[Object.keys(this.social)[i]] != '') {
-                          this.social[Object.keys(this.social)[i]] =
-                            `https://${Object.keys(this.social)[i]}.com/${this.social[Object.keys(this.social)[i]]}`;
-                        }
+                        // if (this.social[Object.keys(this.social)[i]] != '') {
+                        //   this.social[Object.keys(this.social)[i]] =
+                        //     `https://${Object.keys(this.social)[i]}.com/${this.social[Object.keys(this.social)[i]]}`;
+                        // }
                       }
 
                       this.store.social = JSON.stringify(this.social);

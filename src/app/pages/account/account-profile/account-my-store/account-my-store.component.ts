@@ -76,7 +76,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
   /*=============================================
 	Variable para capturar el total de calficiaciones que tiene la tienda
 	=============================================*/
-  totalReviews: any[] = [];
+  totalReviews: number[] = [];
 
   /*=============================================
     Variable para el modelo de tienda
@@ -87,7 +87,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Variable para el número indicativo del país
     =============================================*/
 
-  dialCode: string = null;
+  dialCode: string = '';
 
   /*=============================================
     Variable de tipo objeto para redes sociales
@@ -111,14 +111,14 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Variables para almacenar los archivos de imagen de la tienda
     =============================================*/
 
-  logoStore: File = null;
-  coverStore: File = null;
+  logoStore: File | null = null;
+  coverStore: File | null = null;
 
   /*=============================================
     Variable para capturar el ID de la tienda
     =============================================*/
 
-  idStore: string = null;
+  idStore: string = '';
 
   /*=============================================
     Variable para el modelo de tienda
@@ -239,18 +239,18 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Variables para almacenar los archivos de imagen del producto
     =============================================*/
 
-  imageProduct: File = null;
-  topBannerImg: File = null;
-  defaultBannerImg: File = null;
-  hSliderImg: File = null;
-  vSliderImg: File = null;
+  imageProduct: File | null = null;
+  topBannerImg: File | null = null;
+  defaultBannerImg: File | null = null;
+  hSliderImg: File | null = null;
+  vSliderImg: File | null = null;
 
   /*=============================================
     Variable para capturar el ID del producto
     =============================================*/
 
   idProducts: any[] = [];
-  idProduct: string = null;
+  idProduct: string = '';
 
   /*=============================================
     Variable que permite avisar al formulario que estamos editando producto
@@ -269,12 +269,12 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   constructor(
-    private storesService: StoresService,
-    private productsService: ProductsService,
-    private usersService: UsersService,
-    private categoriesService: CategoriesService,
-    private subCategoriesService: SubCategoriesService,
-    private http: HttpClient
+    private readonly storesService: StoresService,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+    private readonly categoriesService: CategoriesService,
+    private readonly subCategoriesService: SubCategoriesService,
+    private readonly http: HttpClient
   ) {
     this.storeModel = new StoresModel();
     this.productModel = new ProductsModel();
@@ -296,7 +296,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       	Validamos si el usuario ya tiene una tienda habilitada
       	=============================================*/
 
-    this.storesService.getFilterData('username', this.childItem).subscribe((resp) => {
+    this.storesService.getFilterData('username', this.childItem).subscribe((resp: any) => {
       if (Object.keys(resp).length == 0) {
         window.open('account/new-store', '_top');
       } else {
@@ -347,7 +347,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
   				Damos formato a las redes sociales de la tienda
   				=============================================*/
 
-        this.store.map((item, index) => {
+        this.store.map((item: any, index: number) => {
           item.social = JSON.parse(item.social);
           item.newSocial = [];
 
@@ -362,23 +362,23 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
             switch (i) {
               case 'facebook':
-                this.social['facebook'] = item.social[i].split('/').pop();
+                // this.social['facebook'] = item.social[i].split('/').pop();
                 break;
 
               case 'instagram':
-                this.social['instagram'] = item.social[i].split('/').pop();
+                // this.social['instagram'] = item.social[i].split('/').pop();
                 break;
 
               case 'twitter':
-                this.social['twitter'] = item.social[i].split('/').pop();
+                // this.social['twitter'] = item.social[i].split('/').pop();
                 break;
 
               case 'linkedin':
-                this.social['linkedin'] = item.social[i].split('/').pop();
+                // this.social['linkedin'] = item.social[i].split('/').pop();
                 break;
 
               case 'youtube':
-                this.social['youtube'] = item.social[i].split('/').pop();
+                // this.social['youtube'] = item.social[i].split('/').pop();
                 break;
             }
           }
@@ -390,7 +390,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       			Traemos la data de productos de acuerdo al nombre de la tienda
       			=============================================*/
 
-        this.productsService.getFilterDataStore('store', this.store[0].store).subscribe((resp) => {
+        this.productsService.getFilterDataStore('store', this.store[0].store).subscribe((resp:any) => {
           /*=============================================
       				Almacenamos la información del producto
       				=============================================*/
@@ -493,7 +493,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                 Agregar Imagen Banner Top por defecto
                 =============================================*/
 
-        this.topBanner['IMG tag'] = `assets/img/products/default/default-top-banner.jpg`;
+        // this.topBanner['IMG tag'] = `assets/img/products/default/default-top-banner.jpg`;
 
         /*=============================================
                 Agregar Imagen Banner Default por defecto
@@ -526,7 +526,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 	Callback DataTable
 	=============================================*/
 
-  callback(i, totalReviews) {
+  callback(i: number, totalReviews: number[]) {
     if (!this.render) {
       this.render = true;
 
@@ -552,7 +552,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             	Agregamos las calificaciones totales de la tienda
             	=============================================*/
 
-        totalReviews.forEach((review, index) => {
+        totalReviews.forEach((review:any, index:number) => {
           globalRating += review.length;
 
           for (const i in review) {
@@ -631,7 +631,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Validación extra para cada campo del formulario
     =============================================*/
 
-  validate(input) {
+  validate(input: any) {
     /*=============================================
         Validamos la información de la tienda
         =============================================*/
@@ -872,7 +872,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Validación para las imágenes del formulario
     =============================================*/
 
-  validateImage(e, tagPicture) {
+  validateImage(e: any, tagPicture: any) {
     switch (tagPicture) {
       case 'changeLogo':
         this.logoStore = e.target.files[0];
@@ -927,7 +927,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let data = new FileReader();
       data.readAsDataURL(image);
 
-      $(data).on('load', function (event) {
+      $(data).on('load', function (event:any) {
         let path = event.target.result;
 
         $(`.${tagPicture}`).attr('src', path);
@@ -983,13 +983,13 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     for (const i in allImages) {
       const formData = new FormData();
 
-      formData.append('file', allImages[i].file);
+      // formData.append('file', allImages[i].file);
       formData.append('folder', allImages[i].folder);
       formData.append('path', allImages[i].path);
       formData.append('width', allImages[i].width);
       formData.append('height', allImages[i].height);
 
-      this.http.post(this.server, formData).subscribe((resp) => {
+      this.http.post(this.server, formData).subscribe((resp: any) => {
         if (resp['status'] != null && resp['status'] == 200) {
           if (allImages[i].type == 'logoStore') {
             /*=============================================
@@ -1042,10 +1042,10 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 			        =============================================*/
 
           for (const i in Object.keys(this.social)) {
-            if (this.social[Object.keys(this.social)[i]] != '') {
-              this.social[Object.keys(this.social)[i]] =
-                `https://${Object.keys(this.social)[i]}.com/${this.social[Object.keys(this.social)[i]]}`;
-            }
+            // if (this.social[Object.keys(this.social)[i]] != '') {
+            //   this.social[Object.keys(this.social)[i]] =
+            //     `https://${Object.keys(this.social)[i]}.com/${this.social[Object.keys(this.social)[i]]}`;
+            // }
           }
 
           this.storeModel.social = JSON.stringify(this.social);
@@ -1055,7 +1055,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 	                =============================================*/
 
           this.storesService
-            .patchDataAuth(this.idStore, this.storeModel, localStorage.getItem('idToken'))
+            .patchDataAuth(this.idStore, this.storeModel, localStorage.getItem('idToken') ?? '')
             .subscribe(
               (resp) => {
                 Sweetalert.fnc('success', 'The store was successfully updated', 'account/my-store');
@@ -1073,10 +1073,10 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Traer la data de subcategorías de acuerdo a la categoría seleccionada
     =============================================*/
 
-  changeCategory(input) {
+  changeCategory(input:any) {
     let category = input.value.split('_')[0];
 
-    this.subCategoriesService.getFilterData('category', category).subscribe((resp) => {
+    this.subCategoriesService.getFilterData('category', category).subscribe((resp: any) => {
       this.subcategories = [];
 
       for (const i in resp) {
@@ -1089,7 +1089,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Adicionar Input's de forma dinámica
     =============================================*/
 
-  addInput(type) {
+  addInput(type:any) {
     if (type == 'summary') {
       if (this.summaryGroup.length < 5) {
         this.summaryGroup.push({
@@ -1127,7 +1127,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Quitar Input's de forma dinámica
     =============================================*/
 
-  removeInput(i, type) {
+  removeInput(i: number, type: any) {
     if (i > 0) {
       if (type == 'summary') {
         this.summaryGroup.splice(i, 1);
@@ -1147,11 +1147,11 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Funciones de Dropzone
     =============================================*/
 
-  onSelect(event) {
+  onSelect(event: any) {
     this.gallery.push(...event.addedFiles);
   }
 
-  onRemove(event) {
+  onRemove(event: any) {
     this.gallery.splice(this.gallery.indexOf(event), 1);
   }
 
@@ -1159,7 +1159,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Editar Producto
     =============================================*/
 
-  editProduct(idProduct) {
+  editProduct(idProduct: string) {
     this.idProduct = idProduct;
 
     /*=============================================
@@ -1174,7 +1174,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
     this.editProductAction = true;
 
-    this.productsService.getUniqueData(idProduct).subscribe((resp) => {
+    this.productsService.getUniqueData(idProduct).subscribe((resp: any) => {
       this.productModel.name = resp['name'];
       this.productModel.url = resp['url'];
       this.productModel.category = resp['category'];
@@ -1209,7 +1209,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
       this.detailsGroup = [];
 
-      JSON.parse(resp['details']).forEach((detail) => {
+      JSON.parse(resp['details']).forEach((detail:any) => {
         this.detailsGroup.push({
           title: detail.title,
           value: detail.value
@@ -1222,7 +1222,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
       this.specificationsGroup = [];
 
-      JSON.parse(resp['specification']).forEach((spec) => {
+      JSON.parse(resp['specification']).forEach((spec:any) => {
         for (const i in spec) {
           this.specificationsGroup.push({
             type: i,
@@ -1235,7 +1235,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             Cargar las especificaciones del producto
             =============================================*/
 
-      JSON.parse(resp['tags']).forEach((item) => {
+      JSON.parse(resp['tags']).forEach((item: any) => {
         this.tags.push(item);
       });
 
@@ -1263,13 +1263,13 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             Carga del slide horizontal del producto
             =============================================*/
 
-      this.hSlider['H4 tag'] = JSON.parse(resp['horizontal_slider'])['H4 tag'];
-      this.hSlider['H3-1 tag'] = JSON.parse(resp['horizontal_slider'])['H3-1 tag'];
-      this.hSlider['H3-2 tag'] = JSON.parse(resp['horizontal_slider'])['H3-2 tag'];
-      this.hSlider['H3-3 tag'] = JSON.parse(resp['horizontal_slider'])['H3-3 tag'];
-      this.hSlider['H3-4s tag'] = JSON.parse(resp['horizontal_slider'])['H3-4s tag'];
-      this.hSlider['Button tag'] = JSON.parse(resp['horizontal_slider'])['Button tag'];
-      this.hSlider['IMG tag'] = JSON.parse(resp['horizontal_slider'])['IMG tag'];
+      // this.hSlider['H4 tag'] = JSON.parse(resp['horizontal_slider'])['H4 tag'];
+      // this.hSlider['H3-1 tag'] = JSON.parse(resp['horizontal_slider'])['H3-1 tag'];
+      // this.hSlider['H3-2 tag'] = JSON.parse(resp['horizontal_slider'])['H3-2 tag'];
+      // this.hSlider['H3-3 tag'] = JSON.parse(resp['horizontal_slider'])['H3-3 tag'];
+      // this.hSlider['H3-4s tag'] = JSON.parse(resp['horizontal_slider'])['H3-4s tag'];
+      // this.hSlider['Button tag'] = JSON.parse(resp['horizontal_slider'])['Button tag'];
+      // this.hSlider['IMG tag'] = JSON.parse(resp['horizontal_slider'])['IMG tag'];
 
       /*=============================================
             Carga del video del producto
@@ -1444,7 +1444,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       formData.append('width', allImages[i].width);
       formData.append('height', allImages[i].height);
 
-      this.http.post(this.server, formData).subscribe((resp) => {
+      this.http.post(this.server, formData).subscribe((resp: any) => {
         if (resp['status'] != null && resp['status'] == 200) {
           if (allImages[i].type == 'imageProduct') {
             if (this.editProductAction) {
@@ -1458,7 +1458,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
               formData.append('fileDelete', fileDelete);
 
-              this.http.post(this.serverDelete, formData).subscribe((resp) => {});
+              this.http.post(this.serverDelete, formData).subscribe((resp: any) => {});
             }
 
             this.productModel.image = resp['result'];
@@ -1476,10 +1476,10 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
               formData.append('fileDelete', fileDelete);
 
-              this.http.post(this.serverDelete, formData).subscribe((resp) => {});
+              this.http.post(this.serverDelete, formData).subscribe((resp:any) => {});
             }
 
-            this.topBanner['IMG tag'] = resp['result'];
+            // this.topBanner['IMG tag'] = resp['result'];
           }
 
           if (allImages[i].type == 'defaultBannerImg') {
@@ -1512,10 +1512,10 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
               formData.append('fileDelete', fileDelete);
 
-              this.http.post(this.serverDelete, formData).subscribe((resp) => {});
+              this.http.post(this.serverDelete, formData).subscribe((resp: any) => {});
             }
 
-            this.hSlider['IMG tag'] = resp['result'];
+            // this.hSlider['IMG tag'] = resp['result'];
           }
 
           if (allImages[i].type == 'vSliderImg') {
@@ -1530,7 +1530,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
               formData.append('fileDelete', fileDelete);
 
-              this.http.post(this.serverDelete, formData).subscribe((resp) => {});
+              this.http.post(this.serverDelete, formData).subscribe((resp: any) => {});
             }
 
             this.productModel.vertical_slider = resp['result'];
@@ -1744,7 +1744,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
               formData.append('width', '1000');
               formData.append('height', '1000');
 
-              this.http.post(this.server, formData).subscribe((resp) => {
+              this.http.post(this.server, formData).subscribe((resp: any) => {
                 if (resp['status'] != null && resp['status'] == 200) {
                   newGallery.push(resp['result']);
                 }
@@ -1770,7 +1770,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                     this.productsService
                       .registerDatabase(this.productModel, localStorage.getItem('idToken') ?? '')
                       .subscribe(
-                        (resp) => {
+                        (resp: any) => {
                           if (resp['name'] != '') {
                             Sweetalert.fnc(
                               'success',
@@ -1792,7 +1792,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                       .patchDataAuth(
                         this.idProduct,
                         this.productModel,
-                        localStorage.getItem('idToken')
+                        localStorage.getItem('idToken') ?? ''
                       )
                       .subscribe(
                         (resp) => {

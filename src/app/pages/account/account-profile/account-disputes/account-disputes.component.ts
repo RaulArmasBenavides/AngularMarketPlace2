@@ -70,13 +70,15 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
           /*=============================================
                     Traemos el usuario de la disputa
                     =============================================*/
-          this.usersService.getFilterData('username', resp[i].transmitter).subscribe((resp) => {
-            if (Object.keys(resp).length > 0) {
-              for (const i in resp) {
-                this.userDispute.push(resp[i]);
+          this.usersService
+            .getFilterData('username', resp[i].transmitter)
+            .subscribe((resp: any) => {
+              if (Object.keys(resp).length > 0) {
+                for (const i in resp) {
+                  this.userDispute.push(resp[i]);
+                }
               }
-            }
-          });
+            });
         }
       }
 
@@ -90,7 +92,7 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
     Responder Disputa
     =============================================*/
 
-  answerDispute(idDispute) {
+  answerDispute(idDispute: any) {
     this.idDispute = idDispute;
 
     /*=============================================
@@ -125,9 +127,9 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
     };
 
     this.disputesService
-      .patchDataAuth(this.idDispute, body, localStorage.getItem('idToken'))
+      .patchDataAuth(this.idDispute, body, localStorage.getItem('idToken') ?? '')
       .subscribe(
-        (resp) => {
+        (resp: any) => {
           if (resp['name'] != '') {
             /*=============================================
 	            Enviar notificación por correo electrónico
@@ -143,7 +145,7 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
             formData.append('address', this.userDispute[0].email);
             formData.append('name', this.userDispute[0].username);
 
-            this.http.post(this.email, formData).subscribe((resp) => {
+            this.http.post(this.email, formData).subscribe((resp: any) => {
               if (resp['status'] == 200) {
                 Sweetalert.fnc('success', 'The dispute has been answered', 'account/disputes');
               }

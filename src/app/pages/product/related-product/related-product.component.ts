@@ -95,7 +95,7 @@ export class RelatedProductComponent implements OnInit {
 	        	Price
 	        	=============================================*/
 
-        this.price.push(DinamicPrice.fnc(this.products[index]));
+        // this.price.push(DinamicPrice.fnc(this.products[index]));
 
         this.preload = false;
       }
@@ -109,7 +109,7 @@ export class RelatedProductComponent implements OnInit {
       setTimeout(function () {
         OwlCarouselConfig.fnc();
 
-        CarouselNavigation.fnc();
+        // CarouselNavigation.fnc();
 
         Rating.fnc();
       }, 1000);

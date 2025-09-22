@@ -68,7 +68,7 @@ export class HomeShowcaseComponent implements OnInit {
 	Función que nos avisa cuando finaliza el renderizado de Angular
 	=============================================*/
 
-  callback(indexes) {
+  callback(indexes: any) {
     if (this.render) {
       this.render = false;
 
@@ -84,31 +84,33 @@ export class HomeShowcaseComponent implements OnInit {
         /*=============================================
 				Tomamos la colección de las sub-categorías filtrando con los nombres de categoría
 				=============================================*/
-        this.subCategoriesService.getFilterData('category', category.name).subscribe((resp) => {
-          let i;
+        this.subCategoriesService
+          .getFilterData('category', category.name)
+          .subscribe((resp: any) => {
+            let i;
 
-          for (i in resp) {
-            arraySubCategories.push({
-              category: resp[i].category,
-              subcategory: resp[i].name,
-              url: resp[i].url
-            });
-          }
+            for (i in resp) {
+              arraySubCategories.push({
+                category: resp[i].category,
+                subcategory: resp[i].name,
+                url: resp[i].url
+              });
+            }
 
-          /*=============================================
+            /*=============================================
 					Recorremos el array de objetos nuevo para buscar coincidencias con los nombres de categorías
 					=============================================*/
 
-          for (i in arraySubCategories) {
-            if (category.name == arraySubCategories[i].category) {
-              $(`[category-showcase='${category.name}']`).append(`
+            for (i in arraySubCategories) {
+              if (category.name == arraySubCategories[i].category) {
+                $(`[category-showcase='${category.name}']`).append(`
 
 								<li><a href="products/${arraySubCategories[i].url}">${arraySubCategories[i].subcategory}</a></li>
 
 							`);
+              }
             }
-          }
-        });
+          });
 
         /*=============================================
 				Tomamos la colección de los productos filtrando con las url's de categorías

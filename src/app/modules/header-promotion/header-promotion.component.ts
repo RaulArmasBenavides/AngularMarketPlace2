@@ -10,17 +10,17 @@ import { ProductsService } from '../../services/products.service';
 })
 export class HeaderPromotionComponent implements OnInit {
   path: string = Path.url;
-  top_banner: object = null;
-  category: object = null;
-  url: object = null;
+  top_banner: any = null;
+  category: any = null;
+  url: string = '';
   preload: boolean = false;
 
-  constructor(private productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) {}
 
   ngOnInit(): void {
     this.preload = true;
 
-    this.productsService.getData().subscribe((resp) => {
+    this.productsService.getData().subscribe((resp: any) => {
       // console.log("resp", resp[Object.keys(resp)[1]]);
 
       /*=============================================

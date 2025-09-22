@@ -83,17 +83,17 @@ export class ReviewsComponent implements OnInit {
       //Comparamos si tanto el primer índice como el último índice del mismo valor son diferentes, Si es diferente significa que se repite varias veces, si son iguales significa que nunca se repite
       if (first_index !== last_index) {
         //incrementamos valores repetidos en las propiedades del objeto Star
-        objectStar[value] += 1;
+        // objectStar[value] += 1;
       } else {
         //incrementamos valores que no se repiten en las propiedades del objeto Star
-        objectStar[value] += 1;
+        // objectStar[value] += 1;
       }
     });
 
     //Hacemos un recorrido por cada uno de los renglones de estrellas
     for (let i = 5; i > 0; i--) {
       //Hacemos una regla de 3: la cantidad que suma cada estella multiplicado por 100 dividido la cantidad de calificaciones
-      let starPercentage = Math.round((objectStar[i] * 100) / arrayReview.length);
+      let starPercentage = 60//Math.round((objectStar[i] * 100) / arrayReview.length);
 
       if (isNaN(starPercentage)) {
         starPercentage = 0;

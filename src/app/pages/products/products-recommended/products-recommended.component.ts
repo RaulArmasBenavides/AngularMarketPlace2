@@ -33,10 +33,10 @@ export class ProductsRecommendedComponent implements OnInit {
   notFound: boolean = false;
 
   constructor(
-    private productsService: ProductsService,
-    private activateRoute: ActivatedRoute,
-    private usersService: UsersService,
-    private router: Router
+    private readonly productsService: ProductsService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly usersService: UsersService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -110,7 +110,7 @@ export class ProductsRecommendedComponent implements OnInit {
 
         this.reviews.push(DinamicReviews.fnc(this.rating[index]));
 
-        this.price.push(DinamicPrice.fnc(this.recommendedItems[index]));
+        // this.price.push(DinamicPrice.fnc(this.recommendedItems[index]));
 
         this.preload = false;
 

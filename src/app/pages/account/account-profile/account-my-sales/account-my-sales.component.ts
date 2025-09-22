@@ -71,7 +71,7 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
 					Traemos las ventas relacionadas a las órdenes
 					=============================================*/
 
-          this.salesService.getFilterData('id_order', i).subscribe((resp2) => {
+          this.salesService.getFilterData('id_order', i).subscribe((resp2:any) => {
             if (Object.keys(resp2).length > 0) {
               for (const f in resp2) {
                 load++;
@@ -127,7 +127,7 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
 										Sumamos ventas realizadas en la misma fecha
 										=============================================*/
 
-                    let graph = [];
+                    let graph:any[] = [];
 
                     this.graph.reduce((res, value) => {
                       if (!res[value.date]) {

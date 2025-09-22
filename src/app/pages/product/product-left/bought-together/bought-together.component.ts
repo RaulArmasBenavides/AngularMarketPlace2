@@ -25,9 +25,9 @@ export class BoughtTogetherComponent implements OnInit {
   render: boolean = true;
 
   constructor(
-    private productsService: ProductsService,
-    private usersService: UsersService,
-    private router: Router
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class BoughtTogetherComponent implements OnInit {
 	Declaramos función para mostrar los productos recomendados
 	=============================================*/
 
-  productsFnc(response) {
+  productsFnc(response:any) {
     this.products.push(this.childItem);
 
     /*=============================================
@@ -90,7 +90,7 @@ export class BoughtTogetherComponent implements OnInit {
       /*=============================================
 	        Price
 	        =============================================*/
-      this.price.push(DinamicPrice.fnc(this.products[i]));
+      // this.price.push(DinamicPrice.fnc(this.products[i]));
     }
   }
 
@@ -118,7 +118,7 @@ export class BoughtTogetherComponent implements OnInit {
   	Agregar dos productos a la lista de deseos
     =============================================*/
 
-  addWishlist(product1, product2) {
+  addWishlist(product1:any, product2:any) {
     this.usersService.addWishlist(product1);
 
     let localUsersService = this.usersService;
@@ -132,7 +132,7 @@ export class BoughtTogetherComponent implements OnInit {
 	Función para agregar productos al carrito de compras
 	=============================================*/
 
-  addShoppingCart(product1, unit1, details1, product2, unit2, details2) {
+  addShoppingCart(product1:any, unit1:any, details1:any, product2:any, unit2:any, details2:any) {
     let url = this.router.url;
 
     let item1 = {

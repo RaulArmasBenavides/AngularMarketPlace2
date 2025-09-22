@@ -14,10 +14,10 @@ export class VendorStoreComponent implements OnInit {
   path: string = Path.url;
   store: any[] = [];
 
-  constructor(private storesService: StoresService) {}
+  constructor(private readonly storesService: StoresService) {}
 
   ngOnInit(): void {
-    this.storesService.getFilterData('store', this.childItem).subscribe((resp) => {
+    this.storesService.getFilterData('store', this.childItem).subscribe((resp:any) => {
       for (const i in resp) {
         this.store.push(resp[i]);
       }

@@ -53,7 +53,7 @@ export class ProductBreadcrumbComponent implements OnInit {
     if (this.activateRoute.snapshot.queryParams['coupon'] != undefined) {
       this.storesService
         .getFilterData('url', this.activateRoute.snapshot.queryParams['coupon'])
-        .subscribe((resp) => {
+        .subscribe((resp:any) => {
           for (const i in resp) {
             Cookies.set('coupon', resp[i].url, { expires: 7 });
           }

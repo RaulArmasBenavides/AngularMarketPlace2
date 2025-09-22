@@ -61,7 +61,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
 		Preguntamos si esta tienda tiene mensajes
 		=============================================*/
 
-    this.messagesService.getFilterData('receiver', this.childItem).subscribe((resp) => {
+    this.messagesService.getFilterData('receiver', this.childItem).subscribe((resp:any) => {
       if (Object.keys(resp).length > 0) {
         for (const i in resp) {
           load++;
@@ -148,7 +148,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
             formData.append('address', this.userMessage[0].email);
             formData.append('name', this.userMessage[0].username);
 
-            this.http.post(this.email, formData).subscribe((resp) => {
+            this.http.post(this.email, formData).subscribe((resp:any) => {
               if (resp['status'] == 200) {
                 Sweetalert.fnc('success', 'The message has been answered', 'account/messages');
               }

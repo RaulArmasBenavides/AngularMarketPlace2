@@ -22,10 +22,10 @@ export class ProductRightComponent implements OnInit {
   preload: boolean = false;
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private productsService: ProductsService,
-    private usersService: UsersService,
-    private router: Router
+    private readonly activateRoute: ActivatedRoute,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class ProductRightComponent implements OnInit {
 
     this.productsService
       .getFilterData('url', this.activateRoute.snapshot.params['param'])
-      .subscribe((resp) => {
+      .subscribe((resp:any) => {
         for (const i in resp) {
           this.productsService.getFilterData('store', resp[i].store).subscribe((resp) => {
             this.productsFnc(resp);
@@ -88,7 +88,7 @@ export class ProductRightComponent implements OnInit {
 	        	Price
 	        	=============================================*/
 
-        this.price.push(DinamicPrice.fnc(this.products[index]));
+        // this.price.push(DinamicPrice.fnc(this.products[index]));
 
         this.preload = false;
       }

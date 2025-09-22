@@ -82,7 +82,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
     /*=============================================
   		Traemos las órdenes de compras de este usuario
   		=============================================*/
-    this.ordersService.getFilterData('user', this.childItem).subscribe((resp) => {
+    this.ordersService.getFilterData('user', this.childItem).subscribe((resp:any) => {
       let load = 0;
 
       for (const i in resp) {
@@ -97,7 +97,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 		  		=============================================*/
 
         this.id_order.forEach((order) => {
-          this.disputesService.getFilterData('order', order).subscribe((resp) => {
+          this.disputesService.getFilterData('order', order).subscribe((resp:any) => {
             if (Object.keys(resp).length > 0) {
               let count = 0;
 
@@ -201,7 +201,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 	Función nueva reseña
 	=============================================*/
 
-  newReview(user, url) {
+  newReview(user:any, url:any) {
     /*=============================================
 		Almaceno el usuario
 		=============================================*/
@@ -212,7 +212,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 		Traemos el producto para capturar su ID
 		=============================================*/
 
-    this.usersService.getFilterData('username', user).subscribe((resp) => {
+    this.usersService.getFilterData('username', user).subscribe((resp:any) => {
       for (const i in resp) {
         this.picture = resp[i].picture;
         this.method = resp[i].method;

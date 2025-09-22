@@ -32,11 +32,11 @@ export class HeaderMobileComponent implements OnInit {
   lang: boolean = false;
 
   constructor(
-    private categoriesService: CategoriesService,
-    private subCategoriesService: SubCategoriesService,
-    private productsService: ProductsService,
-    private usersService: UsersService,
-    private router: Router
+    private readonly categoriesService: CategoriesService,
+    private readonly subCategoriesService: SubCategoriesService,
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -56,8 +56,8 @@ export class HeaderMobileComponent implements OnInit {
         this.authValidate = true;
 
         this.usersService
-          .getFilterData('idToken', localStorage.getItem('idToken'))
-          .subscribe((resp) => {
+          .getFilterData('idToken', localStorage.getItem('idToken') ?? '')
+          .subscribe((resp: any) => {
             for (const i in resp) {
               if (resp[i].picture != undefined) {
                 if (resp[i].method != 'direct') {
@@ -77,7 +77,7 @@ export class HeaderMobileComponent implements OnInit {
 		Tomamos la data de las categorías
 		=============================================*/
 
-    this.categoriesService.getData().subscribe((resp) => {
+    this.categoriesService.getData().subscribe((resp: any) => {
       /*=============================================
 			Recorrido por el objeto de la data de categorías
 			=============================================*/
@@ -108,7 +108,7 @@ export class HeaderMobileComponent implements OnInit {
 		=============================================*/
 
     if (localStorage.getItem('list')) {
-      let list = JSON.parse(localStorage.getItem('list'));
+      let list = JSON.parse(localStorage.getItem('list') ?? '');
 
       this.totalShoppingCart = list.length;
 
@@ -121,7 +121,7 @@ export class HeaderMobileComponent implements OnInit {
 				Filtramos los productos del carrito de compras
 				=============================================*/
 
-        this.productsService.getFilterData('url', list[i].product).subscribe((resp) => {
+        this.productsService.getFilterData('url', list[i].product).subscribe((resp:any) => {
           for (const f in resp) {
             let details = `<div class="list-details small text-secondary">`;
 
@@ -160,7 +160,7 @@ export class HeaderMobileComponent implements OnInit {
               image: resp[f].image,
               delivery_time: resp[f].delivery_time,
               quantity: list[i].unit,
-              price: DinamicPrice.fnc(resp[f])[0],
+              // price: DinamicPrice.fnc(resp[f])[0],
               shipping: Number(resp[f].shipping) * Number(list[i].unit),
               details: details,
               listDetails: list[i].details
@@ -201,7 +201,7 @@ export class HeaderMobileComponent implements OnInit {
 				Tomamos la colección de las sub-categorías filtrando con los nombres de categoría
 				=============================================*/
 
-        this.subCategoriesService.getFilterData('category', category).subscribe((resp) => {
+        this.subCategoriesService.getFilterData('category', category).subscribe((resp: any) => {
           /*=============================================
 					Hacemos un recorrido por la colección general de subcategorias y clasificamos las subcategorias y url
 					de acuerdo a la categoría que correspondan
@@ -275,11 +275,11 @@ export class HeaderMobileComponent implements OnInit {
 	Función para remover productos de la lista de carrito de compras
 	=============================================*/
 
-  removeProduct(product, details) {
+  removeProduct(product: any, details: any) {
     if (localStorage.getItem('list')) {
-      let shoppingCart = JSON.parse(localStorage.getItem('list'));
+      let shoppingCart = JSON.parse(localStorage.getItem('list') ?? '');
 
-      shoppingCart.forEach((list, index) => {
+      shoppingCart.forEach((list: any, index: any) => {
         if (list.product == product && list.details == details.toString()) {
           shoppingCart.splice(index, 1);
         }
@@ -299,7 +299,7 @@ export class HeaderMobileComponent implements OnInit {
 	Función para cambiar de idioma
 	=============================================*/
 
-  changeLang(lang) {
+  changeLang(lang: string) {
     if (lang == 'es') {
       this.lang = true;
     } else {

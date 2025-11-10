@@ -390,94 +390,96 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       			Traemos la data de productos de acuerdo al nombre de la tienda
       			=============================================*/
 
-        this.productsService.getFilterDataStore('store', this.store[0].store).subscribe((resp:any) => {
-          /*=============================================
+        this.productsService
+          .getFilterDataStore('store', this.store[0].store)
+          .subscribe((resp: any) => {
+            /*=============================================
       				Almacenamos la información del producto
       				=============================================*/
 
-          for (const i in resp) {
-            this.loadProduct++;
+            for (const i in resp) {
+              this.loadProduct++;
 
-            this.products.push(resp[i]);
+              this.products.push(resp[i]);
 
-            this.idProducts = Object.keys(resp).toString().split(',');
-          }
+              this.idProducts = Object.keys(resp).toString().split(',');
+            }
 
-          /*=============================================
+            /*=============================================
       				Damos formato a la data de productos
       				=============================================*/
 
-          this.products.map((product, index) => {
-            product.feedback = JSON.parse(product.feedback);
-            product.details = JSON.parse(product.details);
-            product.gallery = JSON.parse(product.gallery);
-            product.horizontal_slider = JSON.parse(product.horizontal_slider);
-            product.summary = JSON.parse(product.summary);
-            product.tags = JSON.parse(product.tags);
-            product.top_banner = JSON.parse(product.top_banner);
+            this.products.map((product, index) => {
+              product.feedback = JSON.parse(product.feedback);
+              product.details = JSON.parse(product.details);
+              product.gallery = JSON.parse(product.gallery);
+              product.horizontal_slider = JSON.parse(product.horizontal_slider);
+              product.summary = JSON.parse(product.summary);
+              product.tags = JSON.parse(product.tags);
+              product.top_banner = JSON.parse(product.top_banner);
 
-            /*=============================================
+              /*=============================================
 	      				Damos formato a las ofertas
 	      				=============================================*/
 
-            if (product.offer != '') {
-              product.offer = JSON.parse(product.offer);
-            } else {
-              product.offer = [];
-            }
+              if (product.offer != '') {
+                product.offer = JSON.parse(product.offer);
+              } else {
+                product.offer = [];
+              }
 
-            /*=============================================
+              /*=============================================
 	      				Damos formato a las especificaciones
 	      				=============================================*/
 
-            if (product.specification != '' && product.specification != '[{\"\":[]}]') {
-              product.specification = JSON.parse(product.specification);
-            } else {
-              product.specification = [];
-            }
+              if (product.specification != '' && product.specification != '[{\"\":[]}]') {
+                product.specification = JSON.parse(product.specification);
+              } else {
+                product.specification = [];
+              }
 
-            /*=============================================
+              /*=============================================
 	      				Damos formato al video
 	      				=============================================*/
 
-            product.video = JSON.parse(product.video);
+              product.video = JSON.parse(product.video);
 
-            if (product.video.length > 0) {
-              if (product.video[0] == 'youtube') {
-                product.video = `https://www.youtube.com/embed/${product.video[1]}?rel=0&autoplay=0`;
+              if (product.video.length > 0) {
+                if (product.video[0] == 'youtube') {
+                  product.video = `https://www.youtube.com/embed/${product.video[1]}?rel=0&autoplay=0`;
+                }
+
+                if (product.video[0] == 'vimeo') {
+                  product.video = `https://player.vimeo.com/video/${product.video[1]}`;
+                }
               }
 
-              if (product.video[0] == 'vimeo') {
-                product.video = `https://player.vimeo.com/video/${product.video[1]}`;
-              }
-            }
-
-            /*=============================================
+              /*=============================================
 	      				Damos formato a las reseñas
 	      				=============================================*/
 
-            this.totalReviews.push(JSON.parse(product.reviews));
+              this.totalReviews.push(JSON.parse(product.reviews));
 
-            let rating = DinamicRating.fnc(product);
-            product.reviews = DinamicReviews.fnc(rating);
+              let rating = DinamicRating.fnc(product);
+              product.reviews = DinamicReviews.fnc(rating);
 
-            return product;
-          });
+              return product;
+            });
 
-          /*=============================================
+            /*=============================================
 					Pintar el render en DataTable
 					=============================================*/
 
-          if (this.loadProduct == this.products.length) {
-            this.dtTrigger.next(null);
-          }
-        });
+            if (this.loadProduct == this.products.length) {
+              this.dtTrigger.next(null);
+            }
+          });
 
         /*=============================================
                 Traer data de categorías
                 =============================================*/
 
-        this.categoriesService.getData().subscribe((resp) => {
+        this.categoriesService.getData().subscribe((resp: any) => {
           for (const i in resp) {
             this.categories.push(resp[i]);
           }
@@ -505,7 +507,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                 Agregar Imagen Slide Horizontal por defecto
                 =============================================*/
 
-        this.hSlider['IMG tag'] = `assets/img/products/default/default-horizontal-slider.jpg`;
+        // this.hSlider['IMG tag'] = `assets/img/products/default/default-horizontal-slider.jpg`;
 
         /*=============================================
                 Agregar Imagen Slide Vertical por defecto
@@ -552,7 +554,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             	Agregamos las calificaciones totales de la tienda
             	=============================================*/
 
-        totalReviews.forEach((review:any, index:number) => {
+        totalReviews.forEach((review: any, index: number) => {
           globalRating += review.length;
 
           for (const i in review) {
@@ -927,7 +929,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let data = new FileReader();
       data.readAsDataURL(image);
 
-      $(data).on('load', function (event:any) {
+      $(data).on('load', function (event: any) {
         let path = event.target.result;
 
         $(`.${tagPicture}`).attr('src', path);
@@ -1073,7 +1075,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Traer la data de subcategorías de acuerdo a la categoría seleccionada
     =============================================*/
 
-  changeCategory(input:any) {
+  changeCategory(input: any) {
     let category = input.value.split('_')[0];
 
     this.subCategoriesService.getFilterData('category', category).subscribe((resp: any) => {
@@ -1089,7 +1091,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Adicionar Input's de forma dinámica
     =============================================*/
 
-  addInput(type:any) {
+  addInput(type: any) {
     if (type == 'summary') {
       if (this.summaryGroup.length < 5) {
         this.summaryGroup.push({
@@ -1197,7 +1199,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
       this.summaryGroup = [];
 
-      JSON.parse(resp['summary']).forEach((value) => {
+      JSON.parse(resp['summary']).forEach((value: any) => {
         this.summaryGroup.push({
           input: value
         });
@@ -1209,7 +1211,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
       this.detailsGroup = [];
 
-      JSON.parse(resp['details']).forEach((detail:any) => {
+      JSON.parse(resp['details']).forEach((detail: any) => {
         this.detailsGroup.push({
           title: detail.title,
           value: detail.value
@@ -1222,7 +1224,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
       this.specificationsGroup = [];
 
-      JSON.parse(resp['specification']).forEach((spec:any) => {
+      JSON.parse(resp['specification']).forEach((spec: any) => {
         for (const i in spec) {
           this.specificationsGroup.push({
             type: i,
@@ -1243,7 +1245,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             Cargar la galería del producto
             =============================================*/
 
-      JSON.parse(resp['gallery']).forEach((item) => {
+      JSON.parse(resp['gallery']).forEach((item:any) => {
         this.editGallery.push(item);
       });
 
@@ -1251,13 +1253,13 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             Carga del banner superior del producto
             =============================================*/
 
-      this.topBanner['H3 tag'] = JSON.parse(resp['top_banner'])['H3 tag'];
-      this.topBanner['P1 tag'] = JSON.parse(resp['top_banner'])['P1 tag'];
-      this.topBanner['H4 tag'] = JSON.parse(resp['top_banner'])['H4 tag'];
-      this.topBanner['P2 tag'] = JSON.parse(resp['top_banner'])['P2 tag'];
-      this.topBanner['Span tag'] = JSON.parse(resp['top_banner'])['Span tag'];
-      this.topBanner['Button tag'] = JSON.parse(resp['top_banner'])['Button tag'];
-      this.topBanner['IMG tag'] = JSON.parse(resp['top_banner'])['IMG tag'];
+      // this.topBanner['H3 tag'] = JSON.parse(resp['top_banner'])['H3 tag'];
+      // this.topBanner['P1 tag'] = JSON.parse(resp['top_banner'])['P1 tag'];
+      // this.topBanner['H4 tag'] = JSON.parse(resp['top_banner'])['H4 tag'];
+      // this.topBanner['P2 tag'] = JSON.parse(resp['top_banner'])['P2 tag'];
+      // this.topBanner['Span tag'] = JSON.parse(resp['top_banner'])['Span tag'];
+      // this.topBanner['Button tag'] = JSON.parse(resp['top_banner'])['Button tag'];
+      // this.topBanner['IMG tag'] = JSON.parse(resp['top_banner'])['IMG tag'];
 
       /*=============================================
             Carga del slide horizontal del producto
@@ -1275,7 +1277,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             Carga del video del producto
             =============================================*/
 
-      JSON.parse(resp['video']).forEach((value) => {
+      JSON.parse(resp['video']).forEach((value:any) => {
         this.video.push(value);
       });
 
@@ -1284,7 +1286,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             =============================================*/
 
       if (resp['offer'] != '') {
-        JSON.parse(resp['offer']).forEach((value) => {
+        JSON.parse(resp['offer']).forEach((value: any) => {
           this.offer.push(value);
         });
       }
@@ -1307,7 +1309,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     Removemos foto de la galería
     =============================================*/
 
-  removeGallery(pic) {
+  removeGallery(pic: any) {
     this.editGallery.forEach((name, index) => {
       if (pic == name) {
         this.deleteGallery.push(pic);
@@ -1438,7 +1440,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     for (const i in allImages) {
       const formData = new FormData();
 
-      formData.append('file', allImages[i].file);
+      formData.append('file', allImages[i].file!);
       formData.append('folder', allImages[i].folder);
       formData.append('path', allImages[i].path);
       formData.append('width', allImages[i].width);
@@ -1472,11 +1474,12 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
               const formData = new FormData();
 
-              let fileDelete = `${allImages[i].path}/${allImages[i].folder}/${this.topBanner['IMG tag']}`;
+              // let fileDelete = `${allImages[i].path}/${allImages[i].folder}/${this.topBanner['IMG tag']}`;
+              let fileDelete: any;
 
-              formData.append('fileDelete', fileDelete);
+              // formData.append('fileDelete', fileDelete);
 
-              this.http.post(this.serverDelete, formData).subscribe((resp:any) => {});
+              this.http.post(this.serverDelete, formData).subscribe((resp: any) => {});
             }
 
             // this.topBanner['IMG tag'] = resp['result'];
@@ -1508,11 +1511,11 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
               const formData = new FormData();
 
-              let fileDelete = `${allImages[i].path}/${allImages[i].folder}/${this.hSlider['IMG tag']}`;
+              // let fileDelete = `${allImages[i].path}/${allImages[i].folder}/${this.hSlider['IMG tag']}`;
 
-              formData.append('fileDelete', fileDelete);
+              // formData.append('fileDelete', fileDelete);
 
-              this.http.post(this.serverDelete, formData).subscribe((resp: any) => {});
+              // this.http.post(this.serverDelete, formData).subscribe((resp: any) => {});
             }
 
             // this.hSlider['IMG tag'] = resp['result'];

@@ -1014,7 +1014,7 @@ class="ps-section__content">
                                 name="linkedin"
                                 social="socialNetwork"
                                 pattern="[-\\_\\.\\0-9a-zA-Z]{1,}"
-                                [(ngModel)]="social['linkedin']"
+     
                                 (change)="validate(linkedin)"
                                 #linkedin> 
 
@@ -1040,7 +1040,7 @@ class="ps-section__content">
                                 name="youtube"
                                 social="socialNetwork"
                                 pattern="[-\\_\\.\\0-9a-zA-Z]{1,}"
-                                [(ngModel)]="social['youtube']"
+ 
                                 (change)="validate(youtube)"
                                 #youtube> 
 
@@ -1259,9 +1259,9 @@ class="ps-section__content">
                             class="formProduct"                               
                             name="productDescription"
                             [(ngModel)]="productModel.description"   
-                            [ngxSummernote]="config"
+      
                             required></textarea>
-
+                      <!-- [ngxSummernote]="config" -->
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">Please fill out this field.</div>
 
@@ -1646,7 +1646,7 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Disccount"
                                     name="topBannerP1Tag"
-                                    [(ngModel)]="topBanner['P1 tag']"
+                               
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(topBannerP1Tag)" 
@@ -1654,7 +1654,7 @@ class="ps-section__content">
                                     tags="tags"
                                     required
                                     >
-
+     <!-- [(ngModel)]="topBanner['P1 tag']" -->
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
 
@@ -1705,7 +1705,7 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Enter Promotion"
                                     name="topBannerP2Tag"
-                                    [(ngModel)]="topBanner['P2 tag']"
+              
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(topBannerP2Tag)" 
@@ -1713,7 +1713,7 @@ class="ps-section__content">
                                     tags="tags"
                                     required
                                     >
-
+                      <!-- [(ngModel)]="topBanner['P2 tag']" -->
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
 
@@ -1735,7 +1735,7 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Sale2019"
                                     name="topBannerSpanTag"
-                                    [(ngModel)]="topBanner['Span tag']"
+        
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(topBannerSpanTag)" 
@@ -1743,7 +1743,7 @@ class="ps-section__content">
                                     tags="tags"
                                     required
                                     >
-
+                            <!-- [(ngModel)]="topBanner['Span tag']" -->
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
 
@@ -1789,14 +1789,14 @@ class="ps-section__content">
                                     <div class="form-group__content">
 
                                         <label class="pb-3" for="topBanner">
-
+<!-- 
                                             <img 
                                             *ngIf="!editProductAction"
                                             src="{{topBanner['IMG tag']}}" class="img-fluid changeTopBanner">
 
                                             <img 
                                             *ngIf="editProductAction"
-                                            src="{{path}}img/products/{{productModel.category}}/top/{{topBanner['IMG tag']}}" class="img-fluid changeTopBanner">
+                                            src="{{path}}img/products/{{productModel.category}}/top/{{topBanner['IMG tag']}}" class="img-fluid changeTopBanner"> -->
 
                                         </label>
 
@@ -1981,7 +1981,7 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Combo Super Cool"
                                     name="hSliderH3_2Tag"
-                                    [(ngModel)]="hSlider['H3-2 tag']"
+                           
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(hSliderH3_2Tag)" 
@@ -1989,7 +1989,7 @@ class="ps-section__content">
                                     tags="tags"
                                     required
                                     >
-
+         <!-- [(ngModel)]="hSlider['H3-2 tag']" -->
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
 
@@ -2011,7 +2011,7 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Up to"
                                     name="hSliderH3_3Tag"
-                                    [(ngModel)]="hSlider['H3-3 tag']"
+                               
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(hSliderH3_3Tag)" 
@@ -2019,6 +2019,8 @@ class="ps-section__content">
                                     tags="tags"
                                     required
                                     >
+
+                                         <!-- [(ngModel)]="hSlider['H3-3 tag']" -->
 
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
@@ -2041,7 +2043,7 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: 40%"
                                     name="hSliderH3_4sTag"
-                                    [(ngModel)]="hSlider['H3-4s tag']"
+                      
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(hSliderH3_4sTag)" 
@@ -2049,7 +2051,7 @@ class="ps-section__content">
                                     tags="tags"
                                     required
                                     >
-
+              <!-- [(ngModel)]="hSlider['H3-4s tag']" -->
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
 
@@ -2073,7 +2075,7 @@ class="ps-section__content">
                                     class="form-control formProduct"
                                     placeholder="Ex: Shop now"
                                     name="hSliderButtonTag"
-                                    [(ngModel)]="hSlider['Button tag']"
+                           
                                     pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                                     maxlength="50"
                                     (change)="validate(hSliderButtonTag)" 
@@ -2081,6 +2083,8 @@ class="ps-section__content">
                                     tags="tags"
                                     required
                                     >
+
+                                             <!-- [(ngModel)]="hSlider['Button tag']" -->
 
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
@@ -2099,13 +2103,13 @@ class="ps-section__content">
 
                                         <label class="pb-3" for="hSlider">
 
-                                            <img 
+                                            <!-- <img 
                                             *ngIf="!editProductAction"
-                                            src="{{hSlider['IMG tag']}}" class="img-fluid changeHSlider">
+                                            src="{{hSlider['IMG tag']}}" class="img-fluid changeHSlider"> -->
 
-                                            <img 
+                                            <!-- <img 
                                             *ngIf="editProductAction"
-                                            src="{{path}}img/products/{{productModel.category}}/horizontal/{{hSlider['IMG tag']}}" class="img-fluid changeHSlider">
+                                            src="{{path}}img/products/{{productModel.category}}/horizontal/{{hSlider['IMG tag']}}" class="img-fluid changeHSlider"> -->
 
                                         </label>
 

@@ -14,7 +14,7 @@ import { OrdersService } from '../../services/orders.service';
 import { SalesService } from '../../services/sales.service';
 import { StoresService } from '../../services/stores.service';
 
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 import { Md5 } from 'md5-typescript';
 
@@ -166,7 +166,8 @@ export class CheckoutComponent implements OnInit {
               image: resp[f].image,
               delivery_time: resp[f].delivery_time,
               quantity: list[i].unit,
-              price: DinamicPrice.fnc(resp[f])[0],
+              // price: DinamicPrice.fnc(resp[f])[0],
+              price: 0,
               shipping: Number(resp[f].shipping) * Number(list[i].unit),
               details: details,
               listDetails: list[i].details,
@@ -186,7 +187,13 @@ export class CheckoutComponent implements OnInit {
 	Guardar datos de envíos del usuario
 	=============================================*/
 
-  saveAddressFnc(inputCountry, inputCity, inputPhone, inputAddress, inputSaveAddress) {
+  saveAddressFnc(
+    inputCountry: any,
+    inputCity: any,
+    inputPhone: any,
+    inputAddress: any,
+    inputSaveAddress: any
+  ) {
     if (this.saveAddress) {
       if (
         inputCountry.value != '' &&
@@ -309,7 +316,7 @@ export class CheckoutComponent implements OnInit {
 						Enviar actualización de cantidad de producto vendido a la base de datos
 						=============================================*/
 
-            localProductsService.getFilterData('url', product.url).subscribe((resp) => {
+            localProductsService.getFilterData('url', product.url).subscribe((resp: any) => {
               for (const i in resp) {
                 let id = Object.keys(resp).toString();
 
@@ -421,7 +428,7 @@ export class CheckoutComponent implements OnInit {
                   };
 
                   localSalesService
-                    .registerDatabase(body, localStorage.getItem('idToken'))
+                    .registerDatabase(body, localStorage.getItem('idToken') ?? '')
                     .subscribe((resp) => {});
                 }
               });
@@ -503,7 +510,7 @@ export class CheckoutComponent implements OnInit {
                 };
 
                 this.productsService
-                  .patchDataAuth(id, value, localStorage.getItem('idToken'))
+                  .patchDataAuth(id, value, localStorage.getItem('idToken') ?? '')
                   .subscribe((resp) => {});
               }
             });
@@ -568,7 +575,7 @@ export class CheckoutComponent implements OnInit {
             };
 
             this.ordersService
-              .registerDatabase(body, localStorage.getItem('idToken'))
+              .registerDatabase(body, localStorage.getItem('idToken') ?? '')
               .subscribe((resp: any) => {
                 if (resp['name'] != '') {
                   /*=============================================
@@ -608,7 +615,7 @@ export class CheckoutComponent implements OnInit {
                   };
 
                   this.salesService
-                    .registerDatabase(body, localStorage.getItem('idToken'))
+                    .registerDatabase(body, localStorage.getItem('idToken') ?? '')
                     .subscribe((resp: any) => {});
                 }
               });
@@ -756,8 +763,8 @@ export class CheckoutComponent implements OnInit {
         };
 
         this.ordersService
-          .registerDatabase(body, localStorage.getItem('idToken'))
-          .subscribe((resp) => {
+          .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+          .subscribe((resp: any) => {
             if (resp['name'] != '') {
               idOrders.push(resp['name']);
 
@@ -798,8 +805,8 @@ export class CheckoutComponent implements OnInit {
               };
 
               this.salesService
-                .registerDatabase(body, localStorage.getItem('idToken'))
-                .subscribe((resp) => {
+                .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+                .subscribe((resp: any) => {
                   if (resp['name'] != '') {
                     idSales.push(resp['name']);
                   }
@@ -957,7 +964,7 @@ export class CheckoutComponent implements OnInit {
 						Enviar actualización de cantidad de producto vendido a la base de datos
 						=============================================*/
 
-            localProductsService.getFilterData('url', product.url).subscribe((resp) => {
+            localProductsService.getFilterData('url', product.url).subscribe((resp: any) => {
               for (const i in resp) {
                 let id = Object.keys(resp).toString();
 
@@ -1033,7 +1040,7 @@ export class CheckoutComponent implements OnInit {
 
             localOrdersService
               .registerDatabase(body, localStorage.getItem('idToken') ?? '')
-              .subscribe((resp) => {
+              .subscribe((resp: any) => {
                 if (resp['name'] != '') {
                   /*=============================================
 								Separamos la comisión del Marketplace y el pago a la tienda del precio total de cada producto

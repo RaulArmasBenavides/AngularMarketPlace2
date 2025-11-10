@@ -671,10 +671,10 @@ Nav Account
                   class="formProduct"
                   name="productDescription"
                   [(ngModel)]="product.description"
-                  [ngxSummernote]="config"
+         
                   required
                 ></textarea>
-
+         <!-- [ngxSummernote]="config" -->
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">Please fill out this field.</div>
               </div>
@@ -1060,7 +1060,7 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: Enter Promotion"
                       name="topBannerP2Tag"
-                      [(ngModel)]="topBanner['P2 tag']"
+               
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerP2Tag)"
@@ -1068,7 +1068,7 @@ Nav Account
                       tags="tags"
                       required
                     />
-
+       <!-- [(ngModel)]="topBanner['P2 tag']" -->
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                   </div>
@@ -1087,7 +1087,7 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: Sale2019"
                       name="topBannerSpanTag"
-                      [(ngModel)]="topBanner['Span tag']"
+    
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerSpanTag)"
@@ -1095,7 +1095,7 @@ Nav Account
                       tags="tags"
                       required
                     />
-
+                  <!-- [(ngModel)]="topBanner['Span tag']" -->
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                   </div>
@@ -1276,7 +1276,7 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: Combo Super Cool"
                       name="hSliderH3_2Tag"
-                      [(ngModel)]="hSlider['H3-2 tag']"
+            
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(hSliderH3_2Tag)"
@@ -1284,6 +1284,8 @@ Nav Account
                       tags="tags"
                       required
                     />
+
+                              <!-- [(ngModel)]="hSlider['H3-2 tag']" -->
 
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field.</div>

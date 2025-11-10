@@ -16,7 +16,9 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2022",
-    "lib": ["es2022", "dom"]
+    "lib": ["es2022", "dom"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

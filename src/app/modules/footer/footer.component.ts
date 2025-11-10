@@ -29,7 +29,7 @@ export class FooterComponent implements OnInit {
 		Tomamos la data de las categorías
 		=============================================*/
 
-    this.categoriesService.getData().subscribe((resp) => {
+    this.categoriesService.getData().subscribe((resp:any) => {
       let i;
 
       for (i in resp) {
@@ -63,7 +63,7 @@ export class FooterComponent implements OnInit {
 				Tomamos la colección de las sub-categorías filtrando con los nombres de categoría
 				=============================================*/
 
-        this.subCategoriesService.getFilterData('category', category).subscribe((resp) => {
+        this.subCategoriesService.getFilterData('category', category).subscribe((resp:any) => {
           /*=============================================
 					Hacemos un recorrido por la colección general de subcategorias y clasificamos las subcategorias y url
 					de acuerdo a la categoría que correspondan

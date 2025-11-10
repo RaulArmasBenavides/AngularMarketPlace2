@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Path } from '../../config.js';
-
+import { Path } from 'src/app/config';
+ 
 @Component({
   selector: 'app-become-a-vendor',
   templateUrl: './become-a-vendor.component.html',

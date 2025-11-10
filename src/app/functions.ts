@@ -168,7 +168,7 @@ export const Search = {
 
 export const Tabs = {
   fnc(): void {
-    $('.ps-tab-list  li > a ').on('click', function (this: HTMLElement,e: Event) {
+    $('.ps-tab-list  li > a ').on('click', function (this: HTMLElement, e: Event) {
       e.preventDefault();
       const target = $(this).attr('href');
       $(this).closest('li').siblings('li').removeClass('active');
@@ -176,7 +176,7 @@ export const Tabs = {
       $(target).addClass('active').siblings('.ps-tab').removeClass('active');
     });
 
-    $('.ps-tab-list.owl-slider .owl-item a').on('click', function (this: HTMLElement,e: Event) {
+    $('.ps-tab-list.owl-slider .owl-item a').on('click', function (this: HTMLElement, e: Event) {
       e.preventDefault();
       const target = $(this).attr('href');
       $(this).closest('.owl-item').siblings('.owl-item').removeClass('active');
@@ -319,7 +319,7 @@ export const Rating = {
 export const Pagination = {
   fnc(): void {
     if ($('.pagination').length > 0) {
-      $('.pagination a').on('click', function (this: HTMLElement,e: Event) {
+      $('.pagination a').on('click', function (this: HTMLElement, e: Event) {
         e.preventDefault();
         const page = $(this).attr('href');
         if (page) {
@@ -457,7 +457,7 @@ export const ProductLightbox = {
     }
 
     // Fallback simple
-    $(sel).on('click', function (this: HTMLElement,e: Event) {
+    $(sel).on('click', function (this: HTMLElement, e: Event) {
       const href = ($(this).attr('href') || $(this).data('src')) as string;
       if (!href) return;
       e.preventDefault();
@@ -474,7 +474,7 @@ export const ProductLightbox = {
    ============================================= */
 export const Quantity = {
   fnc(): void {
-    $(document).on('click', '.qty-inc, .qty-dec', function (this: HTMLElement,e: Event) {
+    $(document).on('click', '.qty-inc, .qty-dec', function (this: HTMLElement, e: Event) {
       e.preventDefault();
       const isInc = $(this).hasClass('qty-inc');
       const container = $(this).closest('.qty');
@@ -516,7 +516,7 @@ export const Tooltip = {
    ============================================= */
 export const Share = {
   fnc(): void {
-    $(document).on('click', '[data-share]', async function (this: HTMLElement,e: Event) {
+    $(document).on('click', '[data-share]', async function (this: HTMLElement, e: Event) {
       e.preventDefault();
       const el = $(this);
       const data = {
@@ -554,5 +554,121 @@ export const Share = {
         }
       }
     });
+  }
+};
+
+/* =============================================
+   Datepicker: inicializa si hay plugin jQuery
+   Soporta: jQuery UI datepicker, bootstrap-datepicker
+   Fallback: no hace nada (usa <input type="date"> nativo)
+   ============================================= */
+export const Datepicker = {
+  fnc(): void {
+    const hasJqui = ($ as any).fn && ($ as any).fn.datepicker; // jQuery UI
+    const hasBs = ($ as any).fn && ($ as any).fn.bootstrapDP; // alias eventual
+    const hasBs2 = ($ as any).fn && ($ as any).fn.datetimepicker; // tempusdominus, etc.
+
+    const $inputs = $('.datepicker, [data-datepicker]');
+
+    if (!($inputs && $inputs.length)) return;
+
+    if (hasJqui) {
+      $inputs.each(function (this: HTMLElement) {
+        const el = $(this);
+        el.datepicker({
+          dateFormat: el.data('format') || 'yy-mm-dd',
+          changeMonth: true,
+          changeYear: true
+        });
+      });
+      return;
+    }
+
+    if (hasBs || hasBs2) {
+      $inputs.each(function (this: HTMLElement) {
+        const el = $(this);
+        // Intenta bootstrap-datepicker si existe
+        if (($ as any).fn.bootstrapDP) {
+          (el as any).bootstrapDP({
+            format: el.data('format') || 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+          });
+        } else if (($ as any).fn.datetimepicker) {
+          (el as any).datetimepicker({
+            format: el.data('format') || 'YYYY-MM-DD',
+            icons: { time: 'fa fa-clock' }
+          });
+        }
+      });
+      return;
+    }
+
+    // Fallback: no hay plugin; confía en <input type="date">
+    console.warn('[Datepicker] No se encontró plugin; usando input nativo.');
+  }
+};
+
+/* =============================================
+   ChartJs: thin wrapper sobre window.Chart
+   Uso:
+     ChartJs.render('#miCanvas', { type:'bar', data:{...}, options:{...} })
+   o inicialización por data-attrs:
+     <canvas data-chart='{"type":"bar","data":{...}}'></canvas>
+   ============================================= */
+export const ChartJs = {
+  render(selectorOrCanvas: string | HTMLCanvasElement, config: any): any {
+    if (typeof (window as any).Chart === 'undefined') {
+      console.warn('[ChartJs] Chart.js no está cargado en window.Chart');
+      return null;
+    }
+    const canvas =
+      typeof selectorOrCanvas === 'string'
+        ? (document.querySelector(selectorOrCanvas) as HTMLCanvasElement)
+        : selectorOrCanvas;
+
+    if (!canvas) {
+      console.warn('[ChartJs] Canvas no encontrado para selector:', selectorOrCanvas);
+      return null;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+
+    // Guarda instancia para poder destruir luego
+    const prev: any = (canvas as any).__chartInstance__;
+    if (prev && typeof prev.destroy === 'function') prev.destroy();
+
+    const chart = new (window as any).Chart(ctx, config);
+    (canvas as any).__chartInstance__ = chart;
+    return chart;
+  },
+
+  initFromDataAttrs(rootSelector = 'canvas[data-chart]'): void {
+    if (typeof (window as any).Chart === 'undefined') {
+      console.warn('[ChartJs] Chart.js no está cargado en window.Chart');
+      return;
+    }
+    const nodes = document.querySelectorAll<HTMLCanvasElement>(rootSelector);
+    nodes.forEach((node) => {
+      try {
+        const cfgStr = node.getAttribute('data-chart');
+        if (!cfgStr) return;
+        const cfg = JSON.parse(cfgStr);
+        this.render(node, cfg);
+      } catch (e) {
+        console.error('[ChartJs] Config inválida en data-chart:', e);
+      }
+    });
+  },
+
+  destroy(selectorOrCanvas: string | HTMLCanvasElement): void {
+    const canvas =
+      typeof selectorOrCanvas === 'string'
+        ? (document.querySelector(selectorOrCanvas) as HTMLCanvasElement)
+        : selectorOrCanvas;
+
+    const inst: any = (canvas as any)?.__chartInstance__;
+    if (inst && typeof inst.destroy === 'function') inst.destroy();
+    if (canvas) (canvas as any).__chartInstance__ = null;
   }
 };

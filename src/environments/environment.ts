@@ -8,8 +8,10 @@ export const environment = {
   payuMerchantId: '2224234',
   payuApiKey: 'asdasd',
   firebaseApiKey: 'sdfsfdsfsdfdsfsdfsdasdfsdadfeee',
-  mpPublicKey:'mercad',
-  
+  mpPublicKey: 'mercad',
+  mpAccessToken: 'mpAccessToken',
+  payuAccountId: 'payuAccountId',
+
   firebase: {
     apiKey: 'api-key',
     authDomain: 'project-id.firebaseapp.com',

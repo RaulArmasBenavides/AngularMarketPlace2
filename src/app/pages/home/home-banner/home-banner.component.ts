@@ -25,7 +25,7 @@ export class HomeBannerComponent implements OnInit {
 
     let index = 0;
 
-    this.productsService.getData().subscribe((resp) => {
+    this.productsService.getData().subscribe((resp:any) => {
       /*=============================================
 			Tomar la longitud del objeto
 			=============================================*/

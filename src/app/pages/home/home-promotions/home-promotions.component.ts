@@ -16,14 +16,14 @@ export class HomePromotionsComponent implements OnInit {
   url: any[] = [];
   preload: boolean = false;
 
-  constructor(private productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) {}
 
   ngOnInit(): void {
     this.preload = true;
 
     let index = 0;
 
-    this.productsService.getData().subscribe((resp) => {
+    this.productsService.getData().subscribe((resp: any) => {
       /*=============================================
 			Tomar la longitud del objeto
 			=============================================*/

@@ -188,32 +188,34 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
         Editar la orden en la BD
         =============================================*/
 
-    this.ordersService.patchDataAuth(idOrder, body, localStorage.getItem('idToken')).subscribe(
-      (resp) => {
-        /*=============================================
+    this.ordersService
+      .patchDataAuth(idOrder, body, localStorage.getItem('idToken') ?? '')
+      .subscribe(
+        (resp) => {
+          /*=============================================
             Enviar notificación por correo electrónico
             =============================================*/
 
-        const formData = new FormData();
+          const formData = new FormData();
 
-        formData.append('email', 'yes');
-        formData.append('comment', 'You have received an update on your order delivery process');
-        formData.append('url', 'account/my-shopping');
-        formData.append('address', this.orders[$('#indexOrder').val()].email);
-        formData.append('name', this.orders[$('#indexOrder').val()].user);
+          formData.append('email', 'yes');
+          formData.append('comment', 'You have received an update on your order delivery process');
+          formData.append('url', 'account/my-shopping');
+          formData.append('address', this.orders[$('#indexOrder').val()].email);
+          formData.append('name', this.orders[$('#indexOrder').val()].user);
 
-        this.http.post(this.email, formData).subscribe((resp: any) => {
-          if (resp['status'] == 200) {
-            Sweetalert.fnc('success', 'The order was successfully updated', '/account/orders');
-          } else {
-            Sweetalert.fnc('error', 'Failed to send email notification', null);
-          }
-        });
-      },
-      (err) => {
-        Sweetalert.fnc('error', err.error.error.message, null);
-      }
-    );
+          this.http.post(this.email, formData).subscribe((resp: any) => {
+            if (resp['status'] == 200) {
+              Sweetalert.fnc('success', 'The order was successfully updated', '/account/orders');
+            } else {
+              Sweetalert.fnc('error', 'Failed to send email notification', null);
+            }
+          });
+        },
+        (err) => {
+          Sweetalert.fnc('error', err.error.error.message, null);
+        }
+      );
   }
 
   /*=============================================

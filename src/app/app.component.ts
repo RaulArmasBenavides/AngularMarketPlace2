@@ -503,8 +503,8 @@ export class AppComponent implements OnInit {
 		                step: step,
 		                range: true,
 		                values: [defaultMinValue, defaultMaxValue],
-		                slide: function(event, ui) {
-		                    var values = ui.values;
+		                slide: function(event:any, ui:any) {
+		                    let values = ui.values;
 		                    min.text('$' + values[0]);
 		                    max.text('$' + values[1]);
 		                }

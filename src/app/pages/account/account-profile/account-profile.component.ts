@@ -32,8 +32,8 @@ export class AccountProfileComponent implements OnInit {
   method: boolean = false;
   preload: boolean = false;
   server: string = Server.url;
-  image: File = null;
-  accountUrl: string = null;
+  image: File | null = null;
+  accountUrl: string = '';
   store: any[] = [];
   ordersPending: number = 0;
   disputes: any[] = [];
@@ -67,7 +67,7 @@ export class AccountProfileComponent implements OnInit {
       if (resp) {
         this.usersService
           .getFilterData('idToken', localStorage.getItem('idToken'))
-          .subscribe((resp) => {
+          .subscribe((resp:any) => {
             this.id = Object.keys(resp).toString();
 
             for (const i in resp) {
@@ -183,7 +183,7 @@ export class AccountProfileComponent implements OnInit {
           // Get the forms we want to add validation styles to
           var forms = document.getElementsByClassName('needs-validation');
           // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function (form) {
+          var validation = Array.prototype.filter.call(forms, function (form:any) {
             form.addEventListener(
               'submit',
               function (event: any) {
@@ -288,11 +288,11 @@ export class AccountProfileComponent implements OnInit {
         Validamos el formato
         =============================================*/
 
-    if (this.image['type'] !== 'image/jpeg' && this.image['type'] !== 'image/png') {
+    if (this.image!['type'] !== 'image/jpeg' && this.image!['type'] !== 'image/png') {
       Sweetalert.fnc('error', 'The image must be in JPG or PNG format', null);
 
       return;
-    } else if (this.image['size'] > 2000000) {
+    } else if (this.image!['size'] > 2000000) {
       /*=============================================
         Validamos el tamaño
         =============================================*/
@@ -304,7 +304,7 @@ export class AccountProfileComponent implements OnInit {
         Mostramos la imagen temporal
         =============================================*/
       let data = new FileReader();
-      data.readAsDataURL(this.image);
+      // data.readAsDataURL(this.image);
 
       $(data).on('load', function (event: any) {
         let path = event.target.result;
@@ -321,7 +321,7 @@ export class AccountProfileComponent implements OnInit {
   uploadImage() {
     const formData = new FormData();
 
-    formData.append('file', this.image);
+    formData.append('file', this.image ?? '');
     formData.append('folder', this.username);
     formData.append('path', 'users');
     formData.append('width', '200');

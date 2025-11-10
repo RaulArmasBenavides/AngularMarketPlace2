@@ -36,7 +36,7 @@ export class HomeShowcaseComponent implements OnInit {
 
     let getCategories = [];
 
-    this.categoriesService.getData().subscribe((resp) => {
+    this.categoriesService.getData().subscribe((resp:any) => {
       let i;
 
       for (i in resp) {

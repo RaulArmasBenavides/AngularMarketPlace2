@@ -36,9 +36,9 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject();
 
   constructor(
-    private ordersService: OrdersService,
-    private salesService: SalesService,
-    private activatedRoute: ActivatedRoute
+    private readonly ordersService: OrdersService,
+    private readonly salesService: SalesService,
+    private readonly activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
 		Preguntamos si esta tienda tiene órdenes
 		=============================================*/
 
-    this.ordersService.getFilterData('store', this.childItem).subscribe((resp) => {
+    this.ordersService.getFilterData('store', this.childItem).subscribe((resp:any) => {
       if (Object.keys(resp).length > 0) {
         for (const i in resp) {
           /*=============================================
@@ -196,7 +196,7 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
                       }
                     };
 
-                    ChartJs.fnc(config);
+                    ChartJs.render('#salesChart', config);
 
                     /*=============================================
 										Disparamos el trigger de Datatable

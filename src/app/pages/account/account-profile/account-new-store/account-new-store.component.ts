@@ -698,7 +698,7 @@ export class AccountNewStoreComponent implements OnInit {
       let data = new FileReader();
       data.readAsDataURL(image);
 
-      $(data).on('load', function (event) {
+      $(data).on('load', function (event:any) {
         let path = event.target.result;
 
         $(`.${tagPicture}`).attr('src', path);
@@ -725,7 +725,7 @@ export class AccountNewStoreComponent implements OnInit {
   changeCategory(input: any) {
     let category = input.value.split('_')[0];
 
-    this.subCategoriesService.getFilterData('category', category).subscribe((resp) => {
+    this.subCategoriesService.getFilterData('category', category).subscribe((resp:any) => {
       this.subcategories = [];
 
       for (const i in resp) {

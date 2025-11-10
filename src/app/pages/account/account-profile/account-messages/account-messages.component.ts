@@ -61,7 +61,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
 		Preguntamos si esta tienda tiene mensajes
 		=============================================*/
 
-    this.messagesService.getFilterData('receiver', this.childItem).subscribe((resp:any) => {
+    this.messagesService.getFilterData('receiver', this.childItem).subscribe((resp: any) => {
       if (Object.keys(resp).length > 0) {
         for (const i in resp) {
           load++;
@@ -74,7 +74,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
                     Traemos el usuario del mensaje
                     =============================================*/
 
-          this.usersService.getFilterData('username', resp[i].transmitter).subscribe((resp) => {
+          this.usersService.getFilterData('username', resp[i].transmitter).subscribe((resp:any) => {
             if (Object.keys(resp).length > 0) {
               for (const i in resp) {
                 this.userMessage.push(resp[i]);
@@ -85,7 +85,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
       }
 
       if (load == this.messages.length) {
-     this.dtTrigger.next(null);
+        this.dtTrigger.next(null);
       }
     });
   }
@@ -94,7 +94,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
     Responder message
     =============================================*/
 
-  answerMessage(idMessage) {
+  answerMessage(idMessage: any) {
     this.uniqueIdMessage = idMessage;
 
     /*=============================================
@@ -129,9 +129,9 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
     };
 
     this.messagesService
-      .patchDataAuth(this.uniqueIdMessage, body, localStorage.getItem('idToken'))
+      .patchDataAuth(this.uniqueIdMessage, body, localStorage.getItem('idToken') ?? '')
       .subscribe(
-        (resp) => {
+        (resp:any) => {
           if (resp['name'] != '') {
             /*=============================================
 	            Enviar notificación por correo electrónico
@@ -144,11 +144,11 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
               'comment',
               'You have received an update on your message delivery process'
             );
-            formData.append('url', 'product/' + this.messages['url_product']);
+            // formData.append('url', 'product/' + this.messages['url_product']);
             formData.append('address', this.userMessage[0].email);
             formData.append('name', this.userMessage[0].username);
 
-            this.http.post(this.email, formData).subscribe((resp:any) => {
+            this.http.post(this.email, formData).subscribe((resp: any) => {
               if (resp['status'] == 200) {
                 Sweetalert.fnc('success', 'The message has been answered', 'account/messages');
               }

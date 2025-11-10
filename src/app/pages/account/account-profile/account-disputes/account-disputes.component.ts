@@ -59,7 +59,7 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
 		Preguntamos si esta tienda tiene disputas
 		=============================================*/
 
-    this.disputesService.getFilterData('receiver', this.childItem).subscribe((resp) => {
+    this.disputesService.getFilterData('receiver', this.childItem).subscribe((resp: any) => {
       if (Object.keys(resp).length > 0) {
         for (const i in resp) {
           load++;

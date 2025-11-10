@@ -82,7 +82,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
     /*=============================================
   		Traemos las órdenes de compras de este usuario
   		=============================================*/
-    this.ordersService.getFilterData('user', this.childItem).subscribe((resp:any) => {
+    this.ordersService.getFilterData('user', this.childItem).subscribe((resp: any) => {
       let load = 0;
 
       for (const i in resp) {
@@ -97,14 +97,14 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 		  		=============================================*/
 
         this.id_order.forEach((order) => {
-          this.disputesService.getFilterData('order', order).subscribe((resp:any) => {
+          this.disputesService.getFilterData('order', order).subscribe((resp: any) => {
             if (Object.keys(resp).length > 0) {
               let count = 0;
 
               for (const i in resp) {
                 count++;
 
-                this.storesService.getFilterData('store', resp[i].receiver).subscribe((resp1) => {
+                this.storesService.getFilterData('store', resp[i].receiver).subscribe((resp1:any) => {
                   for (const f in resp1) {
                     resp[i].store = resp1[f];
                   }
@@ -112,7 +112,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 
                 this.usersService
                   .getFilterData('username', resp[i].transmitter)
-                  .subscribe((resp1) => {
+                  .subscribe((resp1:any) => {
                     for (const f in resp1) {
                       resp[i].user = resp1[f];
                     }
@@ -132,7 +132,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 		  		Traemos las reseñas del producto
 		  		=============================================*/
 
-        this.productsService.getFilterDataMyStore('url', resp[i].url).subscribe((resp) => {
+        this.productsService.getFilterDataMyStore('url', resp[i].url).subscribe((resp:any) => {
           for (const i in resp) {
             this.reviews.push(JSON.parse(resp[i].reviews));
           }
@@ -144,7 +144,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 			=============================================*/
 
       if (load == this.myShopping.length) {
-      this.dtTrigger.next(null);
+        this.dtTrigger.next(null);
       }
 
       Rating.fnc();
@@ -154,7 +154,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
   /*=============================================
 	Función nueva disputa
 	=============================================*/
-  newDispute(id_order, store, user) {
+  newDispute(id_order: any, store: any, user: any) {
     this.dispute.order = id_order;
     this.dispute.receiver = store;
     this.dispute.transmitter = user;
@@ -185,23 +185,29 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
         Crear una disputa en la BD
         =============================================*/
 
-    this.disputesService.registerDatabase(this.dispute, localStorage.getItem('idToken')).subscribe(
-      (resp) => {
-        if (resp['name'] != '') {
-          Sweetalert.fnc('success', 'The dispute was created successfully', 'account/my-shopping');
+    this.disputesService
+      .registerDatabase(this.dispute, localStorage.getItem('idToken') ?? '')
+      .subscribe(
+        (resp:any) => {
+          if (resp['name'] != '') {
+            Sweetalert.fnc(
+              'success',
+              'The dispute was created successfully',
+              'account/my-shopping'
+            );
+          }
+        },
+        (err) => {
+          Sweetalert.fnc('error', err.error.error.message, null);
         }
-      },
-      (err) => {
-        Sweetalert.fnc('error', err.error.error.message, null);
-      }
-    );
+      );
   }
 
   /*=============================================
 	Función nueva reseña
 	=============================================*/
 
-  newReview(user:any, url:any) {
+  newReview(user: any, url: any) {
     /*=============================================
 		Almaceno el usuario
 		=============================================*/
@@ -212,7 +218,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 		Traemos el producto para capturar su ID
 		=============================================*/
 
-    this.usersService.getFilterData('username', user).subscribe((resp:any) => {
+    this.usersService.getFilterData('username', user).subscribe((resp: any) => {
       for (const i in resp) {
         this.picture = resp[i].picture;
         this.method = resp[i].method;
@@ -238,7 +244,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 	Enviar nueva reseña
 	=============================================*/
 
-  submitReview(comment, review) {
+  submitReview(comment:any, review:any) {
     /*=============================================
 		Validar que la reseña no venga vacía
 		=============================================*/
@@ -267,14 +273,14 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 		Traer las reseñas del producto
 		=============================================*/
 
-    this.productsService.getUniqueData(this.idProduct).subscribe((resp) => {
+    this.productsService.getUniqueData(this.idProduct).subscribe((resp:any) => {
       let reviews = JSON.parse(resp['reviews']);
 
       /*=============================================
 			Eliminar la reseña creada por el usuario anteriormente
 			=============================================*/
 
-      reviews.forEach((review, index) => {
+      reviews.forEach((review:any, index:any) => {
         if (review.name == this.username) {
           reviews.splice(index, 1);
         }
@@ -284,7 +290,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 			Actualizar la información de las reseñas
 			=============================================*/
 
-      reviews.forEach((review) => {
+      reviews.forEach((review:any) => {
         body.push(review);
       });
 
@@ -297,7 +303,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
       };
 
       this.productsService.patchData(this.idProduct, value).subscribe(
-        (resp) => {
+        (resp:any) => {
           if (resp['reviews'] != '') {
             Sweetalert.fnc('success', 'The review was created successfully', 'account/my-shopping');
           }
@@ -309,7 +315,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
     });
   }
 
-  callback(iReview) {
+  callback(iReview:any) {
     if (!this.render) {
       this.render = true;
 

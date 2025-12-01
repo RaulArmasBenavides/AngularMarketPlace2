@@ -16,9 +16,9 @@ export class ProductBreadcrumbComponent implements OnInit {
   breadcrumb: string = '';
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private productsService: ProductsService,
-    private storesService: StoresService
+    private readonly activateRoute: ActivatedRoute,
+    private readonly productsService: ProductsService,
+    private readonly storesService: StoresService
   ) {}
 
   ngOnInit(): void {

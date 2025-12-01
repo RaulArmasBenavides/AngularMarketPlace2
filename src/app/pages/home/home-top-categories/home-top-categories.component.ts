@@ -14,7 +14,7 @@ export class HomeTopCategoriesComponent implements OnInit {
   categories: any[] = [];
   cargando: boolean = false;
   preCategories: any[] = [];
-  constructor(private categoriesService: CategoriesService) {}
+  constructor(private readonly categoriesService: CategoriesService) {}
 
   ngOnInit(): void {
     this.cargando = true;

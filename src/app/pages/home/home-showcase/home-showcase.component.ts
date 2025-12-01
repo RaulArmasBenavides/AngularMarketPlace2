@@ -22,9 +22,9 @@ export class HomeShowcaseComponent implements OnInit {
   render: boolean = true;
 
   constructor(
-    private categoriesService: CategoriesService,
-    private subCategoriesService: SubCategoriesService,
-    private productsService: ProductsService
+    private readonly categoriesService: CategoriesService,
+    private readonly subCategoriesService: SubCategoriesService,
+    private readonly productsService: ProductsService
   ) {}
 
   ngOnInit(): void {

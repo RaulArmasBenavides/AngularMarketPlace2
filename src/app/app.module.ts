@@ -5,7 +5,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { NgxSummernoteModule } from 'ngx-summernote';
-import { DataTablesModule } from 'angular-datatables';
+ 
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TagInputModule } from 'ngx-chips';
@@ -121,7 +121,6 @@ import { StoreListComponent } from './pages/store-list/store-list.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    DataTablesModule,
     ConfirmationPopoverModule.forRoot({
         confirmButtonType:'danger'
     }),

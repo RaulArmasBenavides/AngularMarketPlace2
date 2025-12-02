@@ -9,7 +9,7 @@ export class SalesService {
 
 	private api:string = Api.url;
 
-  	constructor(private http:HttpClient) { }
+  	constructor(private readonly http:HttpClient) { }
 
 	getData(){
 

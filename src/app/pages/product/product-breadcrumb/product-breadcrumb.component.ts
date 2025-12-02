@@ -3,9 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
 import { StoresService } from '../../../services/stores.service';
-
-import * as Cookies from 'js-cookie';
-
+import Cookies from 'js-cookie';
 @Component({
   selector: 'app-product-breadcrumb',
   templateUrl: './product-breadcrumb.component.html',

@@ -9,8 +9,24 @@ import { UsersService } from '../../services/users.service';
 
 import { Router } from '@angular/router';
 
-declare var jQuery: any;
-declare var $: any;
+interface ShoppingCartItem {
+  url: string;
+  name: string;
+  category: string;
+  image: string;
+  delivery_time: string;
+  quantity: number;
+  price: number;          // precio unitario
+  shipping: number;       // envío unitario
+  details: string;        // HTML string que ya construyes
+  listDetails: string;
+}
+
+interface SubCategoryItem {
+  category: string;
+  subcategory: string;
+  url: string;
+}
 
 @Component({
   selector: 'app-header-mobile',
@@ -21,14 +37,27 @@ declare var $: any;
 export class HeaderMobileComponent implements OnInit {
   path: string = Path.url;
   categories: any[] = [];
+  categoriesList: string[] = [];
+
+  // subcategorías agrupadas por categoría
+  subCategoriesByCategory: { [category: string]: SubCategoryItem[] } = {};
+
+  // control de toggle (categorías abiertas)
+  openCategories = new Set<string>();
+
   render: boolean = true;
-  categoriesList: any[] = [];
+
   authValidate: boolean = false;
   picture: string;
-  shoppingCart: any[] = [];
+
+  shoppingCart: ShoppingCartItem[] = [];
   totalShoppingCart: number = 0;
+
+  // subtotal calculado en TS
+  subTotalAmount: number = 0;
+
   renderShopping: boolean = true;
-  subTotal: string = `<h3>Sub Total:<strong class="subTotalHeader"><div class="spinner-border"></div></strong></h3>`;
+
   lang: boolean = false;
 
   constructor(
@@ -40,17 +69,12 @@ export class HeaderMobileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    /*=============================================
-		Preguntar si hay idioma para el sitio
-		=============================================*/
-
+    // Idioma
     if (localStorage.getItem('yt-widget') == '{"lang":"es","active":true}') {
       this.lang = true;
     }
 
-    /*=============================================
-		Validar si existe usuario autenticado
-		=============================================*/
+    // Usuario autenticado
     this.usersService.authActivate().then((resp) => {
       if (resp) {
         this.authValidate = true;
@@ -73,108 +97,24 @@ export class HeaderMobileComponent implements OnInit {
       }
     });
 
-    /*=============================================
-		Tomamos la data de las categorías
-		=============================================*/
-
+    // Categorías
     this.categoriesService.getData().subscribe((resp: any) => {
-      /*=============================================
-			Recorrido por el objeto de la data de categorías
-			=============================================*/
-
-      let i;
-
-      for (i in resp) {
+      for (const i in resp) {
         this.categories.push(resp[i]);
-
-        /*=============================================
-				Separamos los nombres de categorías
-				=============================================*/
-
         this.categoriesList.push(resp[i].name);
       }
+
+      // Cuando ya tenemos las categorías, cargamos subcategorías
+      this.loadSubCategories();
     });
 
-    /*=============================================
-		Activamos el efecto toggle en el listado de subcategorías
-		=============================================*/
-
-    $(document).on('click', '.sub-toggle', function () {
-      $(this).parent().children('ul').toggle();
-    });
-
-    /*=============================================
-		Tomamos la data del Carrito de Compras del LocalStorage
-		=============================================*/
-
-    if (localStorage.getItem('list')) {
-      let list = JSON.parse(localStorage.getItem('list') ?? '');
-
-      this.totalShoppingCart = list.length;
-
-      /*=============================================
-			Recorremos el arreglo del listado
-			=============================================*/
-
-      for (const i in list) {
-        /*=============================================
-				Filtramos los productos del carrito de compras
-				=============================================*/
-
-        this.productsService.getFilterData('url', list[i].product).subscribe((resp:any) => {
-          for (const f in resp) {
-            let details = `<div class="list-details small text-secondary">`;
-
-            if (list[i].details.length > 0) {
-              let specification = JSON.parse(list[i].details);
-
-              for (const i in specification) {
-                let property = Object.keys(specification[i]);
-
-                for (const f in property) {
-                  details += `<div>${property[f]}: ${specification[i][property[f]]}</div>`;
-                }
-              }
-            } else {
-              /*=============================================
-							Mostrar los detalles por defecto del producto 
-							=============================================*/
-
-              if (resp[f].specification != '') {
-                let specification = JSON.parse(resp[f].specification);
-
-                for (const i in specification) {
-                  let property = Object.keys(specification[i]).toString();
-
-                  details += `<div>${property}: ${specification[i][property][0]}</div>`;
-                }
-              }
-            }
-
-            details += `</div>`;
-
-            this.shoppingCart.push({
-              url: resp[f].url,
-              name: resp[f].name,
-              category: resp[f].category,
-              image: resp[f].image,
-              delivery_time: resp[f].delivery_time,
-              quantity: list[i].unit,
-              // price: DinamicPrice.fnc(resp[f])[0],
-              shipping: Number(resp[f].shipping) * Number(list[i].unit),
-              details: details,
-              listDetails: list[i].details
-            });
-          }
-        });
-      }
-    }
+    // Carrito desde LocalStorage
+    this.loadShoppingCartFromLocalStorage();
   }
 
-  /*=============================================
-	Declaramos función del buscador
-	=============================================*/
-
+  // ==========================
+  //  BÚSQUEDA
+  // ==========================
   goSearch(search: string) {
     if (search.length == 0 || Search.fnc(search) == undefined) {
       return;
@@ -183,131 +123,168 @@ export class HeaderMobileComponent implements OnInit {
     window.open(`search/${Search.fnc(search)}`, '_top');
   }
 
-  /*=============================================
-	Función que nos avisa cuando finaliza el renderizado de Angular
-	=============================================*/
+  // ==========================
+  // SUBCATEGORÍAS (sin jQuery)
+  // ==========================
 
+  private loadSubCategories(): void {
+    // Creamos estructura vacía
+    this.subCategoriesByCategory = {};
+    this.categoriesList.forEach((category) => {
+      this.subCategoriesByCategory[category] = [];
+    });
+
+    // Por cada categoría cargamos sus subcategorías
+    this.categoriesList.forEach((category) => {
+      this.subCategoriesService.getFilterData('category', category).subscribe((resp: any) => {
+        const subcats: SubCategoryItem[] = [];
+
+        for (const i in resp) {
+          subcats.push({
+            category: resp[i].category,
+            subcategory: resp[i].name,
+            url: resp[i].url
+          });
+        }
+
+        this.subCategoriesByCategory[category] = subcats;
+      });
+    });
+  }
+
+  toggleCategory(category: string): void {
+    if (this.openCategories.has(category)) {
+      this.openCategories.delete(category);
+    } else {
+      this.openCategories.add(category);
+    }
+  }
+
+  isCategoryOpen(category: string): boolean {
+    return this.openCategories.has(category);
+  }
+
+  // callback() ya no necesita tocar el DOM, puedes incluso eliminarlo
   callback() {
     if (this.render) {
       this.render = false;
-      let arraySubCategories = [];
+      // Si aún quieres asegurar que solo se ejecute una vez,
+      // ya lo manejas con this.render, pero no es necesario hacer nada aquí.
+    }
+  }
 
-      /*=============================================
-			Separar las categorías
-			=============================================*/
+  // ==========================
+  // CARRITO (sin jQuery)
+  // ==========================
 
-      this.categoriesList.forEach((category) => {
-        /*=============================================
-				Tomamos la colección de las sub-categorías filtrando con los nombres de categoría
-				=============================================*/
+  private loadShoppingCartFromLocalStorage(): void {
+    const listStr = localStorage.getItem('list');
+    if (!listStr) {
+      return;
+    }
 
-        this.subCategoriesService.getFilterData('category', category).subscribe((resp: any) => {
-          /*=============================================
-					Hacemos un recorrido por la colección general de subcategorias y clasificamos las subcategorias y url
-					de acuerdo a la categoría que correspondan
-					=============================================*/
+    const list = JSON.parse(listStr);
+    this.totalShoppingCart = list.length;
 
-          let i;
+    for (const i in list) {
+      this.productsService.getFilterData('url', list[i].product).subscribe((resp: any) => {
+        for (const f in resp) {
+          let details = `<div class="list-details small text-secondary">`;
 
-          for (i in resp) {
-            arraySubCategories.push({
-              category: resp[i].category,
-              subcategory: resp[i].name,
-              url: resp[i].url
-            });
-          }
-
-          /*=============================================
-					Recorremos el array de objetos nuevo para buscar coincidencias con los nombres de categorías
-					=============================================*/
-
-          for (i in arraySubCategories) {
-            if (category == arraySubCategories[i].category) {
-              $(`[category='${category}']`).append(
-                `<li class="current-menu-item ">
-		                        	<a href="products/${arraySubCategories[i].url}">${arraySubCategories[i].subcategory}</a>
-		                        </li>`
-              );
+          if (list[i].details.length > 0) {
+            const specification = JSON.parse(list[i].details);
+            for (const spec of specification) {
+              const propertyNames = Object.keys(spec);
+              for (const prop of propertyNames) {
+                details += `<div>${prop}: ${spec[prop]}</div>`;
+              }
+            }
+          } else {
+            if (resp[f].specification != '') {
+              const specification = JSON.parse(resp[f].specification);
+              for (const spec of specification) {
+                const property = Object.keys(spec).toString();
+                details += `<div>${property}: ${spec[property][0]}</div>`;
+              }
             }
           }
-        });
+
+          details += `</div>`;
+
+        // Precio y envío unitarios (ajusta según tu lógica real)
+        //  const price = Number(DinamicPrice.fnc(resp[f])[0] ?? 0);
+        const price = 100;//TODO 
+        const shippingUnit = Number(resp[f].shipping ?? 0);
+          const quantity = Number(list[i].unit ?? 1);
+
+          const item: ShoppingCartItem = {
+            url: resp[f].url,
+            name: resp[f].name,
+            category: resp[f].category,
+            image: resp[f].image,
+            delivery_time: resp[f].delivery_time,
+            quantity,
+            price,
+            shipping: shippingUnit,
+            details,
+            listDetails: list[i].details
+          };
+
+          this.shoppingCart.push(item);
+          this.calculateSubTotal();
+        }
       });
     }
   }
 
-  /*=============================================
-	Función que nos avisa cuando finaliza el renderizado de Angular
-	=============================================*/
+  private calculateSubTotal(): void {
+    this.subTotalAmount = this.shoppingCart.reduce((acc, item) => {
+      const unitTotal = (item.price || 0) + (item.shipping || 0);
+      return acc + unitTotal * (item.quantity || 0);
+    }, 0);
+  }
 
+  // Si aún quieres usar callbackShopping para coordinar render, ya no lees el DOM
   callbackShopping() {
     if (this.renderShopping) {
       this.renderShopping = false;
-
-      /*=============================================
-			Sumar valores para el precio total
-			=============================================*/
-
-      let totalProduct = $('.ps-product--cart-mobile');
-
-      setTimeout(function () {
-        let price = $('.pShoppingHeaderM .end-price');
-        let quantity = $('.qShoppingHeaderM');
-        let shipping = $('.sShoppingHeaderM');
-
-        let totalPrice = 0;
-
-        for (let i = 0; i < price.length; i++) {
-          /*=============================================
-					Sumar precio con envío
-					=============================================*/
-
-          let shipping_price = Number($(price[i]).html()) + Number($(shipping[i]).html());
-
-          totalPrice += Number($(quantity[i]).html() * shipping_price);
-        }
-
-        $('.subTotalHeader').html(`$${totalPrice.toFixed(2)}`);
-      }, totalProduct.length * 500);
+      this.calculateSubTotal();
     }
   }
 
-  /*=============================================
-	Función para remover productos de la lista de carrito de compras
-	=============================================*/
-
+  // ==========================
+  // REMOVER PRODUCTO
+  // ==========================
   removeProduct(product: any, details: any) {
-    if (localStorage.getItem('list')) {
-      let shoppingCart = JSON.parse(localStorage.getItem('list') ?? '');
-
-      shoppingCart.forEach((list: any, index: any) => {
-        if (list.product == product && list.details == details.toString()) {
-          shoppingCart.splice(index, 1);
-        }
-      });
-
-      /*=============================================
-    		Actualizamos en LocalStorage la lista del carrito de compras
-    		=============================================*/
-
-      localStorage.setItem('list', JSON.stringify(shoppingCart));
-
-      Sweetalert.fnc('success', 'product removed', this.router.url);
+    const listStr = localStorage.getItem('list');
+    if (!listStr) {
+      return;
     }
+
+    const shoppingCart = JSON.parse(listStr);
+
+    const filtered = shoppingCart.filter(
+      (list: any) => !(list.product === product && list.details == details.toString())
+    );
+
+    localStorage.setItem('list', JSON.stringify(filtered));
+
+    // Actualizar array en memoria y subtotal
+    this.shoppingCart = this.shoppingCart.filter(
+      (x) => !(x.url === product && x.listDetails == details.toString())
+    );
+    this.totalShoppingCart = this.shoppingCart.length;
+    this.calculateSubTotal();
+
+    Sweetalert.fnc('success', 'product removed', this.router.url);
   }
 
-  /*=============================================
-	Función para cambiar de idioma
-	=============================================*/
-
+  // ==========================
+  // CAMBIO DE IDIOMA
+  // ==========================
   changeLang(lang: string) {
-    if (lang == 'es') {
-      this.lang = true;
-    } else {
-      this.lang = false;
-    }
-
+    this.lang = lang === 'es';
     localStorage.setItem('yt-widget', `{"lang":"${lang}","active":true}`);
-
     window.open(window.location.href, '_top');
   }
 }

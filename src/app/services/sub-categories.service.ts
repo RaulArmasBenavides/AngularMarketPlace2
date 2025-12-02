@@ -9,7 +9,7 @@ export class SubCategoriesService {
 
   	private api:string = Api.url;
 
-  	constructor(private http:HttpClient) { }
+  	constructor(private readonly http:HttpClient) { }
 
   	getFilterData(orderBy:string, equalTo:string){
 

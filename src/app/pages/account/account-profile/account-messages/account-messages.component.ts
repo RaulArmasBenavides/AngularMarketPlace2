@@ -13,8 +13,7 @@ import { UsersService } from '../../../../services/users.service';
 
 import { Subject } from 'rxjs';
 
-declare var jQuery: any;
-declare var $: any;
+ 
 
 @Component({
   selector: 'app-account-messages',
@@ -96,12 +95,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
 
   answerMessage(idMessage: any) {
     this.uniqueIdMessage = idMessage;
-
-    /*=============================================
-        Abrir la ventana modal
-        =============================================*/
-
-    $('#answerMessage').modal();
+ 
   }
 
   /*=============================================

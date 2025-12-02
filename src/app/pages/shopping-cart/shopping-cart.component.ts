@@ -1,16 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Path } from '../../config';
-import { DinamicPrice, Quantity, Sweetalert } from '../../functions';
+import { DinamicPrice, Sweetalert } from '../../functions';
 
 import { ProductsService } from '../../services/products.service';
 
-import { Subject } from 'rxjs';
-
 import { Router } from '@angular/router';
 
-declare var jQuery: any;
-declare var $: any;
+interface ShoppingCartItem {
+  url: string;
+  name: string;
+  category: string;
+  image: string;
+  delivery_time: string;
+  quantity: number;       // cantidad
+  unitPrice: number;      // precio unitario
+  unitShipping: number;   // envío unitario
+  details: string;        // HTML string con detalles
+  listDetails: string;    // json string de detalles (para comparación)
+  subTotal: number;       // subtotal (precio + envío) * cantidad
+}
 
 @Component({
   selector: 'app-shopping-cart',
@@ -20,265 +29,201 @@ declare var $: any;
 })
 export class ShoppingCartComponent implements OnInit, OnDestroy {
   path: string = Path.url;
-  shoppingCart: any[] = [];
-  totalShoppingCart: number = 0;
-  render: boolean = true;
-  totalP: string = `<div class="p-2"><h3>Total <span class="totalP"><div class="spinner-border"></div></span></h3></div>   `;
 
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
+  shoppingCart: ShoppingCartItem[] = [];
+  totalShoppingCart: number = 0;
+
+  // Total general del carrito
+  totalAmount: number = 0;
+
+  // Para mostrar spinner mientras carga
+  loadingCart: boolean = true;
+
+  // Mensaje del popover (si usas ngx-bootstrap o similar)
   popoverMessage: string = 'Are you sure to remove it?';
 
   constructor(
-    private productsService: ProductsService,
-    private router: Router
+    private readonly productsService: ProductsService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
-    /*=============================================
-	  	Agregamos opciones a DataTable
-	  	=============================================*/
+    this.loadShoppingCartFromLocalStorage();
+  }
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true
-    };
+  // =========================================================
+  // Carga inicial del carrito desde localStorage (sin jQuery)
+  // =========================================================
+  private loadShoppingCartFromLocalStorage(): void {
+    const listStr = localStorage.getItem('list');
+    if (!listStr) {
+      this.loadingCart = false;
+      return;
+    }
 
-    /*=============================================
-		Tomamos la data del Carrito de Compras del LocalStorage
-		=============================================*/
+    const list = JSON.parse(listStr);
+    this.totalShoppingCart = list.length;
 
-    if (localStorage.getItem('list')) {
-      let list = JSON.parse(localStorage.getItem('list') ?? '');
+    if (list.length === 0) {
+      this.loadingCart = false;
+      return;
+    }
 
-      this.totalShoppingCart = list.length;
+    let load = 0;
 
-      /*=============================================
-			Recorremos el arreglo del listado
-			=============================================*/
-      let load = 0;
+    for (const i in list) {
+      const cartItem = list[i];
 
-      for (const i in list) {
-        /*=============================================
-				Filtramos los productos del carrito de compras
-				=============================================*/
+      this.productsService.getFilterData('url', cartItem.product).subscribe((resp: any) => {
+        for (const f in resp) {
+          const product = resp[f];
 
-        this.productsService.getFilterData('url', list[i].product).subscribe((resp: any) => {
-          for (const f in resp) {
-            load++;
+          let detailsHtml = `<div class="list-details small text-secondary">`;
 
-            let details = `<div class="list-details small text-secondary">`;
-
-            if (list[i].details.length > 0) {
-              let specification = JSON.parse(list[i].details);
-
-              for (const i in specification) {
-                let property = Object.keys(specification[i]);
-
-                for (const f in property) {
-                  details += `<div>${property[f]}: ${specification[i][property[f]]}</div>`;
-                }
-              }
-            } else {
-              /*=============================================
-							Mostrar los detalles por defecto del producto 
-							=============================================*/
-
-              if (resp[f].specification != '') {
-                let specification = JSON.parse(resp[f].specification);
-
-                for (const i in specification) {
-                  let property = Object.keys(specification[i]).toString();
-
-                  details += `<div>${property}: ${specification[i][property][0]}</div>`;
-                }
+          if (cartItem.details?.length > 0) {
+            const specification = JSON.parse(cartItem.details);
+            for (const spec of specification) {
+              const properties = Object.keys(spec);
+              for (const prop of properties) {
+                detailsHtml += `<div>${prop}: ${spec[prop]}</div>`;
               }
             }
-
-            details += `</div>`;
-
-            this.shoppingCart.push({
-              url: resp[f].url,
-              name: resp[f].name,
-              category: resp[f].category,
-              image: resp[f].image,
-              delivery_time: resp[f].delivery_time,
-              quantity: list[i].unit,
-              shipping: Number(resp[f].shipping) * Number(list[i].unit),
-              details: details,
-              listDetails: list[i].details
-            });
-
-            if (load == list.length) {
-              this.dtTrigger.next(null);
+          } else {
+            if (product.specification) {
+              const specification = JSON.parse(product.specification);
+              for (const spec of specification) {
+                const property = Object.keys(spec).toString();
+                detailsHtml += `<div>${property}: ${spec[property][0]}</div>`;
+              }
             }
           }
-        });
-      }
-    }
-  }
 
-  /*=============================================
-    Función Callback
-    =============================================*/
+          detailsHtml += `</div>`;
 
-  callback() {
-    if (this.render) {
-      this.render = false;
+          // Precio unitario (ajusta según cómo funcione DinamicPrice.fnc)
+          // 
+          const dynamicPriceResult = 0;// DinamicPrice.fnc(product);
+          const unitPrice = 10;//Number(dynamicPriceResult?.[0] ?? 0);
 
-      this.totalPrice(this.totalShoppingCart);
+          const quantity = Number(cartItem.unit ?? 1);
+          const unitShipping = Number(product.shipping ?? 0);
 
-      setTimeout(function () {
-        Quantity.fnc();
-      }, this.totalShoppingCart * 100);
-    }
-  }
+          const item: ShoppingCartItem = {
+            url: product.url,
+            name: product.name,
+            category: product.category,
+            image: product.image,
+            delivery_time: product.delivery_time,
+            quantity,
+            unitPrice,
+            unitShipping,
+            details: detailsHtml,
+            listDetails: cartItem.details,
+            subTotal: 0 // se calcula abajo
+          };
 
-  /*=============================================
-    Función cambio de cantidad
-    =============================================*/
-
-  changeQuantity(quantity: any, unit: any, move: any, product: any, details: any, index: any) {
-    let number = 1;
-
-    /*=============================================
-        Controlar máximos y mínimos de la cantidad
-        =============================================*/
-
-    if (Number(quantity) > 9) {
-      quantity = 9;
-    }
-
-    if (Number(quantity) < 1) {
-      quantity = 1;
-    }
-
-    /*=============================================
-        Modificar cantidad de acuerdo a la dirección
-        =============================================*/
-
-    if (move == 'up' && Number(quantity) < 9) {
-      number = Number(quantity) + unit;
-    } else if (move == 'down' && Number(quantity) > 1) {
-      number = Number(quantity) - unit;
-    } else {
-      number = Number(quantity);
-    }
-
-    /*=============================================
-        Actualizar la variable list del localStorage
-        =============================================*/
-    if (localStorage.getItem('list')) {
-      let shoppingCart = JSON.parse(localStorage.getItem('list') ?? '');
-
-      shoppingCart.forEach((list: any) => {
-        if (list.product == product && list.details == details.toString()) {
-          list.unit = number;
-        }
-      });
-
-      this.shoppingCart[index].quantity = number;
-
-      localStorage.setItem('list', JSON.stringify(shoppingCart));
-
-      this.totalPrice(shoppingCart.length);
-    }
-  }
-
-  /*=============================================
-    Actualizar subtotal y total
-    =============================================*/
-
-  totalPrice(totalShoppingCart: any) {
-    let localShoppingCart = this.shoppingCart;
-
-    setTimeout(function () {
-      function price() {
-        let price = $('.pShoppingCart .end-price');
-        let quantity = $('.qShoppingCart');
-        let shipping = $('.sShoppingCart');
-        let subTotalPrice = $('.subTotalPrice');
-
-        let total = 0;
-
-        for (let i = 0; i < price.length; i++) {
-          /*=============================================
-					Sumar precio con envío
-					=============================================*/
-          let shipping_price = Number($(price[i]).html()) + Number($(shipping[i]).html());
-
-          /*=============================================
-					Multiplicar cantidad por precio con envío
-					=============================================*/
-
-          let subTotal = Number($(quantity[i]).val()) * shipping_price;
-
-          /*=============================================
-					Mostramos subtotales de cada producto
-					=============================================*/
-
-          $(subTotalPrice[i]).html(`$${subTotal.toFixed(2)}`);
+          this.shoppingCart.push(item);
         }
 
-        /*=============================================
-				Definimos el total de los precios
-				=============================================*/
+        load++;
 
-        localShoppingCart.forEach((value) => {
-          let start = value.price.substr(54);
-          let end = start.slice(0, -11);
-
-          total += (Number(end) + Number(value.shipping)) * Number(value.quantity);
-        });
-
-        $('.totalP').html(`$${total.toFixed(2)}`);
-      }
-
-      price();
-
-      /*=============================================
-			Función para saber cuando pasamos de página en DataTable
-			=============================================*/
-
-      $('.table').on('draw.dt', function () {
-        price();
-      });
-    }, totalShoppingCart * 100);
-  }
-
-  /*=============================================
-	Función para remover productos de la lista de carrito de compras
-	=============================================*/
-
-  removeProduct(product: any, details: any) {
-    /*=============================================
-	    Buscamos coincidencia para remover el producto
-	    =============================================*/
-
-    if (localStorage.getItem('list')) {
-      let shoppingCart = JSON.parse(localStorage.getItem('list') ?? '');
-
-      shoppingCart.forEach((list: any, index: any) => {
-        if (list.product == product && list.details == details.toString()) {
-          shoppingCart.splice(index, 1);
+        if (load === list.length) {
+          // cuando terminó de cargar todo
+          this.recalculateTotals();
+          this.loadingCart = false;
         }
       });
-
-      /*=============================================
-    		Actualizamos en LocalStorage la lista del carrito de compras
-    		=============================================*/
-
-      localStorage.setItem('list', JSON.stringify(shoppingCart));
-
-      Sweetalert.fnc('success', 'product removed', this.router.url);
     }
   }
 
-  /*=============================================
-	Destruímos el trigger de angular
-	=============================================*/
+  // =========================================================
+  // Recalcular subtotales y total general
+  // =========================================================
+  private recalculateTotals(): void {
+    let total = 0;
+
+    this.shoppingCart = this.shoppingCart.map((item) => {
+      const sub = (item.unitPrice + item.unitShipping) * item.quantity;
+      total += sub;
+      return {
+        ...item,
+        subTotal: sub
+      };
+    });
+
+    this.totalAmount = total;
+  }
+
+  // =========================================================
+  // Cambio de cantidad (sin jQuery)
+  // =========================================================
+  changeQuantity(
+    quantity: number,
+    move: 'up' | 'down' | 'direct',
+    productUrl: string,
+    details: any,
+    index: number
+  ): void {
+    // límites
+    let newQuantity = Number(quantity);
+
+    if (newQuantity > 9) newQuantity = 9;
+    if (newQuantity < 1) newQuantity = 1;
+
+    if (move === 'up' && newQuantity < 9) {
+      newQuantity = newQuantity + 1;
+    } else if (move === 'down' && newQuantity > 1) {
+      newQuantity = newQuantity - 1;
+    }
+
+    // actualizamos en memoria
+    this.shoppingCart[index].quantity = newQuantity;
+
+    // actualizamos en localStorage
+    const listStr = localStorage.getItem('list');
+    if (listStr) {
+      const shoppingCartLocal = JSON.parse(listStr);
+      shoppingCartLocal.forEach((x: any) => {
+        if (x.product === productUrl && x.details == details.toString()) {
+          x.unit = newQuantity;
+        }
+      });
+      localStorage.setItem('list', JSON.stringify(shoppingCartLocal));
+    }
+
+    // recalcular totales
+    this.recalculateTotals();
+  }
+
+  // =========================================================
+  // Remover producto (sin jQuery ni DataTables)
+  // =========================================================
+  removeProduct(product: any, details: any): void {
+    const listStr = localStorage.getItem('list');
+    if (!listStr) {
+      return;
+    }
+
+    let shoppingCartLocal = JSON.parse(listStr);
+
+    shoppingCartLocal = shoppingCartLocal.filter(
+      (x: any) => !(x.product === product && x.details == details.toString())
+    );
+
+    localStorage.setItem('list', JSON.stringify(shoppingCartLocal));
+
+    // Actualizamos el array en memoria
+    this.shoppingCart = this.shoppingCart.filter(
+      (x) => !(x.url === product && x.listDetails == details.toString())
+    );
+
+    this.totalShoppingCart = this.shoppingCart.length;
+    this.recalculateTotals();
+
+    Sweetalert.fnc('success', 'product removed', this.router.url);
+  }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+    // ya no hay dtTrigger ni DataTables que destruir
   }
 }

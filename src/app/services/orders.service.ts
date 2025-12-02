@@ -10,7 +10,7 @@ export class OrdersService {
 
 	private api:string = Api.url;
 
-  	constructor(private http:HttpClient) { }
+  	constructor(private readonly http:HttpClient) { }
 
   	/*=============================================
 	Registro en Firebase Database

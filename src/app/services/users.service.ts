@@ -27,16 +27,16 @@ declare var $: any;
   providedIn: 'root'
 })
 export class UsersService {
-  private api: string = Api.url;
-  private register: string = Register.url;
-  private login: string = Login.url;
-  private sendEmailVerification: string = SendEmailVerification.url;
-  private confirmEmailVerification: string = ConfirmEmailVerification.url;
-  private getUserData: string = GetUserData.url;
-  private sendPasswordResetEmail: string = SendPasswordResetEmail.url;
-  private verifyPasswordResetCode: string = VerifyPasswordResetCode.url;
-  private confirmPasswordReset: string = ConfirmPasswordReset.url;
-  private changePassword: string = ChangePassword.url;
+  private readonly api: string = Api.url;
+  private readonly register: string = Register.url;
+  private readonly login: string = Login.url;
+  private readonly sendEmailVerification: string = SendEmailVerification.url;
+  private readonly confirmEmailVerification: string = ConfirmEmailVerification.url;
+  private readonly getUserData: string = GetUserData.url;
+  private readonly sendPasswordResetEmail: string = SendPasswordResetEmail.url;
+  private readonly verifyPasswordResetCode: string = VerifyPasswordResetCode.url;
+  private readonly confirmPasswordReset: string = ConfirmPasswordReset.url;
+  private readonly changePassword: string = ChangePassword.url;
 
   constructor(
     private readonly http: HttpClient,

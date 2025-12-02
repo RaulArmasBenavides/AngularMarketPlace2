@@ -1,169 +1,97 @@
-<!--=====================================
-Breadcrumb
-======================================-->  
+<div class="shopping-cart container py-3">
 
-<div class="ps-breadcrumb">
+  <!-- Spinner de carga -->
+  <div *ngIf="loadingCart" class="text-center my-4">
+    <div class="spinner-border"></div>
+  </div>
 
-<div class="container">
+  <!-- Tabla del carrito -->
+  <table class="table table-striped" *ngIf="!loadingCart && shoppingCart.length > 0">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th class="text-center">Quantity</th>
+        <th class="text-right">Unit price</th>
+        <th class="text-right">Shipping</th>
+        <th class="text-right">Subtotal</th>
+        <th></th>
+      </tr>
+    </thead>
 
-    <ul class="breadcrumb">
-
-        <li><a routerLink="/">Home</a></li>
-
-        <li>Shopping cart</li>
-
-    </ul>
-
-</div>
-
-</div>
-
-
-<!--=====================================
-Shopping Car
-======================================--> 
-
-<div class="ps-section--shopping ps-shopping-cart">
-
-    <div class="container">
-
-        <div class="ps-section__header">
-
-            <h1>Shopping Cart</h1>
-
-        </div>
-
-        <div class="ps-section__content">
-
-            <div class="table-responsive">
-
-                <table class="table ps-table--shopping-cart" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Product name</th>
-                            <th>PRICE</th>
-                            <th>SHIPPING</th>
-                            <th>QUANTITY</th>
-                            <th>TOTAL</th>
-                            <th></th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                    	<tr 
-                    	*ngIf="shoppingCart.length == 0">
-                    		
-                    		<td colspan="6" class="text-center">You haven't products in the shopping cart yet!</td>	
-
-                    	</tr>
-
-                        <tr
-						*ngFor="let product of shoppingCart; let i = index; let lastIndex = last"
-                        >
-                            <td>
-
-                                <div class="ps-product--cart">
-
-                                    <div class="ps-product__thumbnail">
-
-                                        <a href="product/{{product.url}}">
-                                        	<img src="{{path}}img/products/{{product.category}}/{{product.image}}">
-                                        </a>
-
-                                    </div>
-
-                                    <div class="ps-product__content">
-
-                                        <a href="product/{{product.url}}">{{product.name}}</a>
-
-                                        <div [innerHTML]="product.details"></div>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-                            <td class="ps-product pShoppingCart" [innerHTML]="product.price"></td>
-
-                            <td class="text-center">$<span class="sShoppingCart">{{product.shipping}}</span></td>
-
-
-                            <td>
-
-                                <div class="form-group--number quantity">
-
-                                    <button class="up" (click)="changeQuantity(quantity.value, 1, 'up', product.url, product.listDetails, i)">
-                                    +</button>
-
-                                    <button class="down" (click)="changeQuantity(quantity.value, 1, 'down', product.url, product.listDetails, i)">
-                                    -</button>
-
-                                    <input class="form-control qShoppingCart" type="text" value="{{product.quantity}}" #quantity (change)="changeQuantity(quantity.value, 0, null, product.url, product.listDetails, i)" readonly>
-
-                                </div>
-
-                            </td>
-
-                            <td class="subTotalPrice"><div class="spinner-border subTotalPriceM"></div></td>                             
-
-                            <td>
-
-                                <a 
-                                 mwlConfirmationPopover
-                                 [popoverMessage]="popoverMessage"
-                                 placement="left"
-                                 style="cursor:pointer" 
-                                 (confirm)="removeProduct(product.url, product.listDetails)">
-                                    <i class="icon-cross"></i>
-                                </a>
-
-                            </td>
-
-                        {{ lastIndex ? callback() : ""}}
-
-                        </tr>                  
-
-                    </tbody>
-
-                </table>
-
-                <h4 class="d-block d-lg-none text-right text-muted py-3">
-                    Move to <i class="fas fa-long-arrow-alt-right"></i>
-                </h4>
-
+    <tbody>
+      <tr *ngFor="let item of shoppingCart; let i = index">
+        <td>
+          <div class="d-flex align-items-center">
+            <img [src]="item.image" alt="" class="img-thumbnail mr-2" style="width:60px; height:auto;">
+            <div>
+              <div class="font-weight-bold">{{ item.name }}</div>
+              <div [innerHTML]="item.details"></div>
             </div>
+          </div>
+        </td>
 
-            <hr>
-
-            <div 
-             *ngIf="shoppingCart.length > 0"
-            class="d-flex flex-row-reverse">
-              <div [innerHTML]="totalP"></div>             
+        <td class="text-center">
+          <div class="input-group input-group-sm justify-content-center">
+            <div class="input-group-prepend">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                (click)="changeQuantity(item.quantity, 'down', item.url, item.listDetails, i)">
+                -
+              </button>
             </div>
-
-            <div class="ps-section__cart-actions">
-
-                <a class="ps-btn" routerLink="/">
-                    <i class="icon-arrow-left"></i> Back to Shop
-                </a>
-
-                <a 
-                *ngIf="shoppingCart.length > 0"
-                class="ps-btn" href="checkout">
-                    Proceed to checkout <i class="icon-arrow-right"></i> 
-                </a>
-
+            <input
+              type="number"
+              class="form-control text-center"
+              [ngModel]="item.quantity"
+              (ngModelChange)="changeQuantity($event, 'direct', item.url, item.listDetails, i)"
+              min="1"
+              max="9"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                (click)="changeQuantity(item.quantity, 'up', item.url, item.listDetails, i)">
+                +
+              </button>
             </div>
+          </div>
+        </td>
 
-        </div> 
-        
-    </div>
+        <td class="text-right">
+          {{ item.unitPrice | currency:'USD':'symbol':'1.2-2' }}
+        </td>
 
+        <td class="text-right">
+          {{ item.unitShipping | currency:'USD':'symbol':'1.2-2' }}
+        </td>
+
+        <td class="text-right">
+          {{ item.subTotal | currency:'USD':'symbol':'1.2-2' }}
+        </td>
+
+        <td class="text-right">
+          <button class="btn btn-sm btn-danger" (click)="removeProduct(item.url, item.listDetails)">
+            Remove
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Carrito vacío -->
+  <div *ngIf="!loadingCart && shoppingCart.length === 0" class="alert alert-info">
+    Your cart is empty.
+  </div>
+
+  <!-- Total general -->
+  <div *ngIf="!loadingCart && shoppingCart.length > 0" class="p-2 text-right">
+    <h3>
+      Total:
+      <span class="totalP">
+        {{ totalAmount | currency:'USD':'symbol':'1.2-2' }}
+      </span>
+    </h3>
+  </div>
 </div>

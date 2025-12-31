@@ -8,6 +8,10 @@
     "test": "ng test"
   },
   "private": true,
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/RaulArmasBenavides/AngularMarketPlace2.git"
+  },
   "dependencies": {
     "@angular/animations": "20.3.10",
     "@angular/cdk": "20.2.12",

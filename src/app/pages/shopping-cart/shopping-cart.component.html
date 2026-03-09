@@ -1,97 +1,108 @@
 <div class="shopping-cart container py-3">
-
   <!-- Spinner de carga -->
-  <div *ngIf="loadingCart" class="text-center my-4">
-    <div class="spinner-border"></div>
-  </div>
+  @if (loadingCart) {
+    <div class="text-center my-4">
+      <div class="spinner-border"></div>
+    </div>
+  }
 
   <!-- Tabla del carrito -->
-  <table class="table table-striped" *ngIf="!loadingCart && shoppingCart.length > 0">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th class="text-center">Quantity</th>
-        <th class="text-right">Unit price</th>
-        <th class="text-right">Shipping</th>
-        <th class="text-right">Subtotal</th>
-        <th></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr *ngFor="let item of shoppingCart; let i = index">
-        <td>
-          <div class="d-flex align-items-center">
-            <img [src]="item.image" alt="" class="img-thumbnail mr-2" style="width:60px; height:auto;">
-            <div>
-              <div class="font-weight-bold">{{ item.name }}</div>
-              <div [innerHTML]="item.details"></div>
-            </div>
-          </div>
-        </td>
-
-        <td class="text-center">
-          <div class="input-group input-group-sm justify-content-center">
-            <div class="input-group-prepend">
+  @if (!loadingCart && shoppingCart.length > 0) {
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-right">Unit price</th>
+          <th class="text-right">Shipping</th>
+          <th class="text-right">Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of shoppingCart; track item; let i = $index) {
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <img
+                  [src]="item.image"
+                  alt=""
+                  class="img-thumbnail mr-2"
+                  style="width: 60px; height: auto"
+                />
+                <div>
+                  <div class="font-weight-bold">{{ item.name }}</div>
+                  <div [innerHTML]="item.details"></div>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="input-group input-group-sm justify-content-center">
+                <div class="input-group-prepend">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    (click)="changeQuantity(item.quantity, 'down', item.url, item.listDetails, i)"
+                  >
+                    -
+                  </button>
+                </div>
+                <input
+                  type="number"
+                  class="form-control text-center"
+                  [ngModel]="item.quantity"
+                  (ngModelChange)="changeQuantity($event, 'direct', item.url, item.listDetails, i)"
+                  min="1"
+                  max="9"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    (click)="changeQuantity(item.quantity, 'up', item.url, item.listDetails, i)"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td class="text-right">
+              {{ item.unitPrice | currency: 'USD' : 'symbol' : '1.2-2' }}
+            </td>
+            <td class="text-right">
+              {{ item.unitShipping | currency: 'USD' : 'symbol' : '1.2-2' }}
+            </td>
+            <td class="text-right">
+              {{ item.subTotal | currency: 'USD' : 'symbol' : '1.2-2' }}
+            </td>
+            <td class="text-right">
               <button
-                class="btn btn-outline-secondary"
-                type="button"
-                (click)="changeQuantity(item.quantity, 'down', item.url, item.listDetails, i)">
-                -
+                class="btn btn-sm btn-danger"
+                (click)="removeProduct(item.url, item.listDetails)"
+              >
+                Remove
               </button>
-            </div>
-            <input
-              type="number"
-              class="form-control text-center"
-              [ngModel]="item.quantity"
-              (ngModelChange)="changeQuantity($event, 'direct', item.url, item.listDetails, i)"
-              min="1"
-              max="9"
-            />
-            <div class="input-group-append">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                (click)="changeQuantity(item.quantity, 'up', item.url, item.listDetails, i)">
-                +
-              </button>
-            </div>
-          </div>
-        </td>
-
-        <td class="text-right">
-          {{ item.unitPrice | currency:'USD':'symbol':'1.2-2' }}
-        </td>
-
-        <td class="text-right">
-          {{ item.unitShipping | currency:'USD':'symbol':'1.2-2' }}
-        </td>
-
-        <td class="text-right">
-          {{ item.subTotal | currency:'USD':'symbol':'1.2-2' }}
-        </td>
-
-        <td class="text-right">
-          <button class="btn btn-sm btn-danger" (click)="removeProduct(item.url, item.listDetails)">
-            Remove
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 
   <!-- Carrito vacío -->
-  <div *ngIf="!loadingCart && shoppingCart.length === 0" class="alert alert-info">
-    Your cart is empty.
-  </div>
+  @if (!loadingCart && shoppingCart.length === 0) {
+    <div class="alert alert-info">Your cart is empty.</div>
+  }
 
   <!-- Total general -->
-  <div *ngIf="!loadingCart && shoppingCart.length > 0" class="p-2 text-right">
-    <h3>
-      Total:
-      <span class="totalP">
-        {{ totalAmount | currency:'USD':'symbol':'1.2-2' }}
-      </span>
-    </h3>
-  </div>
+  @if (!loadingCart && shoppingCart.length > 0) {
+    <div class="p-2 text-right">
+      <h3>
+        Total:
+        <span class="totalP">
+          {{ totalAmount | currency: 'USD' : 'symbol' : '1.2-2' }}
+        </span>
+      </h3>
+    </div>
+  }
 </div>

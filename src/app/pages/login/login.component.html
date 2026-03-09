@@ -36,8 +36,8 @@ Login - Register Content
 
       <div class="ps-tabs">
         <!--=====================================
-                Login Form
-                ======================================-->
+        Login Form
+        ======================================-->
 
         <div class="ps-tab active" id="sign-in">
           <div class="ps-form__content">
@@ -56,9 +56,9 @@ Login - Register Content
               />
 
               <div class="valid-feedback">Valid.</div>
-              <div *ngIf="f.submitted && f.controls['email'].errors" class="invalid-feedback">
-                Please fill out this field.
-              </div>
+              @if (f.submitted && f.controls['email'].errors) {
+                <div class="invalid-feedback">Please fill out this field.</div>
+              }
             </div>
 
             <div class="form-group form-forgot">
@@ -73,9 +73,9 @@ Login - Register Content
               />
 
               <div class="valid-feedback">Valid.</div>
-              <div *ngIf="f.submitted && f.controls['password'].errors" class="invalid-feedback">
-                Please fill out this field.
-              </div>
+              @if (f.submitted && f.controls['password'].errors) {
+                <div class="invalid-feedback">Please fill out this field.</div>
+              }
 
               <a href="#resetPassword" data-toggle="modal">Forgot?</a>
             </div>
@@ -124,8 +124,8 @@ Login - Register Content
 </div>
 
 <!--=====================================
-Ventana modal para recuperar contraseña
-======================================-->
+      Ventana modal para recuperar contraseña
+      ======================================-->
 
 <div class="modal" id="resetPassword">
   <div class="modal-dialog">
@@ -175,8 +175,8 @@ Ventana modal para recuperar contraseña
 </div>
 
 <!--=====================================
-Ventana modal para escribir nueva contraseña
-======================================-->
+        Ventana modal para escribir nueva contraseña
+        ======================================-->
 
 <div class="modal" id="newPassword">
   <div class="modal-dialog">

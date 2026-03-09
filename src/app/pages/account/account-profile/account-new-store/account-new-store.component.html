@@ -10,8 +10,8 @@ Nav Account
   </ul>
 
   <!--=====================================
-    New Store
-    ======================================-->
+  New Store
+  ======================================-->
   <div class="ps-page__content text-center row">
     <div class="container">
       <div class="ps-section__header">
@@ -74,14 +74,14 @@ Nav Account
       <!-- Row -->
 
       <!--=====================================
-            Formulario para crear tienda y producto
-            ======================================-->
+      Formulario para crear tienda y producto
+      ======================================-->
 
       <form (ngSubmit)="onSubmit(f)" #f="ngForm">
         <div class="tab-content" id="tabContent">
           <!--=====================================
-                    Términos y condiciones
-                    ======================================-->
+          Términos y condiciones
+          ======================================-->
 
           <div id="terms" class="container tab-pane fade pt-5">
             <!-- Modal Header -->
@@ -141,8 +141,8 @@ Nav Account
           </div>
 
           <!--=====================================
-                    Crear tienda
-                    ======================================-->
+            Crear tienda
+            ======================================-->
 
           <div id="createStore" class="container tab-pane fade">
             <!-- Modal Header -->
@@ -153,8 +153,8 @@ Nav Account
             <!-- Modal body -->
             <div class="modal-body p-5 text-left">
               <!--=====================================
-                            Nombre de la tienda
-                            ======================================-->
+                Nombre de la tienda
+                ======================================-->
 
               <div class="form-group">
                 <label>Store Name<sup class="text-danger">*</sup></label>
@@ -177,8 +177,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Url de la tienda
-                            ======================================-->
+                  Url de la tienda
+                  ======================================-->
 
               <div class="form-group">
                 <label>Store Url<sup class="text-danger">*</sup></label>
@@ -199,8 +199,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Información de la tienda
-                            ======================================-->
+                    Información de la tienda
+                    ======================================-->
 
               <div class="form-group">
                 <label>Store About<sup class="text-danger">*</sup></label>
@@ -224,8 +224,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Email de la tienda
-                            ======================================-->
+                    Email de la tienda
+                    ======================================-->
 
               <div class="form-group">
                 <label>Store Email<sup class="text-danger">*</sup></label>
@@ -246,8 +246,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            País de la tienda
-                            ======================================-->
+                      País de la tienda
+                      ======================================-->
 
               <div class="form-group">
                 <label>Store Country<sup class="text-danger">*</sup></label>
@@ -261,9 +261,11 @@ Nav Account
                     #inputCountry
                     required
                   >
-                    <option *ngFor="let country of countries" [value]="country.name">
-                      {{ country.name }}
-                    </option>
+                    @for (country of countries; track country) {
+                      <option [value]="country.name">
+                        {{ country.name }}
+                      </option>
+                    }
                   </select>
 
                   <div class="valid-feedback">Valid.</div>
@@ -272,8 +274,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Ciudad de la tienda
-                            ======================================-->
+                      Ciudad de la tienda
+                      ======================================-->
 
               <div class="form-group">
                 <label>Store City<sup class="text-danger">*</sup></label>
@@ -296,8 +298,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Teléfono de la tienda
-                            ======================================-->
+                        Teléfono de la tienda
+                        ======================================-->
 
               <div class="form-group">
                 <label>Store Phone<sup class="text-danger">*</sup></label>
@@ -324,8 +326,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Dirección de la tienda
-                            ======================================-->
+                          Dirección de la tienda
+                          ======================================-->
 
               <div class="form-group">
                 <label>Store Address<sup class="text-danger">*</sup></label>
@@ -379,8 +381,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Portada de la tienda
-                            ======================================-->
+                              Portada de la tienda
+                              ======================================-->
 
               <div class="form-group">
                 <label>Store Cover<sup class="text-danger">*</sup></label>
@@ -410,15 +412,15 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Redes sociales de la tienda
-                            ======================================-->
+                                Redes sociales de la tienda
+                                ======================================-->
 
               <div class="form-group">
                 <label>Social Networks</label>
 
                 <!--=====================================
-                                Facebook
-                                ======================================-->
+                                  Facebook
+                                  ======================================-->
 
                 <div class="form-group__content input-group mb-5">
                   <div class="input-group-append">
@@ -440,8 +442,8 @@ Nav Account
                 </div>
 
                 <!--=====================================
-                                Instagram
-                                ======================================-->
+                                    Instagram
+                                    ======================================-->
 
                 <div class="form-group__content input-group mb-5">
                   <div class="input-group-append">
@@ -463,8 +465,8 @@ Nav Account
                 </div>
 
                 <!--=====================================
-                                Twitter
-                                ======================================-->
+                                      Twitter
+                                      ======================================-->
 
                 <div class="form-group__content input-group mb-5">
                   <div class="input-group-append">
@@ -486,8 +488,8 @@ Nav Account
                 </div>
 
                 <!--=====================================
-                                Linkedin
-                                ======================================-->
+                                        Linkedin
+                                        ======================================-->
 
                 <div class="form-group__content input-group mb-5">
                   <div class="input-group-append">
@@ -509,8 +511,8 @@ Nav Account
                 </div>
 
                 <!--=====================================
-                                Youtube
-                                ======================================-->
+                                          Youtube
+                                          ======================================-->
 
                 <div class="form-group__content input-group mb-5">
                   <div class="input-group-append">
@@ -547,8 +549,8 @@ Nav Account
           </div>
 
           <!--=====================================
-                    Crear Producto
-                    ======================================-->
+                                      Crear Producto
+                                      ======================================-->
 
           <div id="createProduct" class="container tab-pane fade">
             <!-- Modal Header -->
@@ -559,8 +561,8 @@ Nav Account
             <!-- Modal body -->
             <div class="modal-body p-5 text-left">
               <!--=====================================
-                            Nombre del producto
-                            ======================================-->
+                                          Nombre del producto
+                                          ======================================-->
 
               <div class="form-group">
                 <label>Product Name<sup class="text-danger">*</sup></label>
@@ -583,8 +585,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Url del producto
-                            ======================================-->
+                                            Url del producto
+                                            ======================================-->
 
               <div class="form-group">
                 <label>Product Url<sup class="text-danger">*</sup></label>
@@ -605,8 +607,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Categoría del producto
-                            ======================================-->
+                                              Categoría del producto
+                                              ======================================-->
 
               <div class="form-group">
                 <label>Product Category<sup class="text-danger">*</sup></label>
@@ -620,12 +622,11 @@ Nav Account
                     #inputCategory
                     required
                   >
-                    <option
-                      *ngFor="let category of categories"
-                      [value]="category.name + '_' + category.url"
-                    >
-                      {{ category.name }}
-                    </option>
+                    @for (category of categories; track category) {
+                      <option [value]="category.name + '_' + category.url">
+                        {{ category.name }}
+                      </option>
+                    }
                   </select>
 
                   <div class="valid-feedback">Valid.</div>
@@ -634,35 +635,34 @@ Nav Account
               </div>
 
               <!--=====================================
-                            SubCategoría del producto
-                            ======================================-->
+                                              SubCategoría del producto
+                                              ======================================-->
 
-              <div *ngIf="subcategories.length > 0" class="form-group">
-                <label>Product SubCategory<sup class="text-danger">*</sup></label>
-
-                <div class="form-group__content">
-                  <select
-                    class="form-control formProduct"
-                    name="productSubCategory"
-                    [(ngModel)]="product.sub_category"
-                    required
-                  >
-                    <option
-                      *ngFor="let subcategory of subcategories"
-                      [value]="subcategory.url + '_' + subcategory.title_list"
+              @if (subcategories.length > 0) {
+                <div class="form-group">
+                  <label>Product SubCategory<sup class="text-danger">*</sup></label>
+                  <div class="form-group__content">
+                    <select
+                      class="form-control formProduct"
+                      name="productSubCategory"
+                      [(ngModel)]="product.sub_category"
+                      required
                     >
-                      {{ subcategory.name }}
-                    </option>
-                  </select>
-
-                  <div class="valid-feedback">Valid.</div>
-                  <div class="invalid-feedback">Please fill out this field.</div>
+                      @for (subcategory of subcategories; track subcategory) {
+                        <option [value]="subcategory.url + '_' + subcategory.title_list">
+                          {{ subcategory.name }}
+                        </option>
+                      }
+                    </select>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                  </div>
                 </div>
-              </div>
+              }
 
               <!--=====================================
-                            Descripción del producto
-                            ======================================-->
+                                              Descripción del producto
+                                              ======================================-->
 
               <div class="form-group">
                 <label>Product Description<sup class="text-danger">*</sup></label>
@@ -671,17 +671,16 @@ Nav Account
                   class="formProduct"
                   name="productDescription"
                   [(ngModel)]="product.description"
-         
                   required
                 ></textarea>
-         <!-- [ngxSummernote]="config" -->
+                <!-- [ngxSummernote]="config" -->
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">Please fill out this field.</div>
               </div>
 
               <!--=====================================
-                            Resumen del producto
-                            ======================================-->
+                                              Resumen del producto
+                                              ======================================-->
 
               <div class="form-group">
                 <label
@@ -689,33 +688,30 @@ Nav Account
                   capabilities</label
                 >
 
-                <div
-                  *ngFor="let inputSummary of summaryGroup; let i = index"
-                  class="form-group__content input-group mb-3"
-                >
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <button
-                        type="button"
-                        class="btn btn-danger"
-                        (click)="removeInput(i, 'summary')"
-                      >
-                        &times;
-                      </button>
-                    </span>
+                @for (inputSummary of summaryGroup; track inputSummary; let i = $index) {
+                  <div class="form-group__content input-group mb-3">
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <button
+                          type="button"
+                          class="btn btn-danger"
+                          (click)="removeInput(i, 'summary')"
+                        >
+                          &times;
+                        </button>
+                      </span>
+                    </div>
+                    <input
+                      class="form-control formProduct"
+                      type="text"
+                      name="input_{{ i }}"
+                      [(ngModel)]="inputSummary.input"
+                      required
+                    />
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
                   </div>
-
-                  <input
-                    class="form-control formProduct"
-                    type="text"
-                    name="input_{{ i }}"
-                    [(ngModel)]="inputSummary.input"
-                    required
-                  />
-
-                  <div class="valid-feedback">Valid.</div>
-                  <div class="invalid-feedback">Please fill out this field.</div>
-                </div>
+                }
 
                 <button type="button" class="btn btn-primary mb-2" (click)="addInput('summary')">
                   Add Summary
@@ -723,8 +719,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Detalles del producto
-                            ======================================-->
+                                                  Detalles del producto
+                                                  ======================================-->
 
               <div class="form-group">
                 <label
@@ -732,61 +728,55 @@ Nav Account
                   <strong>Title:</strong> Bluetooth, <strong>Value:</strong> Yes</label
                 >
 
-                <div *ngFor="let inputDetail of detailsGroup; let i = index" class="row mb-3">
-                  <!--=====================================
-                                    Entrada para el título del detalle
-                                    ======================================-->
-
-                  <div class="col-12 col-lg-6 form-group__content input-group">
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-                        <button
-                          type="button"
-                          class="btn btn-danger"
-                          (click)="removeInput(i, 'details')"
-                        >
-                          &times;
-                        </button>
-                      </span>
+                @for (inputDetail of detailsGroup; track inputDetail; let i = $index) {
+                  <div class="row mb-3">
+                    <!--=====================================
+                                                          Entrada para el título del detalle
+                                                          ======================================-->
+                    <div class="col-12 col-lg-6 form-group__content input-group">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="removeInput(i, 'details')"
+                          >
+                            &times;
+                          </button>
+                        </span>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text"> Title: </span>
+                      </div>
+                      <input
+                        class="form-control formProduct"
+                        type="text"
+                        name="title_{{ i }}"
+                        [(ngModel)]="inputDetail.title"
+                        required
+                      />
+                      <div class="valid-feedback">Valid.</div>
+                      <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-
-                    <div class="input-group-append">
-                      <span class="input-group-text"> Title: </span>
+                    <!--=====================================
+                                                            Entrada para el valor del detalle
+                                                            ======================================-->
+                    <div class="col-12 col-lg-6 form-group__content input-group">
+                      <div class="input-group-append">
+                        <span class="input-group-text"> Value: </span>
+                      </div>
+                      <input
+                        class="form-control formProduct"
+                        type="text"
+                        name="value_{{ i }}"
+                        [(ngModel)]="inputDetail.value"
+                        required
+                      />
+                      <div class="valid-feedback">Valid.</div>
+                      <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-
-                    <input
-                      class="form-control formProduct"
-                      type="text"
-                      name="title_{{ i }}"
-                      [(ngModel)]="inputDetail.title"
-                      required
-                    />
-
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
                   </div>
-
-                  <!--=====================================
-                                    Entrada para el valor del detalle
-                                    ======================================-->
-
-                  <div class="col-12 col-lg-6 form-group__content input-group">
-                    <div class="input-group-append">
-                      <span class="input-group-text"> Value: </span>
-                    </div>
-
-                    <input
-                      class="form-control formProduct"
-                      type="text"
-                      name="value_{{ i }}"
-                      [(ngModel)]="inputDetail.value"
-                      required
-                    />
-
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-                  </div>
-                </div>
+                }
 
                 <button type="button" class="btn btn-primary mb-2" (click)="addInput('details')">
                   Add Detail
@@ -794,8 +784,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Especificaciones del producto
-                            ======================================-->
+                                                        Especificaciones del producto
+                                                        ======================================-->
 
               <div class="form-group">
                 <label
@@ -803,63 +793,58 @@ Nav Account
                   <strong>Values:</strong> Black, Red, White</label
                 >
 
-                <div
-                  *ngFor="let inputSpecification of specificationsGroup; let i = index"
-                  class="row mb-3"
-                >
-                  <!--=====================================
-                                    Entrada para el tipo del especificación
-                                    ======================================-->
-
-                  <div class="col-12 col-lg-6 form-group__content input-group">
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-                        <button
-                          type="button"
-                          class="btn btn-danger"
-                          (click)="removeInput(i, 'specifications')"
-                        >
-                          &times;
-                        </button>
-                      </span>
+                @for (
+                  inputSpecification of specificationsGroup;
+                  track inputSpecification;
+                  let i = $index
+                ) {
+                  <div class="row mb-3">
+                    <!--=====================================
+                                                                Entrada para el tipo del especificación
+                                                                ======================================-->
+                    <div class="col-12 col-lg-6 form-group__content input-group">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="removeInput(i, 'specifications')"
+                          >
+                            &times;
+                          </button>
+                        </span>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text"> Type: </span>
+                      </div>
+                      <input
+                        class="form-control"
+                        type="text"
+                        name="type_{{ i }}"
+                        [(ngModel)]="inputSpecification.type"
+                      />
+                      <div class="valid-feedback">Valid.</div>
+                      <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-
-                    <div class="input-group-append">
-                      <span class="input-group-text"> Type: </span>
+                    <!--=====================================
+                                                                  Entrada para el valor del detalle
+                                                                  ======================================-->
+                    <div class="col-12 col-lg-6 form-group__content input-group">
+                      <div class="input-group-append">
+                        <span class="input-group-text"> Values: </span>
+                      </div>
+                      <tag-input
+                        class="form-control"
+                        type="text"
+                        name="values_{{ i }}"
+                        [(ngModel)]="inputSpecification.values"
+                        [maxItems]="5"
+                      ></tag-input>
+                      <div class="valid-feedback">Valid.</div>
+                      <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-
-                    <input
-                      class="form-control"
-                      type="text"
-                      name="type_{{ i }}"
-                      [(ngModel)]="inputSpecification.type"
-                    />
-
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
                   </div>
-
-                  <!--=====================================
-                                    Entrada para el valor del detalle
-                                    ======================================-->
-
-                  <div class="col-12 col-lg-6 form-group__content input-group">
-                    <div class="input-group-append">
-                      <span class="input-group-text"> Values: </span>
-                    </div>
-
-                    <tag-input
-                      class="form-control"
-                      type="text"
-                      name="values_{{ i }}"
-                      [(ngModel)]="inputSpecification.values"
-                      [maxItems]="5"
-                    ></tag-input>
-
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-                  </div>
-                </div>
+                }
 
                 <button
                   type="button"
@@ -871,8 +856,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Palabras claves del producto
-                            ======================================-->
+                                                            Palabras claves del producto
+                                                            ======================================-->
 
               <div class="form-group">
                 <label>Product Tags<sup class="text-danger">*</sup></label>
@@ -893,8 +878,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Imagen del producto
-                            ======================================-->
+                                                            Imagen del producto
+                                                            ======================================-->
 
               <div class="form-group">
                 <label>Product Image<sup class="text-danger">*</sup></label>
@@ -924,8 +909,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Galería del Producto
-                            ======================================-->
+                                                              Galería del Producto
+                                                              ======================================-->
 
               <label>Product Gallery<sup class="text-danger">*</sup></label>
 
@@ -941,20 +926,21 @@ Nav Account
                   </div>
                 </ngx-dropzone-label>
 
-                <ngx-dropzone-image-preview
-                  ngProjectAs="ngx-dropzone-preview"
-                  *ngFor="let f of gallery"
-                  [file]="f"
-                  [removable]="true"
-                  (removed)="onRemove(f)"
-                >
-                  <ngx-dropzone-label> {{ f.name }} {{ f.type }} </ngx-dropzone-label>
-                </ngx-dropzone-image-preview>
+                @for (f of gallery; track f) {
+                  <ngx-dropzone-image-preview
+                    ngProjectAs="ngx-dropzone-preview"
+                    [file]="f"
+                    [removable]="true"
+                    (removed)="onRemove(f)"
+                  >
+                    <ngx-dropzone-label> {{ f.name }} {{ f.type }} </ngx-dropzone-label>
+                  </ngx-dropzone-image-preview>
+                }
               </div>
 
               <!--=====================================
-                            Banner Top del producto
-                            ======================================-->
+                                                              Banner Top del producto
+                                                              ======================================-->
 
               <div class="form-group">
                 <label>Product Top Banner<sup class="text-danger">*</sup>, Ex:</label>
@@ -968,8 +954,8 @@ Nav Account
 
                 <div class="row mb-3">
                   <!--=====================================
-                                    H3 Tag
-                                    ======================================-->
+                                                                    H3 Tag
+                                                                    ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -994,20 +980,19 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    P1 Tag
-                                    ======================================-->
+                                                                      P1 Tag
+                                                                      ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
                       <span class="input-group-text"> P1 Tag: </span>
                     </div>
-   <!-- [(ngModel)]="topBanner['P1 tag']" -->
+                    <!-- [(ngModel)]="topBanner['P1 tag']" -->
                     <input
                       type="text"
                       class="form-control formProduct"
                       placeholder="Ex: Disccount"
                       name="topBannerP1Tag"
-                   
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerP1Tag)"
@@ -1021,8 +1006,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    H4 Tag
-                                    ======================================-->
+                                                                        H4 Tag
+                                                                        ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1047,8 +1032,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    P2 Tag
-                                    ======================================-->
+                                                                          P2 Tag
+                                                                          ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1060,7 +1045,6 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: Enter Promotion"
                       name="topBannerP2Tag"
-               
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerP2Tag)"
@@ -1068,14 +1052,14 @@ Nav Account
                       tags="tags"
                       required
                     />
-       <!-- [(ngModel)]="topBanner['P2 tag']" -->
+                    <!-- [(ngModel)]="topBanner['P2 tag']" -->
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                   </div>
 
                   <!--=====================================
-                                    Span Tag
-                                    ======================================-->
+                                                                            Span Tag
+                                                                            ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1087,7 +1071,6 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: Sale2019"
                       name="topBannerSpanTag"
-    
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(topBannerSpanTag)"
@@ -1095,14 +1078,14 @@ Nav Account
                       tags="tags"
                       required
                     />
-                  <!-- [(ngModel)]="topBanner['Span tag']" -->
+                    <!-- [(ngModel)]="topBanner['Span tag']" -->
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                   </div>
 
                   <!--=====================================
-                                    Button Tag
-                                    ======================================-->
+                                                                              Button Tag
+                                                                              ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1127,8 +1110,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    IMG Tag
-                                    ======================================-->
+                                                                                IMG Tag
+                                                                                ======================================-->
 
                   <div class="form-group">
                     <label>IMG Tag:</label>
@@ -1160,8 +1143,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Banner por defecto del producto
-                            ======================================-->
+                                                                              Banner por defecto del producto
+                                                                              ======================================-->
 
               <div class="form-group">
                 <label>Product Default Banner<sup class="text-danger">*</sup></label>
@@ -1195,8 +1178,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Slide Horizontal del producto
-                            ======================================-->
+                                                                                  Slide Horizontal del producto
+                                                                                  ======================================-->
 
               <div class="form-group">
                 <label>Product Horizontal Slider<sup class="text-danger">*</sup>, Ex:</label>
@@ -1210,8 +1193,8 @@ Nav Account
 
                 <div class="row mb-3">
                   <!--=====================================
-                                    H4 Tag
-                                    ======================================-->
+                                                                                        H4 Tag
+                                                                                        ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1237,8 +1220,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    H3-1 Tag
-                                    ======================================-->
+                                                                                          H3-1 Tag
+                                                                                          ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1263,8 +1246,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    H3-2 Tag
-                                    ======================================-->
+                                                                                            H3-2 Tag
+                                                                                            ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1276,7 +1259,6 @@ Nav Account
                       class="form-control formProduct"
                       placeholder="Ex: Combo Super Cool"
                       name="hSliderH3_2Tag"
-            
                       pattern="[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}"
                       maxlength="50"
                       (change)="validate(hSliderH3_2Tag)"
@@ -1285,15 +1267,15 @@ Nav Account
                       required
                     />
 
-                              <!-- [(ngModel)]="hSlider['H3-2 tag']" -->
+                    <!-- [(ngModel)]="hSlider['H3-2 tag']" -->
 
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                   </div>
 
                   <!--=====================================
-                                    H3-3 Tag
-                                    ======================================-->
+                                                                                              H3-3 Tag
+                                                                                              ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1318,8 +1300,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    H3-4s Tag
-                                    ======================================-->
+                                                                                                H3-4s Tag
+                                                                                                ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1344,8 +1326,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    Button Tag
-                                    ======================================-->
+                                                                                                  Button Tag
+                                                                                                  ======================================-->
 
                   <div class="col-12 col-lg-6 form-group__content input-group mx-0 pr-0 mb-3">
                     <div class="input-group-append">
@@ -1371,8 +1353,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    IMG Tag
-                                    ======================================-->
+                                                                                                    IMG Tag
+                                                                                                    ======================================-->
 
                   <div class="form-group">
                     <label>IMG Tag:</label>
@@ -1404,8 +1386,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Slide Vertical del producto
-                            ======================================-->
+                                                                                                  Slide Vertical del producto
+                                                                                                  ======================================-->
 
               <div class="form-group">
                 <label>Product Vertical Slider<sup class="text-danger">*</sup></label>
@@ -1439,8 +1421,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Video del producto
-                            ======================================-->
+                                                                                                      Video del producto
+                                                                                                      ======================================-->
 
               <div class="form-group">
                 <label
@@ -1486,14 +1468,14 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Precio de venta, precio de envío, dias de entrega y stock
-                            ======================================-->
+                                                                                                          Precio de venta, precio de envío, dias de entrega y stock
+                                                                                                          ======================================-->
 
               <div class="form-group">
                 <div class="row mb-3">
                   <!--=====================================
-                                    Precio de venta
-                                    ======================================-->
+                                                                                                              Precio de venta
+                                                                                                              ======================================-->
 
                   <div class="col-12 col-lg-3">
                     <label>Product Price<sup class="text-danger">*</sup></label>
@@ -1523,8 +1505,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    Precio de envío
-                                    ======================================-->
+                                                                                                                Precio de envío
+                                                                                                                ======================================-->
 
                   <div class="col-12 col-lg-3">
                     <label>Product Shipping<sup class="text-danger">*</sup></label>
@@ -1554,8 +1536,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    Días de entrega
-                                    ======================================-->
+                                                                                                                  Días de entrega
+                                                                                                                  ======================================-->
 
                   <div class="col-12 col-lg-3">
                     <label>Product Delivery Time<sup class="text-danger">*</sup></label>
@@ -1584,8 +1566,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    Stock
-                                    ======================================-->
+                                                                                                                    Stock
+                                                                                                                    ======================================-->
 
                   <div class="col-12 col-lg-3">
                     <label>Product Stock<sup class="text-danger">*</sup> (Max:100 unit)</label>
@@ -1617,8 +1599,8 @@ Nav Account
               </div>
 
               <!--=====================================
-                            Oferta del producto
-                            ======================================-->
+                                                                                                                  Oferta del producto
+                                                                                                                  ======================================-->
 
               <div class="form-group">
                 <label
@@ -1628,8 +1610,8 @@ Nav Account
 
                 <div class="row mb-3">
                   <!--=====================================
-                                    Tipo de Oferta
-                                    ======================================-->
+                                                                                                                        Tipo de Oferta
+                                                                                                                        ======================================-->
 
                   <div class="col-12 col-lg-4 form-group__content input-group mx-0 pr-0">
                     <div class="input-group-append">
@@ -1651,16 +1633,18 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    El valor de la oferta
-                                    ======================================-->
+                                                                                                                        El valor de la oferta
+                                                                                                                        ======================================-->
 
                   <div class="col-12 col-lg-4 form-group__content input-group mx-0 pr-0">
                     <div class="input-group-append">
-                      <span *ngIf="offer[0] == 'Disccount'" class="input-group-text">
-                        Percent %:
-                      </span>
+                      @if (offer[0] == 'Disccount') {
+                        <span class="input-group-text"> Percent %: </span>
+                      }
 
-                      <span *ngIf="offer[0] == 'Fixed'" class="input-group-text"> Price $: </span>
+                      @if (offer[0] == 'Fixed') {
+                        <span class="input-group-text"> Price $: </span>
+                      }
                     </div>
 
                     <input
@@ -1681,8 +1665,8 @@ Nav Account
                   </div>
 
                   <!--=====================================
-                                    Fecha de vencimiento de la oferta
-                                    ======================================-->
+                                                                                                                          Fecha de vencimiento de la oferta
+                                                                                                                          ======================================-->
 
                   <div class="col-12 col-lg-4 form-group__content input-group mx-0 pr-0">
                     <div class="input-group-append">

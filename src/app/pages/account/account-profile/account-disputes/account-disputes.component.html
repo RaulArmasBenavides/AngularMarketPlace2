@@ -33,59 +33,58 @@ Nav Account
       </thead>
 
       <tbody>
-        <tr *ngIf="disputes.length == 0">
-          <td colspan="8" class="text-center">You haven't disputes!</td>
-        </tr>
+        @if (disputes.length == 0) {
+          <tr>
+            <td colspan="8" class="text-center">You haven't disputes!</td>
+          </tr>
+        }
 
-        <tr *ngFor="let dispute of disputes; let i = index">
-          <td>
-            {{ idDisputes[i] }}
-            <div class="text-center" *ngIf="dispute.answer == null">
-              <button
-                type="button"
-                class="btn btn-danger mt-2"
-                (click)="answerDispute(idDisputes[i])"
-              >
-                Answer dispute
-              </button>
-            </div>
-          </td>
-
-          <td>
-            {{ dispute.order }}
-          </td>
-
-          <td>
-            {{ dispute.date_dispute | date }}
-          </td>
-
-          <td>
-            {{ dispute.transmitter }}
-          </td>
-
-          <td>
-            {{ dispute.receiver }}
-          </td>
-
-          <td>
-            {{ dispute.message }}
-          </td>
-
-          <td>
-            {{ dispute.date_answer | date }}
-          </td>
-
-          <td>
-            {{ dispute.answer }}
-          </td>
-        </tr>
+        @for (dispute of disputes; track dispute; let i = $index) {
+          <tr>
+            <td>
+              {{ idDisputes[i] }}
+              @if (dispute.answer == null) {
+                <div class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-danger mt-2"
+                    (click)="answerDispute(idDisputes[i])"
+                  >
+                    Answer dispute
+                  </button>
+                </div>
+              }
+            </td>
+            <td>
+              {{ dispute.order }}
+            </td>
+            <td>
+              {{ dispute.date_dispute | date }}
+            </td>
+            <td>
+              {{ dispute.transmitter }}
+            </td>
+            <td>
+              {{ dispute.receiver }}
+            </td>
+            <td>
+              {{ dispute.message }}
+            </td>
+            <td>
+              {{ dispute.date_answer | date }}
+            </td>
+            <td>
+              {{ dispute.answer }}
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>
 
   <!--=====================================
-    Modal para las disputas
-    ======================================-->
+  Modal para las disputas
+  ======================================-->
 
   <!-- The Modal -->
   <div class="modal" id="answerDispute">

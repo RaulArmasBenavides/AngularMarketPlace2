@@ -8,7 +8,7 @@
     "test": "ng test"
   },
   "private": true,
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/RaulArmasBenavides/AngularMarketPlace2.git"
   },
@@ -25,7 +25,6 @@
     "@angular/router": "20.3.10",
     "@types/datatables.net": "^1.12.3",
     "angular-confirmation-popover": "^7.0.0",
-    "angular-datatables": "^19.0.0",
     "bootstrap": "^5.3.8",
     "datatables.net": "^2.3.4",
     "datatables.net-dt": "^2.3.4",

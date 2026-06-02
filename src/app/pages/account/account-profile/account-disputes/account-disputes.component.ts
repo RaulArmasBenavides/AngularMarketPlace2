@@ -13,8 +13,6 @@ import { UsersService } from '../../../../services/users.service';
 
 import { Subject } from 'rxjs';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-account-disputes',

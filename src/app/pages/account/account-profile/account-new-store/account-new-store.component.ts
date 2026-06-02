@@ -14,8 +14,6 @@ import { SubCategoriesService } from '../../../../services/sub-categories.servic
 import { StoresModel } from '../../../../models/stores.model';
 import { ProductsModel } from '../../../../models/products.model';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-account-new-store',
@@ -1183,8 +1181,7 @@ export class AccountNewStoreComponent implements OnInit {
 
                               this.productsService
                                 .registerDatabase(
-                                  this.product,
-                                  localStorage.getItem('idToken') ?? ''
+                                  this.product
                                 )
                                 .subscribe(
                                   (resp: any) => {

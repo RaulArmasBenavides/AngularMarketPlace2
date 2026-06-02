@@ -18,9 +18,6 @@ import Cookies from 'js-cookie';
 
 import { Md5 } from 'md5-typescript';
 
-declare var jQuery: any;
-declare var $: any;
-
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -234,6 +231,22 @@ export class CheckoutComponent implements OnInit {
   }
 
   /*=============================================
+	Abrir popup de Mercado Pago
+	=============================================*/
+
+  openMercadoPagoPopup(amount: string, path: string, email: string, description: string) {
+    Cookies.set('_x', window.btoa(amount), { expires: 1 });
+    Cookies.set('_p', description, { expires: 1 });
+    Cookies.set('_e', email, { expires: 1 });
+
+    window.open(
+      `${path}mercadopago/index.php?_x=${Md5.init(amount)}`,
+      '_blank',
+      'width=950,height=650,scrollbars=NO'
+    );
+  }
+
+  /*=============================================
 	Función Callback()
 	=============================================*/
 
@@ -241,7 +254,17 @@ export class CheckoutComponent implements OnInit {
     if (this.render) {
       this.render = false;
 
-      let totalShoppingCart = this.totalShoppingCart;
+      let total = 0;
+      this.subTotalPrice = [];
+
+      this.shoppingCart.forEach((product) => {
+        let subTotal = Number(product.quantity) * Number(product.shipping);
+        this.subTotalPrice.push(subTotal.toFixed(2));
+        total += subTotal;
+      });
+
+      this.totalPrice.push(total.toFixed(2));
+
       let localTotalPrice = this.totalPrice;
       let localSubTotalPrice = this.subTotalPrice;
       let localActivatedRoute = this.activatedRoute;
@@ -254,49 +277,6 @@ export class CheckoutComponent implements OnInit {
       let localValidateCoupon = this.validateCoupon;
       let localPaymentMethod = this.paymentMethod;
       let localSalesService = this.salesService;
-
-      /*=============================================
-			Mostrar lista del carrito de compras con los precios definitivos
-			=============================================*/
-
-      setTimeout(function () {
-        let price = $('.pCheckout .end-price');
-        let quantity = $('.qCheckout');
-        let shipping = $('.sCheckout');
-        let subTotalPrice = $('.subTotalPriceCheckout');
-
-        let total = 0;
-
-        for (let i = 0; i < price.length; i++) {
-          /*=============================================
-					Sumar precio con envío
-					=============================================*/
-          let shipping_price = Number($(price[i]).html()) + Number($(shipping[i]).html());
-
-          /*=============================================
-					Multiplicar cantidad por precio con envío
-					=============================================*/
-
-          let subTotal = Number($(quantity[i]).html()) * shipping_price;
-
-          /*=============================================
-					Mostramos subtotales de cada producto
-					=============================================*/
-
-          $(subTotalPrice[i]).html(`$${subTotal.toFixed(2)}`);
-
-          localSubTotalPrice.push(subTotal.toFixed(2));
-
-          /*=============================================
-					Definimos el total de los precios
-					=============================================*/
-
-          total += subTotal;
-        }
-
-        $('.totalCheckout').html(`$${total.toFixed(2)}`);
-
-        localTotalPrice.push(total.toFixed(2));
 
         /*=============================================
 				Validar la compra de PAYU
@@ -445,7 +425,6 @@ export class CheckoutComponent implements OnInit {
             Sweetalert.fnc('success', 'The purchase was successful', 'account/my-shopping');
           }
         }
-      }, totalShoppingCart * 500);
     }
   }
 
@@ -880,15 +859,10 @@ export class CheckoutComponent implements OnInit {
       Sweetalert.fnc('html', formMP, null);
 
       /*=============================================
-			Abrir ventana emergente de MP
+			Capturar datos para MP
 			=============================================*/
 
       let localTotalPrice = this.totalPrice[0].toString();
-
-      /*=============================================
-			Capturar la descripción
-			=============================================*/
-
       let description = '';
 
       this.shoppingCart.forEach((product) => {
@@ -897,24 +871,22 @@ export class CheckoutComponent implements OnInit {
 
       description = description.slice(0, -2);
 
-      /*=============================================
-			Capturar el email
-			=============================================*/
-
       let email = this.user.email;
       let path = this.path;
+      let self = this;
 
-      $(document).on('click', '.popupMP', function () {
-        Cookies.set('_x', window.btoa(localTotalPrice), { expires: 1 });
-        Cookies.set('_p', description, { expires: 1 });
-        Cookies.set('_e', email, { expires: 1 });
+      /*=============================================
+			Adjuntar listener al botón de MP
+			=============================================*/
 
-        window.open(
-          `${path}mercadopago/index.php?_x=${Md5.init(localTotalPrice)}`,
-          '_blank',
-          'width=950,height=650,scrollbars=NO'
-        );
-      });
+      setTimeout(() => {
+        const mpButton = document.querySelector('.popupMP');
+        if (mpButton) {
+          mpButton.addEventListener('click', () => {
+            self.openMercadoPagoPopup(localTotalPrice, path, email, description);
+          });
+        }
+      }, 100);
 
       /*=============================================
 			Validar la compra de Mercado Pago

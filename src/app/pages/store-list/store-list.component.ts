@@ -8,8 +8,6 @@ import { StoresService } from '../../services/stores.service';
 
 import { ActivatedRoute } from '@angular/router';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-store-list',

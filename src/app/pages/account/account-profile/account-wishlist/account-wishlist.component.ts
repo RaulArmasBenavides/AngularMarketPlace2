@@ -11,9 +11,6 @@ import { StoresService } from '../../../../services/stores.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
-declare var jQuery: any;
-declare var $: any;
-
 @Component({
   selector: 'app-account-wishlist',
   templateUrl: './account-wishlist.component.html',
@@ -161,16 +158,6 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
   callback() {
     if (this.render) {
       this.render = false;
-
-      if (window.matchMedia('(max-width:991px)').matches) {
-        let localWishlist = this.wishlist;
-        let localUsersService = this.usersService;
-        let localChildItem = this.childItem;
-
-        $(document).on('click', '.removeProduct', function (this: HTMLElement) {
-          let product = $(this).attr('remove');
-        });
-      }
     }
   }
 

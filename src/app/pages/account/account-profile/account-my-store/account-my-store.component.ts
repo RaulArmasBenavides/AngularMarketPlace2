@@ -7,7 +7,7 @@ import {
   DinamicRating,
   DinamicReviews,
   Tooltip,
-  Rating,
+  
   Sweetalert,
   Capitalize,
   CreateUrl
@@ -24,8 +24,6 @@ import { ProductsModel } from '../../../../models/products.model';
 
 import { Subject } from 'rxjs';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-account-my-store',
@@ -1794,8 +1792,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                     this.productsService
                       .patchDataAuth(
                         this.idProduct,
-                        this.productModel,
-                        localStorage.getItem('idToken') ?? ''
+                        this.productModel
                       )
                       .subscribe(
                         (resp) => {
@@ -1827,8 +1824,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             this.productsService
               .patchDataAuth(
                 this.idProduct,
-                this.productModel,
-                localStorage.getItem('idToken') ?? ''
+                this.productModel
               )
               .subscribe(
                 (resp) => {

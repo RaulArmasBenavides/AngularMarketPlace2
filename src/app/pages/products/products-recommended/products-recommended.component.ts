@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
 
 import {
-  OwlCarouselConfig,
+  
   CarouselNavigation,
-  Rating,
+  
   DinamicRating,
   DinamicReviews,
   DinamicPrice

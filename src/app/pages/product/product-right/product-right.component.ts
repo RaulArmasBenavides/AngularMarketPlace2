@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
-// DISABLED: import { DinamicRating, DinamicReviews, DinamicPrice } from '../../../functions';
+// DISABLED: import { Dinamic DinamicReviews, DinamicPrice } from '../../../functions';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';

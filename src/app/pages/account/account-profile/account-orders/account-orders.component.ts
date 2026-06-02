@@ -10,8 +10,6 @@ import { Sweetalert } from '../../../../functions';
 
 import { Subject } from 'rxjs';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-account-orders',

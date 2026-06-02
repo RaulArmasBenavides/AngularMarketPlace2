@@ -12,8 +12,6 @@ import { MessagesService } from '../../../services/messages.service';
 
 import { ActivatedRoute } from '@angular/router';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-account-profile',

@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
 import {
-  OwlCarouselConfig,
+  
   CarouselNavigation,
-  SlickConfig,
-  ProductLightbox,
+  
+  
   CountDown,
-  Rating,
+  
   ProgressBar
 } from '../../../functions';
 
 import { ProductsService } from '../../../services/products.service';
 import { SalesService } from '../../../services/sales.service';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-home-hot-today',

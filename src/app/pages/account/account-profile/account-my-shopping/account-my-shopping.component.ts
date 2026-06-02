@@ -15,8 +15,6 @@ import { ProductsService } from '../../../../services/products.service';
 
 import { Subject } from 'rxjs';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-account-my-shopping',

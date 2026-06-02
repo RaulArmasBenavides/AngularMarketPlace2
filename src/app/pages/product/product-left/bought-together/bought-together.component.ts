@@ -7,8 +7,6 @@ import { UsersService } from '../../../../services/users.service';
 
 import { Router } from '@angular/router';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-bought-together',

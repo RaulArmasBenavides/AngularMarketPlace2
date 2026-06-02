@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Path } from '../../../../config';
-// DISABLED: import { DinamicRating, DinamicReviews } from '../../../../functions';
+// DISABLED: import { Dinamic DinamicReviews } from '../../../../functions';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-reviews',

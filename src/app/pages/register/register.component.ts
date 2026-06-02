@@ -10,8 +10,6 @@ import { UsersModel } from '../../models/users.model';
 
 import { UsersService } from '../../services/users.service';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-register',

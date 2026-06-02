@@ -92,7 +92,38 @@
               ></iframe>
             }
           </div>
-          <div class="ps-product__variations" [attr.specification]="p.specification"></div>
+          <div class="ps-product__variations">
+            @for (detail of productDetails; track detail.property) {
+              <figure class="details{{ detail.index }}">
+                <figcaption>{{ detail.property }}: <strong>Choose an option</strong></figcaption>
+                <div class="d-flex">
+                  @for (option of detail.options; track option) {
+                    @if (detail.property == 'Color') {
+                      <div
+                        class="rounded-circle mr-3 details {{ detail.property }}"
+                        (click)="selectDetail(detail.property, option)"
+                        [style.border]="isDetailSelected(detail.property, option) ? '3px solid #bbb' : '1px solid #bbb'"
+                        data-toggle="tooltip"
+                        [title]="option"
+                        style="background-color: {{ option }}; width: 30px; height: 30px; cursor: pointer"
+                      ></div>
+                    } @else {
+                      <div
+                        class="py-2 px-3 mr-3 details {{ detail.property }}"
+                        (click)="selectDetail(detail.property, option)"
+                        [style.border]="isDetailSelected(detail.property, option) ? '3px solid #bbb' : '1px solid #bbb'"
+                        data-toggle="tooltip"
+                        [title]="option"
+                        style="cursor: pointer"
+                      >
+                        {{ option }}
+                      </div>
+                    }
+                  }
+                </div>
+              </figure>
+            }
+          </div>
           @if (p.offer != '' && offer) {
             <div class="ps-product__countdown">
               <figure>

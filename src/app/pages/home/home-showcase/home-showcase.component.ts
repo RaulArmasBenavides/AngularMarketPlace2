@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
 // DISABLED: import { OwlCarouselConfig } from '../../../functions';
 
-declare var jQuery: any;
-declare var $: any;
 
 import { CategoriesService } from '../../../services/categories.service';
 import { SubCategoriesService } from '../../../services/sub-categories.service';

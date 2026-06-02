@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
 import {
-  Rating,
+  
   DinamicRating,
   DinamicReviews,
   DinamicPrice,
-  Pagination,
-  Select2Cofig,
+  
+  
   Tabs
 } from '../../../functions';
 
@@ -15,8 +15,6 @@ import { UsersService } from '../../../services/users.service';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-products-showcase',

@@ -2,16 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Path, Email } from '../../../config';
 import {
-  Rating,
   DinamicRating,
   DinamicReviews,
-  DinamicPrice,
   CountDown,
   ProgressBar,
-  Tabs,
-  SlickConfig,
-  ProductLightbox,
-  Quantity,
   Tooltip,
   Sweetalert,
   Share
@@ -25,9 +19,6 @@ import { ProductsService } from '../../../services/products.service';
 import { UsersService } from '../../../services/users.service';
 import { MessagesService } from '../../../services/messages.service';
 import { StoresService } from '../../../services/stores.service';
-
-declare var jQuery: any;
-declare var $: any;
 
 @Component({
   selector: 'app-product-left',
@@ -53,6 +44,8 @@ export class ProductLeftComponent implements OnInit {
   quantity: number = 1;
   summary: any[] = [];
   details: any[] = [];
+  productDetails: any[] = [];
+  selectedDetails: { [key: string]: string } = {};
 
   messages: MessagesModel;
 
@@ -155,6 +148,8 @@ export class ProductLeftComponent implements OnInit {
 
       this.details.push(JSON.parse(this.product[index].details));
 
+      this.generateProductDetails(this.product[index].specification);
+
       /*=============================================
     	Agregamos la fecha al descontador
     	=============================================*/
@@ -219,6 +214,55 @@ export class ProductLeftComponent implements OnInit {
   }
 
   /*=============================================
+    Generar detalles del producto desde especificación
+    =============================================*/
+
+  generateProductDetails(specification: string) {
+    this.productDetails = [];
+
+    if (specification && specification != '' && specification != '[{"": []}]') {
+      const spec = JSON.parse(specification);
+
+      spec.forEach((detail: any, index: number) => {
+        const property = Object.keys(detail)[0];
+        const options = detail[property];
+
+        this.productDetails.push({
+          property: property,
+          index: index,
+          options: options
+        });
+      });
+    }
+  }
+
+  /*=============================================
+    Seleccionar un detalle del producto
+    =============================================*/
+
+  selectDetail(property: string, value: string) {
+    this.selectedDetails[property] = value;
+
+    if (localStorage.getItem('details')) {
+      let details = JSON.parse(localStorage.getItem('details') ?? '');
+      for (const i in details) {
+        details[i][property] = value;
+        localStorage.setItem('details', JSON.stringify(details));
+      }
+    } else {
+      localStorage.setItem('details', `[{"${property}":"${value}"}]`);
+    }
+  }
+
+  /*=============================================
+    Verificar si un detalle está seleccionado
+    =============================================*/
+
+  isDetailSelected(property: string, value: string): boolean {
+    return this.selectedDetails[property] === value;
+  }
+
+  /*=============================================
     Función Callback()
     =============================================*/
 
@@ -233,113 +277,6 @@ export class ProductLeftComponent implements OnInit {
       // Quantity.fnc() - eliminado
       Tooltip.fnc();
       Share.fnc();
-
-      /*=============================================
-      Agregamos detalles del producto
-      =============================================*/
-
-      if (
-        $('.ps-product__variations').attr('specification') != '' &&
-        $('.ps-product__variations').attr('specification') != '[{\"\":[]}]'
-      ) {
-        /*=============================================
-          Recorremos el array de objetos de detalles
-          =============================================*/
-
-        JSON.parse($('.ps-product__variations').attr('specification')).forEach((detail:any, index:number) => {
-          /*=============================================
-              Seleccionamos el nombre de propiedad de cada detalle
-              =============================================*/
-
-          let property = Object.keys(detail).toString();
-
-          /*=============================================
-              Construimos el HTML que va a aparecer en la vista
-              =============================================*/
-
-          let figure = `<figure class="details${index}">
-              
-                              <figcaption>${property}: <strong>Choose an option</strong></figcaption>
-
-                              <div class="d-flex">
-                              
-                              </div>
-
-                          </figure>`;
-
-          /*=============================================
-              Pintamos en la vista el HTML de figure
-              =============================================*/
-
-          $('.ps-product__variations').append(`
-                  
-                  ${figure}
-
-              `);
-
-          for (const i in detail[property]) {
-            if (property == 'Color') {
-              $(`.details${index} .d-flex`).append(`
-
-                           <div
-                              class="rounded-circle mr-3 details ${property}"
-                              detailType="${property}"
-                              detailValue="${detail[property][i]}"
-                              data-toggle="tooltip" title="${detail[property][i]}"
-                              style="background-color:${detail[property][i]}; width:30px; height:30px; cursor:pointer; border:1px solid #bbb"></div>
-
-                      `);
-            } else {
-              $(`.details${index} .d-flex`).append(`
-
-                          <div
-                              class="py-2 px-3 mr-3 details ${property}"
-                              detailType="${property}"
-                              detailValue="${detail[property][i]}"
-                              data-toggle="tooltip" title="${detail[property][i]}"
-                              style="cursor:pointer; border:1px solid #bbb">${detail[property][i]}</div>
-                      `);
-            }
-          }
-        });
-      }
-
-      /*=============================================
-        Agregamos detalles del producto al localstorage
-        =============================================*/
-
-      $(document).on('click', '.details', function (this: HTMLElement) {
-        /*=============================================
-            Señalar el detalle escogido
-            =============================================*/
-
-        let details = $(`.details.${$(this).attr('detailType')}`);
-
-        for (let i = 0; i < details.length; i++) {
-          $(details[i]).css({ border: '1px solid #bbb' });
-        }
-
-        $(this).css({ border: '3px solid #bbb' });
-
-        /*=============================================
-            Preguntar si existen detalles en el LocalStorage
-            =============================================*/
-
-        if (localStorage.getItem('details')) {
-          let details = JSON.parse(localStorage.getItem('details') ?? '');
-
-          for (const i in details) {
-            details[i][$(this).attr('detailType')] = $(this).attr('detailValue');
-
-            localStorage.setItem('details', JSON.stringify(details));
-          }
-        } else {
-          localStorage.setItem(
-            'details',
-            `[{"${$(this).attr('detailType')}":"${$(this).attr('detailValue')}"}]`
-          );
-        }
-      });
     }
   }
 
@@ -350,15 +287,8 @@ export class ProductLeftComponent implements OnInit {
   callbackGallery(i: any) {
     if (this.renderGallery) {
       this.renderGallery = false;
-
-      $('.ps-product__thumbnail').hide();
-
-      setTimeout(function () {
-        $('.ps-product__thumbnail').show();
-
-        // SlickConfig.fnc() - eliminado
-        // ProductLightbox.fnc() - eliminado
-      }, i * 500);
+      // SlickConfig.fnc() - eliminado
+      // ProductLightbox.fnc() - eliminado
     }
   }
 
@@ -400,8 +330,6 @@ export class ProductLeftComponent implements OnInit {
     } else {
       number = Number(quantity);
     }
-
-    $('.quantity input').val(quantity);
 
     this.quantity = number;
   }

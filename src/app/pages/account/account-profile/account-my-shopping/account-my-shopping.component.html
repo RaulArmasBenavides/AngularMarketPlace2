@@ -222,13 +222,7 @@ Nav Account
                 ) {
                   <div class="text-center mt-2">
                     @if (item.name != undefined && item.name == product.user) {
-                      <div class="br-theme-fontawesome-stars">
-                        <select
-                          class="ps-rating"
-                          data-read-only="true"
-                          [attr.reviews]="item.review"
-                        ></select>
-                      </div>
+                      <app-star-rating [value]="item.review" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></app-star-rating>
                     }
                     {{ lastIndexReview ? callback(iReview) : '' }}
                   </div>
@@ -306,21 +300,8 @@ Nav Account
 
         <!-- Modal body -->
         <div class="modal-body text-center">
-          <div class="br-theme-fontawesome-stars">
-            <select
-              name="review"
-              #review
-              class="ps-rating"
-              data-read-only="false"
-              style="display: none"
-            >
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
+          <div>
+            <app-star-rating #review [value]="reviewValue" [totalStars]="5" [readOnly]="false" [color]="'#FFB400'" (ratingChange)="reviewValue = $event"></app-star-rating>
           </div>
 
           <div class="form-group">

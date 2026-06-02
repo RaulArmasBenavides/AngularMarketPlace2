@@ -432,21 +432,7 @@ Nav Account
                         Reseñas
                         ======================================-->
                     <td>
-                      <div class="br-wrapper br-theme-fontawesome-stars">
-                        <select class="ps-rating" data-read-only="true">
-                          @for (
-                            review of product.reviews;
-                            track review;
-                            let i = $index;
-                            let lastIndex = $last
-                          ) {
-                            <option [value]="review">
-                              {{ i + 1 }}
-                              {{ lastIndex ? callbackReview() : '' }}
-                            </option>
-                          }
-                        </select>
-                      </div>
+                      <app-star-rating [value]="0" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></app-star-rating>
                     </td>
                     {{
                       lastIndex ? callback(i, totalReviews) : ''

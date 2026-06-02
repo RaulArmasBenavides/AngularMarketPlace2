@@ -41,6 +41,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
   idProduct: string;
 
   reviews: any[] = [];
+  reviewValue: number = 0;
   render: boolean = false;
 
   dtOptions: any = {};

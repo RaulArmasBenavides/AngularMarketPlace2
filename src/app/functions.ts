@@ -123,38 +123,8 @@ export const Search = {
 // ELIMINADO: Tabs — mover a componente con variable de estado (click handler)
 // Ya no se usa en nuevos componentes; controlar con *ngIf en template
 
-export class CarouselNavigation {
-  static init(): void {
-    const prevBtns = document.querySelectorAll<HTMLAnchorElement>('.ps-carousel__prev');
-    const nextBtns = document.querySelectorAll<HTMLAnchorElement>('.ps-carousel__next');
-
-    prevBtns.forEach((btn) => {
-      btn.addEventListener('click', (e: Event) => {
-        e.preventDefault();
-        const targetSelector = btn.getAttribute('href');
-        if (targetSelector) {
-          const target = document.querySelector<HTMLElement>(targetSelector);
-          if (target) {
-            (target as any).dispatchEvent(new CustomEvent('prev.owl.carousel', { detail: [1000] }));
-          }
-        }
-      });
-    });
-
-    nextBtns.forEach((btn) => {
-      btn.addEventListener('click', (e: Event) => {
-        e.preventDefault();
-        const targetSelector = btn.getAttribute('href');
-        if (targetSelector) {
-          const target = document.querySelector<HTMLElement>(targetSelector);
-          if (target) {
-            (target as any).dispatchEvent(new CustomEvent('next.owl.carousel', { detail: [1000] }));
-          }
-        }
-      });
-    });
-  }
-}
+// ELIMINADO: CarouselNavigation — reemplazado por Swiper.js navigation nativa
+// Owl Carousel events ya no son necesarios; Swiper maneja su propia navegación
 
 export interface ProductResponse {
   price: number;

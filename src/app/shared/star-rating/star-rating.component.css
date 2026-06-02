@@ -1,0 +1,16 @@
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+}
+
+.star-rating i {
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+
+.star-rating span {
+  font-size: 0.9rem;
+  color: #666;
+}

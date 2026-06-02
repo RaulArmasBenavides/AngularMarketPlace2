@@ -1,0 +1,13 @@
+<div class="star-rating" [style.pointer-events]="readOnly ? 'none' : 'auto'">
+  @for (star of stars; track star) {
+    <i
+      class="fa fa-star"
+      [style.color]="getStarColor(star)"
+      [style.cursor]="readOnly ? 'default' : 'pointer'"
+      (click)="setRating(star)"
+      (mouseenter)="!readOnly && (value = star)"
+      (mouseleave)="ngOnInit()"
+    ></i>
+  }
+  <span class="ml-2">{{ value }}/{{ totalStars }}</span>
+</div>

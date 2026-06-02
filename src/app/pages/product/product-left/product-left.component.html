@@ -45,12 +45,7 @@
           <h1>{{ p.name }}</h1>
           <div class="ps-product__meta">
             <div class="ps-product__rating">
-              <select class="ps-rating" data-read-only="true">
-                @for (review of reviews[i]; track review; let f = $index) {
-                  <option [value]="review">{{ f + 1 }}</option>
-                }
-              </select>
-              <span>{{ rating[i] }}</span>
+              <app-star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></app-star-rating>
             </div>
           </div>
           <div [innerHTML]="price[i][0]"></div>

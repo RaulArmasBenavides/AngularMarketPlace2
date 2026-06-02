@@ -20,6 +20,7 @@ export class BoughtTogetherComponent implements OnInit {
   path: string = Path.url;
   products: any[] = [];
   price: any[] = [];
+  totalPrice: number = 0;
   render: boolean = true;
 
   constructor(
@@ -100,15 +101,13 @@ export class BoughtTogetherComponent implements OnInit {
     if (this.render) {
       this.render = false;
 
-      let price = $('.endPrice .end-price');
-
       let total = 0;
-
-      for (let i = 0; i < price.length; i++) {
-        total += Number($(price[i]).html());
+      for (let i = 0; i < this.price.length; i++) {
+        if (this.price[i] && this.price[i][0]) {
+          total += Number(this.price[i][0]);
+        }
       }
-
-      $('.ps-block__total strong').html(`$${total.toFixed(2)}`);
+      this.totalPrice = total;
     }
   }
 

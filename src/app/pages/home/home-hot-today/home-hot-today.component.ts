@@ -1,18 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
-import {
-  
-  CarouselNavigation,
-  
-  
-  CountDown,
-  
-  ProgressBar
-} from '../../../functions';
-
+import { CountDown, ProgressBar, DinamicReviews } from '../../../functions';
 import { ProductsService } from '../../../services/products.service';
 import { SalesService } from '../../../services/sales.service';
-
 
 @Component({
   selector: 'app-home-hot-today',
@@ -30,6 +20,10 @@ export class HomeHotTodayComponent implements OnInit {
   topSalesBlock: any[] = [];
   renderBestSeller: boolean = true;
 
+  dealProducts: any[] = [];
+  topSalesProducts: any[] = [];
+  carouselVisible: boolean = false;
+
   constructor(
     private readonly productsService: ProductsService,
     private readonly salesService: SalesService
@@ -42,15 +36,7 @@ export class HomeHotTodayComponent implements OnInit {
     let hoy = new Date();
     let fechaOferta = null;
 
-    /*=============================================
-		Tomamos la data de los productos
-		=============================================*/
-
     this.productsService.getData().subscribe((resp: any) => {
-      /*=============================================
-			Recorremos cada producto para separar las ofertas y el stock
-			=============================================*/
-
       let i;
 
       for (i in resp) {
@@ -61,10 +47,6 @@ export class HomeHotTodayComponent implements OnInit {
 
         this.products.push(resp[i]);
       }
-
-      /*=============================================
-			Recorremos cada oferta y stock para clasificar las ofertas actuales y los productos que si tengan stock
-			=============================================*/
 
       let count = 0;
 
@@ -89,17 +71,9 @@ export class HomeHotTodayComponent implements OnInit {
       }
     });
 
-    /*=============================================
-		Tomamos la data de las ventas
-		=============================================*/
-
     let getSales = [];
 
-    this.salesService.getData().subscribe((resp:any) => {
-      /*=============================================
-			Recorremos cada venta para separar los productos y las cantidades
-			=============================================*/
-
+    this.salesService.getData().subscribe((resp: any) => {
       let i;
 
       for (i in resp) {
@@ -109,43 +83,24 @@ export class HomeHotTodayComponent implements OnInit {
         });
       }
 
-      /*=============================================
-			Ordenamos de mayor a menor el arreglo de objetos
-			=============================================*/
-
-      getSales.sort(function (a, b) {
-        return b.quantity - a.quantity;
-      });
-
-      /*=============================================
-			Sacamos del arreglo los productos repetidos dejando los de mayor venta
-			=============================================*/
+      getSales.sort((a, b) => b.quantity - a.quantity);
 
       let filterSales: any = [];
 
       getSales.forEach((sale: any) => {
         if (!filterSales.find((resp: any) => resp.product == sale.product)) {
           const { product, quantity } = sale;
-
           filterSales.push({ product, quantity });
         }
       });
 
-      /*=============================================
-			Filtramos la data de productos buscando coincidencias con las ventas
-			=============================================*/
-
       let block = 0;
 
       filterSales.forEach((sale: any, index: any) => {
-        /*=============================================
-				Filtramos hasta 20 ventas
-				=============================================*/
-
         if (index < 20) {
           block++;
 
-          this.productsService.getFilterData('name', sale.product).subscribe((resp:any) => {
+          this.productsService.getFilterData('name', sale.product).subscribe((resp: any) => {
             let i;
 
             for (i in resp) {
@@ -155,15 +110,10 @@ export class HomeHotTodayComponent implements OnInit {
         }
       });
 
-      /*=============================================
-			Enviamos el máximo de bloques para mostrar 4 productos por bloque
-			=============================================*/
-
       let count = 0;
 
       for (let i = 0; i < Math.ceil(block / 4); i++) {
         count++;
-
         this.topSalesBlock.push(i);
       }
 
@@ -173,303 +123,154 @@ export class HomeHotTodayComponent implements OnInit {
     });
   }
 
-  /*=============================================
-	Función que nos avisa cuando finaliza el renderizado de Angular
-	=============================================*/
-
   callback() {
     if (this.render) {
       this.render = false;
-
-      /*=============================================
-			Seleccionar del DOM los elementos de la galería mixta
-			=============================================*/
-
-      let galleryMix_1 = $('.galleryMix_1');
-      let galleryMix_2 = $('.galleryMix_2');
-      let galleryMix_3 = $('.galleryMix_3');
-
-      /*=============================================
-			Seleccionar del DOM los elementos de la oferta
-			=============================================*/
-
-      let offer_1 = $('.offer_1');
-      let offer_2 = $('.offer_2');
-      let offer_3 = $('.offer_3');
-
-      /*=============================================
-			Seleccionar del DOM los elementos de las reseñas
-			=============================================*/
-
-      let review_1 = $('.review_1');
-      let review_2 = $('.review_2');
-      let review_3 = $('.review_3');
-
-      /*=============================================
-			Recorremos todos los índices de productos
-			=============================================*/
-
-      let count = 0;
-
-      $('.ps-carousel--deal-hot').hide();
-
-      for (let i = 0; i < galleryMix_1.length; i++) {
-        count++;
-
-        /*=============================================
-				Recorremos todos las fotografías de la galería de cada producto
-				=============================================*/
-
-        for (let f = 0; f < JSON.parse($(galleryMix_1[i]).attr('gallery')).length; f++) {
-          /*=============================================
-					Agregar imágenes grandes
-					=============================================*/
-
-          $(galleryMix_2[i]).append(
-            `<div class="item">
-	                    	<a href="assets/img/products/${$(galleryMix_1[i]).attr('category')}/gallery/${JSON.parse($(galleryMix_1[i]).attr('gallery'))[f]}">
-	                    		
-	                    		<img src="assets/img/products/${$(galleryMix_1[i]).attr('category')}/gallery/${JSON.parse($(galleryMix_1[i]).attr('gallery'))[f]}">
-	                    	</a>
-	                    </div>`
-          );
-
-          /*=============================================
-					Agregar imágenes pequeñas
-					=============================================*/
-
-          $(galleryMix_3[i]).append(
-            `<div class="item">
-	                    	<img src="assets/img/products/${$(galleryMix_1[i]).attr('category')}/gallery/${JSON.parse($(galleryMix_1[i]).attr('gallery'))[f]}">
-	                    </div>`
-          );
-        }
-
-        /*=============================================
-				Capturamos el array de ofertas de cada producto
-				=============================================*/
-
-        let offer = JSON.parse($(offer_1[i]).attr('offer'));
-
-        /*=============================================
-				Capturamos el precio de cada producto
-				=============================================*/
-
-        let price = Number($(offer_1[i]).attr('price'));
-
-        /*=============================================
-				Preguntamos si es descuento
-				=============================================*/
-
-        if (offer[0] == 'Disccount') {
-          $(offer_1[i]).html(`<span>Save <br> $${((price * offer[1]) / 100).toFixed(2)}</span>`);
-
-          $(offer_2[i]).html(`$${(price - (price * offer[1]) / 100).toFixed(2)}`);
-        }
-
-        /*=============================================
-				Preguntamos si es precio fijo
-				=============================================*/
-
-        if (offer[0] == 'Fixed') {
-          $(offer_1[i]).html(`<span>Save <br> $${(price - offer[1]).toFixed(2)}</span>`);
-
-          $(offer_2[i]).html(`$${offer[1]}`);
-        }
-
-        /*=============================================
-				Agregamos la fecha al descontador
-				=============================================*/
-
-        $(offer_3[i]).attr(
-          'data-time',
-
-          new Date(
-            parseInt(offer[2].split('-')[0]),
-            parseInt(offer[2].split('-')[1]) - 1,
-            parseInt(offer[2].split('-')[2])
-          )
-        );
-
-        /*=============================================
-				Calculamos el total de las calificaciones de las reseñas
-				=============================================*/
-
-        let totalReview = 0;
-
-        for (let f = 0; f < JSON.parse($(review_1[i]).attr('reviews')).length; f++) {
-          totalReview += Number(JSON.parse($(review_1[i]).attr('reviews'))[f]['review']);
-        }
-
-        /*=============================================
-				Imprimimos el total de las calificaciones para cada producto
-				=============================================*/
-
-        let rating = Math.round(totalReview / JSON.parse($(review_1[i]).attr('reviews')).length);
-
-        $(review_3[i]).html(rating);
-
-        for (let f = 1; f <= 5; f++) {
-          $(review_2[i]).append(`<option value="2">${f}</option>`);
-
-          if (rating == f) {
-            $(review_2[i]).children('option').val(1);
-          }
-        }
-      }
-
-      /*=============================================
-			Ejecutar funciones globales con respecto a la galería mixta
-			=============================================*/
-
-      setTimeout(function () {
-        $('.ps-carousel--deal-hot').show();
-
-        // OwlCarouselConfig.fnc() - eliminado
-        // CarouselNavigation.fnc();
-        // SlickConfig.fnc() - eliminado
-        // ProductLightbox.fnc() - eliminado
-
-        /*=============================================
-				Ejecutar funciones globales con respecto a las ofertas
-				=============================================*/
-
-        CountDown.fnc();
-
-        /*=============================================
-				Ejecutar funciones globales con respecto a las reseñas
-				=============================================*/
-
-        // Rating.fnc() - eliminado
-
-        /*=============================================
-				Ejecutar funciones globales con respecto al Stock
-				=============================================*/
-
-        ProgressBar.fnc();
-      }, count * 100);
+      this.processDealProducts();
     }
   }
 
-  /*=============================================
-	Función que nos avisa cuando finaliza el renderizado de Angular
-	=============================================*/
+  private processDealProducts() {
+    this.indexes.forEach((idx) => {
+      const product = this.products[idx];
 
-  callbackBestSeller(topSales:any) {
+      if (product && product.offer) {
+        const gallery = JSON.parse(product.gallery || '[]');
+        const offer = JSON.parse(product.offer);
+
+        const productData = {
+          url: product.url,
+          name: product.name,
+          category: product.category,
+          image: product.image,
+          price: product.price,
+          reviews: product.reviews,
+          offer: offer,
+          gallery: gallery,
+          offerPrice: this.calculateOfferPrice(product.price, offer),
+          offerDisplay: this.getOfferDisplay(product.price, offer),
+          rating: this.calculateRating(product.reviews),
+          offerDate: new Date(
+            parseInt(offer[2].split('-')[0]),
+            parseInt(offer[2].split('-')[1]) - 1,
+            parseInt(offer[2].split('-')[2])
+          ),
+          galleryItems: gallery.map((img: any) => ({
+            large: `assets/img/products/${product.category}/gallery/${img}`,
+            thumb: `assets/img/products/${product.category}/gallery/${img}`
+          }))
+        };
+
+        this.dealProducts.push(productData);
+      }
+    });
+
+    this.carouselVisible = true;
+
+    setTimeout(() => {
+      CountDown.fnc();
+      ProgressBar.fnc();
+    }, 100);
+  }
+
+  callbackBestSeller(topSales: any) {
     if (this.renderBestSeller) {
       this.renderBestSeller = false;
 
-      /*=============================================
-			Capturamos la cantidad de bloques que existe en el DOM
-			=============================================*/
-      let topSaleBlock = $('.topSaleBlock');
-      let top20Array = [];
+      setTimeout(() => {
+        this.processBestSellers(topSales);
+      }, this.topSalesBlock.length * 50);
+    }
+  }
 
-      /*=============================================
-			Ejecutamos en SetTimeOut - por cada bloque un segundo de espera
-			=============================================*/
+  private processBestSellers(topSales: any) {
+    const itemsPerBlock = Math.ceil(topSales.length / this.topSalesBlock.length);
 
-      setTimeout(function () {
-        /*=============================================
-				Removemos el preload
-				=============================================*/
+    this.topSalesBlock.forEach((_, blockIdx) => {
+      const startIdx = blockIdx * itemsPerBlock;
+      const endIdx = Math.min(startIdx + itemsPerBlock, topSales.length);
 
-        $('.preload').remove();
+      for (let i = startIdx; i < endIdx; i++) {
+        if (topSales[i]) {
+          const product = topSales[i];
+          const priceInfo = this.getPriceInfo(product.price, product.offer);
 
-        /*=============================================
-				Hacemos un ciclo por la cantidad de bloques
-				=============================================*/
+          this.topSalesProducts.push({
+            url: product.url,
+            name: product.name,
+            category: product.category,
+            image: product.image,
+            priceInfo: priceInfo,
+            blockIndex: blockIdx
+          });
+        }
+      }
+    });
+  }
 
-        for (let i = 0; i < topSaleBlock.length; i++) {
-          /*=============================================
-					Agrupamos la cantidad de 4 productos por bloque
-					=============================================*/
+  private calculateOfferPrice(price: number, offer: any): number {
+    if (offer[0] == 'Disccount') {
+      return parseFloat((price - (price * offer[1]) / 100).toFixed(2));
+    } else if (offer[0] == 'Fixed') {
+      return parseFloat(offer[1]);
+    }
+    return price;
+  }
 
-          top20Array.push(
-            topSales.slice(i * topSaleBlock.length, i * topSaleBlock.length + topSaleBlock.length)
-          );
+  private getOfferDisplay(price: number, offer: any): string {
+    if (offer[0] == 'Disccount') {
+      const savings = ((price * offer[1]) / 100).toFixed(2);
+      return `Save\n$${savings}`;
+    } else if (offer[0] == 'Fixed') {
+      const savings = (price - offer[1]).toFixed(2);
+      return `Save\n$${savings}`;
+    }
+    return '';
+  }
 
-          /*=============================================
-					Hacemos un recorrido por el nuevo array de objetos
-					=============================================*/
+  private getPriceInfo(price: number, offer: string) {
+    if (offer != '') {
+      const offerData = JSON.parse(offer);
+      const offerDate = new Date(
+        parseInt(offerData[2].split('-')[0]),
+        parseInt(offerData[2].split('-')[1]) - 1,
+        parseInt(offerData[2].split('-')[2])
+      );
 
-          let f;
+      const today = new Date();
 
-          for (f in top20Array[i]) {
-            /*=============================================
-						Definimos si el precio del producto tiene oferta o no
-						=============================================*/
+      if (today < offerDate) {
+        const type = offerData[0];
+        const value = offerData[1];
+        let offerPrice;
 
-            let price;
-            let type;
-            let value;
-            let offer;
-            let offerDate;
-            let today = new Date();
-
-            if (top20Array[i][f].offer != '') {
-              offerDate = new Date(
-                parseInt(JSON.parse(top20Array[i][f].offer)[2].split('-')[0]),
-                parseInt(JSON.parse(top20Array[i][f].offer)[2].split('-')[1]) - 1,
-                parseInt(JSON.parse(top20Array[i][f].offer)[2].split('-')[2])
-              );
-
-              if (today < offerDate) {
-                type = JSON.parse(top20Array[i][f].offer)[0];
-                value = JSON.parse(top20Array[i][f].offer)[1];
-
-                if (type == 'Disccount') {
-                  offer = (top20Array[i][f].price - (top20Array[i][f].price * value) / 100).toFixed(
-                    2
-                  );
-                }
-
-                if (type == 'Fixed') {
-                  offer = value;
-                }
-
-                price = `<p class="ps-product__price sale">$${offer} <del>$${top20Array[i][f].price} </del></p>`;
-              } else {
-                price = `<p class="ps-product__price">$${top20Array[i][f].price} </p>`;
-              }
-            } else {
-              price = `<p class="ps-product__price">$${top20Array[i][f].price} </p>`;
-            }
-
-            /*=============================================
-						Adicionar a la vista los productos clasificados
-						=============================================*/
-
-            $(topSaleBlock[i]).append(`
-
-						   <div class="ps-product--horizontal" style="z-index:10000">
-
-                                <div class="ps-product__thumbnail">
-                                	<a href="product/${top20Array[i][f].url}">
-                                		<img src="assets/img/products/${top20Array[i][f].category}/${top20Array[i][f].image}">
-                                	</a>
-                                </div>
-
-                                <div class="ps-product__content">
-
-                                	<a class="ps-product__title" href="product/${top20Array[i][f].url}">${top20Array[i][f].name}</a>
-
-                                    ${price}
-
-                                </div>
-
-                            </div>
-
-						`);
-          }
+        if (type == 'Disccount') {
+          offerPrice = (price - (price * value) / 100).toFixed(2);
+        } else {
+          offerPrice = value;
         }
 
-        /*=============================================
-				Modificamos el estilo del plugin OWL Carousel
-				=============================================*/
-        $('.owl-dots').css({ bottom: '0' });
-        $('.owl-dot').css({ background: '#ddd' });
-      }, topSaleBlock.length * 500);
+        return {
+          originalPrice: price,
+          offerPrice: offerPrice,
+          isOnSale: true
+        };
+      }
     }
+
+    return {
+      originalPrice: price,
+      offerPrice: null,
+      isOnSale: false
+    };
+  }
+
+  private calculateRating(reviews: any): number {
+    let totalReview = 0;
+    const reviewsArray = JSON.parse(reviews || '[]');
+    for (let f = 0; f < reviewsArray.length; f++) {
+      totalReview += Number(reviewsArray[f]['review']);
+    }
+    return reviewsArray.length > 0 ? Math.round(totalReview / reviewsArray.length) : 0;
   }
 }

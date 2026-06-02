@@ -257,9 +257,10 @@ export class AccountNewStoreComponent implements OnInit {
     =============================================*/
 
   goTerms() {
-    $('html, body').animate({
-      scrollTop: $('#tabContent').offset().top - 50
-    });
+    const tabContent = document.getElementById('tabContent');
+    if (tabContent) {
+      tabContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   /*=============================================
@@ -267,18 +268,20 @@ export class AccountNewStoreComponent implements OnInit {
     =============================================*/
 
   changeAccept() {
+    const createStoreEl = document.getElementById('createStore');
     if (this.accept) {
-      $('#createStore').tab('show');
-
-      /*=============================================
-            Mover el scroll hasta la creación de la tienda
-            =============================================*/
-
-      $('html, body').animate({
-        scrollTop: $('#createStore').offset().top - 100
-      });
+      if (createStoreEl) {
+        new (window as any).bootstrap.Tab(createStoreEl).show();
+      }
+      setTimeout(() => {
+        if (createStoreEl) {
+          createStoreEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     } else {
-      $('#createStore').removeClass('active');
+      if (createStoreEl) {
+        createStoreEl.classList.remove('active');
+      }
     }
   }
 
@@ -287,21 +290,15 @@ export class AccountNewStoreComponent implements OnInit {
     =============================================*/
 
   createProduct() {
-    /*=============================================
-        Validar que la tienda esté correctamente creada
-        =============================================*/
-
-    let formStore = $('.formStore');
-
+    const formStoreElements = document.querySelectorAll('.formStore') as NodeListOf<HTMLInputElement>;
     let error = 0;
 
-    for (let i = 0; i < formStore.length; i++) {
-      if ($(formStore[i]).val() == '' || $(formStore[i]).val() == undefined) {
+    formStoreElements.forEach((input) => {
+      if (input.value == '' || input.value == undefined) {
         error++;
-
-        $(formStore[i]).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
       }
-    }
+    });
 
     if (error > 0) {
       return;
@@ -309,24 +306,17 @@ export class AccountNewStoreComponent implements OnInit {
 
     this.storeOk = true;
 
-    /*=============================================
-        Cuando se activa el módulo para crear el producto
-        =============================================*/
-
     if (this.storeOk) {
-      $('#createProduct').tab('show');
+      const createProductEl = document.getElementById('createProduct');
+      if (createProductEl) {
+        new (window as any).bootstrap.Tab(createProductEl).show();
+      }
 
-      /*=============================================
-            Mover el scroll hasta la creación de la tienda
-            =============================================*/
-
-      $('html, body').animate({
-        scrollTop: $('#createProduct').offset().top - 100
-      });
-
-      /*=============================================
-            Traer data de categorías
-            =============================================*/
+      setTimeout(() => {
+        if (createProductEl) {
+          createProductEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
 
       this.categoriesService.getData().subscribe((resp: any) => {
         for (const i in resp) {
@@ -334,34 +324,8 @@ export class AccountNewStoreComponent implements OnInit {
         }
       });
 
-      /*=============================================
-            Agregar imagen del producto por defecto
-            =============================================*/
-
       this.product.image = `assets/img/products/default/default-image.jpg`;
-
-      /*=============================================
-            Agregar Imagen Banner Top por defecto
-            =============================================*/
-
-      // this.topBanner['IMG tag'] = `assets/img/products/default/default-top-banner.jpg`;
-
-      /*=============================================
-            Agregar Imagen Banner Default por defecto
-            =============================================*/
-
       this.product.default_banner = `assets/img/products/default/default-banner.jpg`;
-
-      /*=============================================
-            Agregar Imagen Slide Horizontal por defecto
-            =============================================*/
-
-      // this.hSlider['IMG tag'] = `assets/img/products/default/default-horizontal-slider.jpg`;
-
-      /*=============================================
-            Agregar Imagen Slide Vertical por defecto
-            =============================================*/
-
       this.product.vertical_slider = `assets/img/products/default/default-vertical-slider.jpg`;
     }
   }
@@ -375,7 +339,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos el nombre de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storeName' || $(input).attr('name') == 'productName') {
+    if (input.name == 'storeName' || input.name == 'productName') {
       /*=============================================
             Validamos expresión regular del nombre de la tienda
             =============================================*/
@@ -383,20 +347,20 @@ export class AccountNewStoreComponent implements OnInit {
       let pattern = /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
         return;
       } else {
-        if ($(input).attr('name') == 'storeName') {
+        if (input.name == 'storeName') {
           /*=============================================
                     Validamos que el nombre de la tienda no esté repetido
                     =============================================*/
 
           this.storesService.getFilterData('store', input.value).subscribe((resp) => {
             if (Object.keys(resp).length > 0) {
-              $(input).parent().addClass('was-validated');
+              input.parentElement?.classList.add('was-validated');
               input.value = '';
               this.store.url = '';
 
@@ -424,7 +388,7 @@ export class AccountNewStoreComponent implements OnInit {
 
           this.productsService.getFilterData('name', input.value).subscribe((resp:any) => {
             if (Object.keys(resp).length > 0) {
-              $(input).parent().addClass('was-validated');
+              input.parentElement?.classList.add('was-validated');
               input.value = '';
               this.product.url = '';
 
@@ -453,7 +417,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos la información de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storeAbout') {
+    if (input.name == 'storeAbout') {
       /*=============================================
             Validamos expresión regular de la información de la tienda
             =============================================*/
@@ -462,7 +426,7 @@ export class AccountNewStoreComponent implements OnInit {
         /^[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\"\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,1000}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -476,7 +440,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos la ciudad de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storeCity') {
+    if (input.name == 'storeCity') {
       /*=============================================
             Validamos expresión regular de la ciudad de la tienda
             =============================================*/
@@ -484,7 +448,7 @@ export class AccountNewStoreComponent implements OnInit {
       let pattern = /^[A-Za-zñÑáéíóúÁÉÍÓÚ ]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -496,7 +460,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos el teléfono de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storePhone') {
+    if (input.name == 'storePhone') {
       /*=============================================
             Validamos expresión regular del teléfono de la tienda
             =============================================*/
@@ -504,7 +468,7 @@ export class AccountNewStoreComponent implements OnInit {
       let pattern = /^[-\\0-9 ]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -516,7 +480,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos la dirección de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storeAddress') {
+    if (input.name == 'storeAddress') {
       /*=============================================
             Validamos expresión regular de la dirección de la tienda
             =============================================*/
@@ -525,7 +489,7 @@ export class AccountNewStoreComponent implements OnInit {
         /^[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\"\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,1000}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -537,7 +501,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos las redes sociales de la tienda
         =============================================*/
 
-    if ($(input).attr('social') == 'socialNetwork') {
+    if ((input as any).social == 'socialNetwork') {
       /*=============================================
             Validamos expresión regular de la dirección de la tienda
             =============================================*/
@@ -545,7 +509,7 @@ export class AccountNewStoreComponent implements OnInit {
       let pattern = /^[-\\_\\.\\0-9a-zA-Z]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         // input.value = "";
 
@@ -557,7 +521,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos los TAGS de los Banner's y Slider's
         =============================================*/
 
-    if ($(input).attr('tags') == 'tags') {
+    if ((input as any).tags == 'tags') {
       /*=============================================
             Validamos expresión regular
             =============================================*/
@@ -566,7 +530,7 @@ export class AccountNewStoreComponent implements OnInit {
         /^[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -578,7 +542,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos el video del producto
         =============================================*/
 
-    if ($(input).attr('name') == 'id_video') {
+    if (input.name == 'id_video') {
       /*=============================================
             Validamos expresión regular
             =============================================*/
@@ -587,7 +551,7 @@ export class AccountNewStoreComponent implements OnInit {
         /^[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\"\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,100}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         return;
       }
@@ -597,7 +561,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos el precio de envío y el precio de venta
         =============================================*/
 
-    if ($(input).attr('tags') == 'prices') {
+    if ((input as any).tags == 'prices') {
       /*=============================================
             Validamos expresión regular
             =============================================*/
@@ -605,7 +569,7 @@ export class AccountNewStoreComponent implements OnInit {
       let pattern = /^[.\\,\\0-9]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         return;
       }
@@ -615,7 +579,7 @@ export class AccountNewStoreComponent implements OnInit {
         Validamos dias de entrega y stock
         =============================================*/
 
-    if ($(input).attr('tags') == 'intNumber') {
+    if ((input as any).tags == 'intNumber') {
       /*=============================================
             Validamos expresión regular
             =============================================*/
@@ -623,7 +587,7 @@ export class AccountNewStoreComponent implements OnInit {
       let pattern = /^[0-9]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         return;
       } else {
@@ -696,11 +660,12 @@ export class AccountNewStoreComponent implements OnInit {
       let data = new FileReader();
       data.readAsDataURL(image);
 
-      $(data).on('load', function (event:any) {
-        let path = event.target.result;
-
-        $(`.${tagPicture}`).attr('src', path);
-      });
+      data.onload = (event: any) => {
+        const imgElement = document.querySelector(`.${tagPicture}`) as HTMLImageElement;
+        if (imgElement) {
+          imgElement.src = event.target.result;
+        }
+      };
     }
   }
 
@@ -810,21 +775,15 @@ export class AccountNewStoreComponent implements OnInit {
     this.ngZone.runOutsideAngular(() => {
       console.log('f', f);
 
-      /*=============================================
-            Validar que el producto esté correctamente creado
-            =============================================*/
-
-      let formProduct = $('.formProduct');
-
+      const formProductElements = document.querySelectorAll('.formProduct') as NodeListOf<HTMLInputElement>;
       let error = 0;
 
-      for (let i = 0; i < formProduct.length; i++) {
-        if ($(formProduct[i]).val() == '' || $(formProduct[i]).val() == undefined) {
+      formProductElements.forEach((input) => {
+        if (input.value == '' || input.value == undefined) {
           error++;
-
-          $(formProduct[i]).parent().addClass('was-validated');
+          input.parentElement?.classList.add('was-validated');
         }
-      }
+      });
 
       /*=============================================
             Validamos que las palabras claves tenga como mínimo una sola palabra

@@ -161,7 +161,10 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
     /*=============================================
         Abrir la ventana modal
         =============================================*/
-    $('#newDispute').modal();
+    const newDisputeEl = document.getElementById('newDispute');
+    if (newDisputeEl) {
+      new (window as any).bootstrap.Modal(newDisputeEl).show();
+    }
   }
 
   /*=============================================
@@ -235,7 +238,10 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
         Abrir la ventana modal
         =============================================*/
 
-    $('#newReview').modal();
+    const newReviewEl = document.getElementById('newReview');
+    if (newReviewEl) {
+      new (window as any).bootstrap.Modal(newReviewEl).show();
+    }
   }
 
   /*=============================================
@@ -313,32 +319,31 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
     });
   }
 
-  callback(iReview:any) {
+  callback(iReview: any) {
     if (!this.render) {
       this.render = true;
+      setTimeout(() => {
+        const reviewSelects = document.querySelectorAll('[reviews]') as NodeListOf<HTMLSelectElement>;
+        reviewSelects.forEach((select) => {
+          const reviewValue = select.getAttribute('reviews');
+          const options = Array.from({ length: 5 }, (_, i) => ({
+            value: (i + 1).toString(),
+            label: (i + 1).toString(),
+            selected: reviewValue === (i + 1).toString()
+          }));
 
-      setTimeout(
-        function () {
-          let reviews = $('[reviews]');
-
-          for (let i = 0; i < reviews.length; i++) {
-            for (let r = 0; r < 5; r++) {
-              $(reviews[i]).append(`
-							
-							<option value="2">${r + 1}</option>
-
-			        	`);
-
-              if ($(reviews[i]).attr('reviews') == r + 1) {
-                $(reviews[i]).children('option').val(1);
-              }
+          select.innerHTML = '';
+          options.forEach((opt) => {
+            const optElement = document.createElement('option');
+            optElement.value = opt.value;
+            optElement.textContent = opt.label;
+            if (opt.selected) {
+              optElement.selected = true;
             }
-          }
-
-          // Rating.fnc() - eliminado
-        },
-        100 * (iReview + 1)
-      );
+            select.appendChild(optElement);
+          });
+        });
+      }, 100 * (iReview + 1));
     }
   }
 

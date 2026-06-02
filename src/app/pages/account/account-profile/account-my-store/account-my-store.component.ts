@@ -75,6 +75,11 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 	Variable para capturar el total de calficiaciones que tiene la tienda
 	=============================================*/
   totalReviews: number[] = [];
+  globalRatingValue: number = 0;
+  percentageValue: number = 0;
+  averageRatingOptions: any[] = [];
+  tableVisible: boolean = false;
+  preloadTableVisible: boolean = true;
 
   /*=============================================
     Variable para el modelo de tienda
@@ -540,17 +545,8 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
         Tooltip.fnc();
 
-        /*=============================================
-            	Aparecemos la tabla
-            	=============================================*/
-
-        $('table').animate({ opacity: 1 });
-
-        $('.preloadTable').animate({ opacity: 0 });
-
-        /*=============================================
-            	Agregamos las calificaciones totales de la tienda
-            	=============================================*/
+        this.tableVisible = true;
+        this.preloadTableVisible = false;
 
         totalReviews.forEach((review: any, index: number) => {
           globalRating += review.length;
@@ -560,53 +556,14 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
           }
         });
 
-        /*=============================================
-            	Tomamos el promedio y porcentaje de calificaciones
-            	=============================================*/
-
         let averageReviews = Math.round(globalReviews / globalRating);
         let precentage = Math.round((globalReviews * 100) / (globalRating * 5));
 
-        /*=============================================
-            	Pintamos en el HTML el promedio y porcentaje de calificaciones
-            	=============================================*/
-
-        $('.globalRating').html(globalRating);
-        $('.percentage').html(precentage);
-
-        /*=============================================
-            	Tomamos el Arreglo del promedio de calificaciones
-            	=============================================*/
+        this.globalRatingValue = globalRating;
+        this.percentageValue = precentage;
 
         let averageRating = DinamicReviews.fnc(averageReviews);
-
-        /*=============================================
-            	Pintamos en el HTML el Select para el plugin Rating
-            	=============================================*/
-
-        $('.br-theme-fontawesome-stars').html(`
-
-					 <select class="ps-rating reviewsOption" data-read-only="true"></select>
-
-            	`);
-
-        /*=============================================
-            	Recorremos el arreglo del promedio de calificaciones para pintar los options
-            	=============================================*/
-
-        for (let i = 0; i < averageRating.length; i++) {
-          $('.reviewsOption').append(`
-
-						 <option value="${averageRating[i]}">${i + 1}</option>
-
-            		`);
-        }
-
-        /*=============================================
-            	Ejecutamos la función Rating()
-            	=============================================*/
-
-        // Rating.fnc() - eliminado
+        this.averageRatingOptions = averageRating;
       }, i * 10);
     }
   }
@@ -636,7 +593,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos la información de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storeAbout') {
+    if (input.name == 'storeAbout') {
       /*=============================================
             Validamos expresión regular de la información de la tienda
             =============================================*/
@@ -645,7 +602,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         /^[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\"\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,1000}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -659,7 +616,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos la ciudad de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storeCity') {
+    if (input.name == 'storeCity') {
       /*=============================================
             Validamos expresión regular de la ciudad de la tienda
             =============================================*/
@@ -667,7 +624,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let pattern = /^[A-Za-zñÑáéíóúÁÉÍÓÚ ]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -679,7 +636,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos el teléfono de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storePhone') {
+    if (input.name == 'storePhone') {
       /*=============================================
             Validamos expresión regular del teléfono de la tienda
             =============================================*/
@@ -687,7 +644,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let pattern = /^[-\\0-9 ]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -699,7 +656,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos la dirección de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'storeAddress') {
+    if (input.name == 'storeAddress') {
       /*=============================================
             Validamos expresión regular de la dirección de la tienda
             =============================================*/
@@ -708,7 +665,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         /^[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\"\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,1000}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -728,7 +685,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let pattern = /^[-\\_\\.\\0-9a-zA-Z]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         // input.value = "";
 
@@ -740,7 +697,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos el nombre de la tienda
         =============================================*/
 
-    if ($(input).attr('name') == 'productName') {
+    if (input.name == 'productName') {
       /*=============================================
             Validamos expresión regular del nombre de la tienda
             =============================================*/
@@ -748,7 +705,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let pattern = /^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -759,7 +716,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                 =============================================*/
         this.productsService.getFilterDataMyStore('name', input.value).subscribe((resp) => {
           if (Object.keys(resp).length > 0) {
-            $(input).parent().addClass('was-validated');
+            input.parentElement?.classList.add('was-validated');
             input.value = '';
             this.productModel.url = '';
 
@@ -796,7 +753,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         /^[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\'\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,50}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         input.value = '';
 
@@ -817,7 +774,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         /^[-\\(\\)\\=\\%\\&\\$\\;\\_\\*\\"\\#\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,100}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         return;
       }
@@ -835,7 +792,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let pattern = /^[.\\,\\0-9]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         return;
       }
@@ -853,7 +810,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let pattern = /^[0-9]{1,}$/;
 
       if (!pattern.test(input.value)) {
-        $(input).parent().addClass('was-validated');
+        input.parentElement?.classList.add('was-validated');
 
         return;
       } else {
@@ -927,11 +884,12 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let data = new FileReader();
       data.readAsDataURL(image);
 
-      $(data).on('load', function (event: any) {
-        let path = event.target.result;
-
-        $(`.${tagPicture}`).attr('src', path);
-      });
+      data.onload = (event: any) => {
+        const imgElement = document.querySelector(`.${tagPicture}`) as HTMLImageElement;
+        if (imgElement) {
+          imgElement.src = event.target.result;
+        }
+      };
     }
   }
 
@@ -1289,15 +1247,10 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         });
       }
 
-      /*=============================================
-            Abrir la ventana modal
-            =============================================*/
-
-      $('#formProduct').modal();
-
-      /*=============================================
-            Cerrar la Alerta suave
-            =============================================*/
+      const formProductEl = document.getElementById('formProduct');
+      if (formProductEl) {
+        new (window as any).bootstrap.Modal(formProductEl).show();
+      }
 
       Sweetalert.fnc('close', '', null);
     });
@@ -1322,17 +1275,13 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     =============================================*/
 
   onSubmitProduct(f: NgForm) {
-    /*=============================================
-        Validar que el producto esté correctamente creado
-        =============================================*/
+    const formProductElements = document.querySelectorAll('.formProduct') as NodeListOf<HTMLInputElement>;
 
-    let formProduct = $('.formProduct');
-
-    for (let i = 0; i < formProduct.length; i++) {
-      if ($(formProduct[i]).val() == '' || $(formProduct[i]).val() == undefined) {
-        $(formProduct[i]).parent().addClass('was-validated');
+    formProductElements.forEach((input) => {
+      if (input.value == '' || input.value == undefined) {
+        input.parentElement?.classList.add('was-validated');
       }
-    }
+    });
 
     /*=============================================
         Validamos que las palabras claves tenga como mínimo una sola palabra

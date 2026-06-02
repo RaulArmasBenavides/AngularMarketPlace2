@@ -15,19 +15,67 @@ Section Gray
           ======================================-->
           <div class="ps-block__categories">
             <h3>{{ category.name }}</h3>
-            <ul [attr.category-showcase]="category.name"></ul>
-            <a class="ps-block__more-link" routerLink="products/{{ category.url }}">View All</a>
+            <ul>
+              @for (sub of categoryDetails[category.name]?.subcategories; track sub.url) {
+                <li><a [routerLink]="'products/' + sub.url">{{ sub.subcategory }}</a></li>
+              }
+            </ul>
+            <a class="ps-block__more-link" [routerLink]="'products/' + category.url">View All</a>
           </div>
           <!--=====================================
           Vertical Slider Category
           ======================================-->
           <div class="ps-block__slider">
-            <div [attr.category-sl]="category.url"></div>
+            <swiper-container [config]="verticalSliderConfig">
+              @for (product of categoryDetails[category.name]?.products; track product.url) {
+                <swiper-slide>
+                  <a [routerLink]="'product/' + product.url">
+                    <img
+                      [src]="path + 'img/products/' + product.category + '/vertical/' + product.vertical_slider"
+                      alt="">
+                  </a>
+                </swiper-slide>
+              }
+            </swiper-container>
           </div>
           <!--=====================================
           Block Product Box
           ======================================-->
-          <div class="ps-block__product-box" [attr.category-pb]="category.url"></div>
+          <div class="ps-block__product-box">
+            @for (product of categoryDetails[category.name]?.products; track product.url) {
+              <div class="ps-product ps-product--simple">
+                <div class="ps-product__thumbnail">
+                  <a [routerLink]="'product/' + product.url">
+                    <img [src]="path + 'img/products/' + product.category + '/' + product.image" alt="">
+                  </a>
+                  @if (product.stock == 0) {
+                    <div class="ps-product__badge out-stock">Out Of Stock</div>
+                  }
+                  @if (product.stock > 0 && product.priceInfo.discount) {
+                    <div class="ps-product__badge">{{ product.priceInfo.discount }}</div>
+                  }
+                </div>
+                <div class="ps-product__container">
+                  <div class="ps-product__content" data-mh="clothing">
+                    <a class="ps-product__title" [routerLink]="'product/' + product.url">{{ product.name }}</a>
+                    <div class="ps-product__rating">
+                      <star-rating [value]="product.rating" [totalStars]="5" [readOnly]="true"></star-rating>
+                      <span>{{ product.rating }}</span>
+                    </div>
+                    @if (product.priceInfo.isOnSale) {
+                      <p class="ps-product__price sale">
+                        ${{ product.priceInfo.offerPrice }}
+                        <del>${{ product.priceInfo.originalPrice }}</del>
+                      </p>
+                    }
+                    @if (!product.priceInfo.isOnSale) {
+                      <p class="ps-product__price">${{ product.priceInfo.originalPrice }}</p>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
           <!-- End Block Product Box -->
           {{ lastIndex ? callback(i) : '' }}
         </div>

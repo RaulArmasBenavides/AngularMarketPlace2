@@ -89,8 +89,10 @@ export class LoginComponent implements OnInit {
   }
 
   private openResetPasswordModal() {
-    // evita jQuery: usa tu modal Angular si lo tienes; si no, deja legacy:
-    (window as any)?.$('#newPassword')?.modal?.();
+    const el = document.getElementById('newPassword');
+    if (el) {
+      new (window as any).bootstrap.Modal(el).show();
+    }
   }
 
   // ---------- Formulario ----------

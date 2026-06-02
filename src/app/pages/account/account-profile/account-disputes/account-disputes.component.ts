@@ -93,11 +93,10 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
   answerDispute(idDispute: any) {
     this.idDispute = idDispute;
 
-    /*=============================================
-        Abrir la ventana modal
-        =============================================*/
-
-    $('#answerDispute').modal();
+    const el = document.getElementById('answerDispute');
+    if (el) {
+      new (window as any).bootstrap.Modal(el).show();
+    }
   }
 
   /*=============================================

@@ -433,7 +433,7 @@ Nav Account
                         ======================================-->
                     <td>
                       <div class="br-wrapper br-theme-fontawesome-stars">
-                        <select class="ps-rating" data-read-only="true">
+                        <star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></star-rating>
                           @for (
                             review of product.reviews;
                             track review;
@@ -445,7 +445,6 @@ Nav Account
                               {{ lastIndex ? callbackReview() : '' }}
                             </option>
                           }
-                        </select>
                       </div>
                     </td>
                     {{

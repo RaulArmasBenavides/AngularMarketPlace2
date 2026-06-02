@@ -46,7 +46,7 @@
           />
         }
         <div class="media-body">
-          <select class="ps-rating" data-read-only="true" [attr.reviews]="item.review"></select>
+                        <star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></star-rating>
           @if (item.name == undefined) {
             <h4>Anonimous</h4>
           }

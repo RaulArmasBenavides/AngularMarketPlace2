@@ -73,12 +73,7 @@ Best Sale Items
                   {{ product.name }}</a
                 >
                 <div class="ps-product__rating">
-                  <select class="ps-rating" data-read-only="true">
-                    @for (review of reviews[i]; track review; let f = $index) {
-                      <option [value]="review">{{ f + 1 }}</option>
-                    }
-                  </select>
-                  <span>{{ rating[i] }}</span>
+                  <star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></star-rating>
                 </div>
                 <div [innerHTML]="price[i][0]"></div>
               </div>

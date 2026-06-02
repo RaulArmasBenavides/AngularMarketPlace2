@@ -71,14 +71,14 @@ export class RegisterComponent implements OnInit {
   validate(input: any) {
     let pattern;
 
-    if ($(input).attr('name') == 'username') {
+    if (input.name == 'username') {
       pattern = /^[A-Za-z]{2,8}$/;
 
       input.value = input.value.toLowerCase();
 
       this.usersService.getFilterData('username', input.value).subscribe((resp) => {
         if (Object.keys(resp).length > 0) {
-          $(input).parent().addClass('was-validated');
+          input.parentElement?.classList.add('was-validated');
 
           input.value = '';
 
@@ -89,15 +89,9 @@ export class RegisterComponent implements OnInit {
       });
     }
 
-    if ($(input).attr('name') == 'password') {
+    if (input.name == 'password') {
       pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
     }
-
-    // if (!pattern.test(input.value)) {
-    //   $(input).parent().addClass('was-validated');
-
-    //   input.value = '';
-    // }
   }
 
   /*=============================================

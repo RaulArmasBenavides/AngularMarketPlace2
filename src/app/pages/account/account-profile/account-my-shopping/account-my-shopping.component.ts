@@ -186,7 +186,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
         =============================================*/
 
     this.disputesService
-      .registerDatabase(this.dispute, localStorage.getItem('idToken') ?? '')
+      .registerDatabase(this.dispute)
       .subscribe(
         (resp:any) => {
           if (resp['name'] != '') {

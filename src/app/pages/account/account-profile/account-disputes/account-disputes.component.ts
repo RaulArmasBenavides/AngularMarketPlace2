@@ -127,7 +127,7 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
     };
 
     this.disputesService
-      .patchDataAuth(this.idDispute, body, localStorage.getItem('idToken') ?? '')
+      .patchDataAuth(this.idDispute, body)
       .subscribe(
         (resp: any) => {
           if (resp['name'] != '') {

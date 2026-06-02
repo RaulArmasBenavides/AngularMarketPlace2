@@ -168,7 +168,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
                 =============================================*/
 
         this.salesService
-          .patchDataAuth(idSale, body, localStorage.getItem('idToken') ?? '')
+          .patchDataAuth(idSale, body)
           .subscribe((resp) => {});
       });
     } else {
@@ -189,7 +189,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
         =============================================*/
 
     this.ordersService
-      .patchDataAuth(idOrder, body, localStorage.getItem('idToken') ?? '')
+      .patchDataAuth(idOrder, body)
       .subscribe(
         (resp) => {
           /*=============================================

@@ -1173,7 +1173,7 @@ export class AccountNewStoreComponent implements OnInit {
                                             =============================================*/
 
                       this.storesService
-                        .registerDatabase(this.store, localStorage.getItem('idToken') ?? '')
+                        .registerDatabase(this.store)
                         .subscribe(
                           (resp: any) => {
                             if (resp['name'] != '') {

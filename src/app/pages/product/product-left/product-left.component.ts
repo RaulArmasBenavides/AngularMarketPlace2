@@ -513,7 +513,7 @@ export class ProductLeftComponent implements OnInit {
                         =============================================*/
 
               this.messagesService
-                .registerDatabase(this.messages, localStorage.getItem('idToken') ?? '')
+                .registerDatabase(this.messages)
                 .subscribe(
                   (resp: any) => {
                     if (resp['name'] != '') {

@@ -123,7 +123,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
     };
 
     this.messagesService
-      .patchDataAuth(this.uniqueIdMessage, body, localStorage.getItem('idToken') ?? '')
+      .patchDataAuth(this.uniqueIdMessage, body)
       .subscribe(
         (resp:any) => {
           if (resp['name'] != '') {

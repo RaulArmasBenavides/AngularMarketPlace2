@@ -1057,7 +1057,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 	                =============================================*/
 
           this.storesService
-            .patchDataAuth(this.idStore, this.storeModel, localStorage.getItem('idToken') ?? '')
+            .patchDataAuth(this.idStore, this.storeModel)
             .subscribe(
               (resp) => {
                 Sweetalert.fnc('success', 'The store was successfully updated', 'account/my-store');
@@ -1771,7 +1771,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
                                         =============================================*/
 
                     this.productsService
-                      .registerDatabase(this.productModel, localStorage.getItem('idToken') ?? '')
+                      .registerDatabase(this.productModel)
                       .subscribe(
                         (resp: any) => {
                           if (resp['name'] != '') {
@@ -1894,7 +1894,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
                 if (countDelete == allImages.length) {
                   this.productsService
-                    .deleteDataAuth(idProduct, localStorage.getItem('idToken') ?? '')
+                    .deleteDataAuth(idProduct)
                     .subscribe(
                       (resp) => {
                         Sweetalert.fnc('success', 'The product was removed', 'account/my-store');

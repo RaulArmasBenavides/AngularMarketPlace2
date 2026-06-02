@@ -326,7 +326,7 @@ export class CheckoutComponent implements OnInit {
                 };
 
                 localProductsService
-                  .patchDataAuth(id, value, localStorage.getItem('idToken') ?? '')
+                  .patchDataAuth(id, value)
                   .subscribe((resp) => {});
               }
             });
@@ -390,7 +390,7 @@ export class CheckoutComponent implements OnInit {
             };
 
             localOrdersService
-              .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+              .registerDatabase(body)
               .subscribe((resp: any) => {
                 if (resp['name'] != '') {
                   /*=============================================
@@ -428,7 +428,7 @@ export class CheckoutComponent implements OnInit {
                   };
 
                   localSalesService
-                    .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+                    .registerDatabase(body)
                     .subscribe((resp) => {});
                 }
               });
@@ -510,7 +510,7 @@ export class CheckoutComponent implements OnInit {
                 };
 
                 this.productsService
-                  .patchDataAuth(id, value, localStorage.getItem('idToken') ?? '')
+                  .patchDataAuth(id, value)
                   .subscribe((resp) => {});
               }
             });
@@ -575,7 +575,7 @@ export class CheckoutComponent implements OnInit {
             };
 
             this.ordersService
-              .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+              .registerDatabase(body)
               .subscribe((resp: any) => {
                 if (resp['name'] != '') {
                   /*=============================================
@@ -615,7 +615,7 @@ export class CheckoutComponent implements OnInit {
                   };
 
                   this.salesService
-                    .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+                    .registerDatabase(body)
                     .subscribe((resp: any) => {});
                 }
               });
@@ -763,7 +763,7 @@ export class CheckoutComponent implements OnInit {
         };
 
         this.ordersService
-          .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+          .registerDatabase(body)
           .subscribe((resp: any) => {
             if (resp['name'] != '') {
               idOrders.push(resp['name']);
@@ -805,7 +805,7 @@ export class CheckoutComponent implements OnInit {
               };
 
               this.salesService
-                .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+                .registerDatabase(body)
                 .subscribe((resp: any) => {
                   if (resp['name'] != '') {
                     idSales.push(resp['name']);
@@ -974,7 +974,7 @@ export class CheckoutComponent implements OnInit {
                 };
 
                 localProductsService
-                  .patchDataAuth(id, value, localStorage.getItem('idToken') ?? '')
+                  .patchDataAuth(id, value)
                   .subscribe((resp) => {});
               }
             });
@@ -1039,7 +1039,7 @@ export class CheckoutComponent implements OnInit {
             };
 
             localOrdersService
-              .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+              .registerDatabase(body)
               .subscribe((resp: any) => {
                 if (resp['name'] != '') {
                   /*=============================================
@@ -1077,7 +1077,7 @@ export class CheckoutComponent implements OnInit {
                   };
 
                   localSalesService
-                    .registerDatabase(body, localStorage.getItem('idToken') ?? '')
+                    .registerDatabase(body)
                     .subscribe((resp) => {});
                 }
               });

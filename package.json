@@ -33,7 +33,7 @@
     "md5-typescript": "^1.0.5",
     "ngx-chips": "^3.0.0",
     "ngx-dropzone": "^3.1.0",
-    "ngx-star-rating": "^2.1.0",
+    "ngx-rating": "^0.0.9",
     "notie": "^4.3.1",
     "rxjs": "7.8.2",
     "summernote": "^0.9.1",

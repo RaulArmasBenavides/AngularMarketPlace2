@@ -20,9 +20,6 @@ import { ProductsService } from '../services/products.service';
 import { Sweetalert } from '../functions';
 import { CartItem } from '../models/CartItem.model';
 
-declare var jQuery: any;
-declare var $: any;
-
 @Injectable({
   providedIn: 'root'
 })
@@ -262,10 +259,6 @@ export class UsersService {
 
                   this.patchData(id, body).subscribe((resp:any) => {
                     if (resp['wishlist'] != '') {
-                      let totalWishlist = Number($('.totalWishlist').html());
-
-                      $('.totalWishlist').html(totalWishlist + 1);
-
                       Sweetalert.fnc('success', 'Product added to wishlist', null);
                     }
                   });
@@ -279,10 +272,6 @@ export class UsersService {
 
                 this.patchData(id, body).subscribe((resp: any) => {
                   if (resp['wishlist'] != '') {
-                    let totalWishlist = Number($('.totalWishlist').html());
-
-                    $('.totalWishlist').html(totalWishlist + 1);
-
                     Sweetalert.fnc('success', 'Product added to wishlist', null);
                   }
                 });
@@ -298,10 +287,6 @@ export class UsersService {
 
               this.patchData(id, body).subscribe((resp:any) => {
                 if (resp['wishlist'] != '') {
-                  let totalWishlist = Number($('.totalWishlist').html());
-
-                  $('.totalWishlist').html(totalWishlist + 1);
-
                   Sweetalert.fnc('success', 'Product added to wishlist', null);
                 }
               });

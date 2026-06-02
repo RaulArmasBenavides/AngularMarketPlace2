@@ -9,9 +9,6 @@ import { UsersService } from '../../services/users.service';
 
 import { Router } from '@angular/router';
 
-declare var jQuery: any;
-declare var $: any;
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -22,6 +19,7 @@ export class HeaderComponent implements OnInit {
   path: string = Path.url;
   categories: any[] = [];
   arrayTitleList: any[] = [];
+  titleListItems: { [key: string]: any[] } = {};
   render: boolean = true;
   authValidate: boolean = false;
   picture: string;
@@ -29,7 +27,7 @@ export class HeaderComponent implements OnInit {
   shoppingCart: any[] = [];
   totalShoppingCart: number = 0;
   renderShopping: boolean = true;
-  subTotal: string = `<h3>Sub Total:<strong class="subTotalHeader"><div class="spinner-border"></div></strong></h3>`;
+  subTotalValue: number = 0;
   lang: boolean = false;
 
   constructor(
@@ -250,11 +248,13 @@ export class HeaderComponent implements OnInit {
 								Imprimir el nombre de subcategoría debajo de el listado correspondiente
 								=============================================*/
 
-                $(`[titleList='${titleList[i]}']`).append(
-                  `<li>
-										<a href="products/${arrayTitleName[f].url}">${arrayTitleName[f].subcategory}</a>
-									</li>`
-                );
+                if (!this.titleListItems[titleList[i]]) {
+                  this.titleListItems[titleList[i]] = [];
+                }
+                this.titleListItems[titleList[i]].push({
+                  url: arrayTitleName[f].url,
+                  subcategory: arrayTitleName[f].subcategory
+                });
               }
             }
           });
@@ -271,31 +271,26 @@ export class HeaderComponent implements OnInit {
     if (this.renderShopping) {
       this.renderShopping = false;
 
-      /*=============================================
-			Sumar valores para el precio total
-			=============================================*/
+      const cartItems = document.querySelectorAll('.ps-product--cart-mobile');
 
-      let totalProduct = $('.ps-product--cart-mobile');
-
-      setTimeout(function () {
-        let price = $('.pShoppingHeader .end-price');
-        let quantity = $('.qShoppingHeader');
-        let shipping = $('.sShoppingHeader');
-
+      setTimeout(() => {
         let totalPrice = 0;
 
-        for (let i = 0; i < price.length; i++) {
-          /*=============================================
-					Sumar precio con envío
-					=============================================*/
+        const prices = document.querySelectorAll<HTMLElement>('.pShoppingHeader .end-price');
+        const quantities = document.querySelectorAll<HTMLElement>('.qShoppingHeader');
+        const shippings = document.querySelectorAll<HTMLElement>('.sShoppingHeader');
 
-          let shipping_price = Number($(price[i]).html()) + Number($(shipping[i]).html());
+        for (let i = 0; i < prices.length; i++) {
+          const price = Number(prices[i].textContent || '0');
+          const shipping = Number(shippings[i]?.textContent || '0');
+          const quantity = Number(quantities[i]?.textContent || '0');
 
-          totalPrice += Number($(quantity[i]).html() * shipping_price);
+          const shipping_price = price + shipping;
+          totalPrice += quantity * shipping_price;
         }
 
-        $('.subTotalHeader').html(`$${totalPrice.toFixed(2)}`);
-      }, totalProduct.length * 500);
+        this.subTotalValue = totalPrice;
+      }, cartItems.length * 500);
     }
   }
 

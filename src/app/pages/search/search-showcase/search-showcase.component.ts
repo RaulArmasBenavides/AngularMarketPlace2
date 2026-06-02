@@ -274,10 +274,10 @@ export class SearchShowcaseComponent implements OnInit {
     if (this.render) {
       this.render = false;
 
-      Rating.fnc();
-      Pagination.fnc();
-      Select2Cofig.fnc();
-      Tabs.fnc();
+      // Rating.fnc() - eliminado
+      // Pagination.fnc() - eliminado
+      // Select2Cofig.fnc() - eliminado
+      // Tabs.fnc() - eliminado
 
       /*=============================================
 			Captura del Select Sort Items

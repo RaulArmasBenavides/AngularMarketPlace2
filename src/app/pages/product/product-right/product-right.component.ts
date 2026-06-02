@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
-import { Rating, DinamicRating, DinamicReviews, DinamicPrice } from '../../../functions';
+// DISABLED: import { DinamicRating, DinamicReviews, DinamicPrice } from '../../../functions';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
@@ -99,7 +99,7 @@ export class ProductRightComponent implements OnInit {
     if (this.render) {
       this.render = false;
 
-      Rating.fnc();
+      // Rating.fnc() - eliminado
     }
   }
 

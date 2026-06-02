@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
-import { OwlCarouselConfig, Rating } from '../../../functions';
+// DISABLED: import { OwlCarouselConfig } from '../../../functions';
 
 declare var jQuery: any;
 declare var $: any;

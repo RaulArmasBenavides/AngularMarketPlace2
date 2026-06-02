@@ -15,7 +15,8 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "es2022",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": []
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

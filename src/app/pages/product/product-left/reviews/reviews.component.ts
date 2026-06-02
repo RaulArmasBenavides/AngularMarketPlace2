@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Path } from '../../../../config';
-import { Rating, DinamicRating, DinamicReviews } from '../../../../functions';
+// DISABLED: import { DinamicRating, DinamicReviews } from '../../../../functions';
 
 declare var jQuery: any;
 declare var $: any;
@@ -44,7 +44,7 @@ export class ReviewsComponent implements OnInit {
         	`);
     }
 
-    Rating.fnc();
+    // Rating.fnc() - eliminado
 
     /*=============================================
         Total Reviews
@@ -145,7 +145,7 @@ export class ReviewsComponent implements OnInit {
         }
       }
 
-      Rating.fnc();
+      // Rating.fnc() - eliminado
     }
   }
 }

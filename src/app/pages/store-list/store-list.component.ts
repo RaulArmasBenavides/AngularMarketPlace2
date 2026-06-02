@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Path } from '../../config';
 
-import { Select2Cofig, Pagination } from '../../functions';
+// DISABLED: import { Select2Cofig } from '../../functions';
 
 import { StoresService } from '../../services/stores.service';
 
@@ -168,11 +168,11 @@ export class StoreListComponent implements OnInit {
   callback() {
     if (this.render) {
       this.render = false;
-      Select2Cofig.fnc();
-      Pagination.fnc();
+      // Select2Cofig.fnc() - eliminado
+      // Pagination.fnc() - eliminado
 
       $('.sortItems').on('change', (e: any) => {
-        const val = ($(e.currentTarget) as JQuery<HTMLInputElement>).val() as string;
+        const val = ($(e.currentTarget) as any<HTMLInputElement>).val() as string;
         window.open(`store-list/${val}`, '_top');
       });
     }

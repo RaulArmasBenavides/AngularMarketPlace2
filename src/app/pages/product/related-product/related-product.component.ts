@@ -107,11 +107,11 @@ export class RelatedProductComponent implements OnInit {
       this.render = false;
 
       setTimeout(function () {
-        OwlCarouselConfig.fnc();
+        // OwlCarouselConfig.fnc() - eliminado
 
         // CarouselNavigation.fnc();
 
-        Rating.fnc();
+        // Rating.fnc() - eliminado
       }, 1000);
     }
   }

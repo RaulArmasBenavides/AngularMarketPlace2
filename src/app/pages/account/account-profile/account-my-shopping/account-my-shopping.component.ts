@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 
 import { Path } from '../../../../config';
 
-import { Sweetalert, Rating } from '../../../../functions';
+import { Sweetalert } from '../../../../functions';
 
 import { DisputesModel } from '../../../../models/disputes.model';
 
@@ -45,7 +45,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
   reviews: any[] = [];
   render: boolean = false;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
   constructor(
@@ -147,7 +147,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
         this.dtTrigger.next(null);
       }
 
-      Rating.fnc();
+      // Rating.fnc() - eliminado
     });
   }
 
@@ -337,7 +337,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
             }
           }
 
-          Rating.fnc();
+          // Rating.fnc() - eliminado
         },
         100 * (iReview + 1)
       );

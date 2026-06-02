@@ -30,7 +30,7 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
   render: boolean = true;
   is_vendor: boolean = false;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
   popoverMessage: string = 'Are you sure to remove it?';

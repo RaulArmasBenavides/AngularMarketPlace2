@@ -21,9 +21,9 @@ export class SalesService {
 	Registro en Firebase Database
 	=============================================*/
 
-	registerDatabase(body:object, idToken:string){
+	registerDatabase(body:object){
 
-		return this.http.post(`${this.api}/sales.json?auth=${idToken}`, body);
+		return this.http.post(`${this.api}/sales.json`, body);
 
 	}
 
@@ -41,9 +41,9 @@ export class SalesService {
 	Actualizar en Firebase Database
 	=============================================*/
 
-	patchDataAuth(id:string, value:object, idToken:string){
+	patchDataAuth(id:string, value:object){
 
-		return this.http.patch(`${this.api}sales/${id}.json?auth=${idToken}`,value);
+		return this.http.patch(`${this.api}sales/${id}.json`,value);
 
 	}
 }

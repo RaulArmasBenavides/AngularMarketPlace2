@@ -32,9 +32,9 @@ export class StoresService {
 	Registro en Firebase Database
 	=============================================*/
 
-	registerDatabase(body: StoresModel, idToken:string){
+	registerDatabase(body: StoresModel){
 
-		return this.http.post(`${this.api}/stores.json?auth=${idToken}`, body);
+		return this.http.post(`${this.api}/stores.json`, body);
 
 	}
 
@@ -42,9 +42,9 @@ export class StoresService {
 	Actualizar en Firebase Database
 	=============================================*/
 
-	patchDataAuth(id:string, value:StoresModel, idToken:string){
+	patchDataAuth(id:string, value:StoresModel){
 
-		return this.http.patch(`${this.api}stores/${id}.json?auth=${idToken}`,value);
+		return this.http.patch(`${this.api}stores/${id}.json`,value);
 
 	}
 

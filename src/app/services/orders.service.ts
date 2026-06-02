@@ -16,9 +16,9 @@ export class OrdersService {
 	Registro en Firebase Database
 	=============================================*/
 
-	registerDatabase(body:object, idToken:string){
+	registerDatabase(body:object){
 
-		return this.http.post(`${this.api}/orders.json?auth=${idToken}`, body);
+		return this.http.post(`${this.api}/orders.json`, body);
 
 	}
 
@@ -36,9 +36,9 @@ export class OrdersService {
 	Actualizar en Firebase Database
 	=============================================*/
 
-	patchDataAuth(id:string, value:object, idToken:string){
+	patchDataAuth(id:string, value:object){
 
-		return this.http.patch(`${this.api}orders/${id}.json?auth=${idToken}`,value);
+		return this.http.patch(`${this.api}orders/${id}.json`,value);
 
 	}
 

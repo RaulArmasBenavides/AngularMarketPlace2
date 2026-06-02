@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../../config';
-import { Rating, DinamicRating, DinamicReviews, DinamicPrice } from '../../../functions';
+// DISABLED: import { DinamicRating, DinamicReviews, DinamicPrice } from '../../../functions';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
@@ -102,7 +102,7 @@ export class SimilarBoughtComponent implements OnInit {
       this.render = false;
 
       setTimeout(function () {
-        Rating.fnc();
+        // Rating.fnc() - eliminado
       }, 1000);
     }
   }

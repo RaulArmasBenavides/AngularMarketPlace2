@@ -1,65 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // Declaraciones globales necesarias para librerías no tipadas
-// Reemplaza con @types/ si están disponibles en tu proyecto
-
-declare var $: any;
 declare var Swal: any;
 declare var paypal: any;
 declare var Chart: any;
-declare var shapeShare: any;
 
-export const OwlCarouselConfig = {
-  fnc(): void {
-    const target = $('.owl-slider');
-    if (target.length > 0) {
-      target.each(function (this: HTMLElement) {
-        const el = $(this);
-        const duration = el.data('owl-duration');
-        if (target.children('div, span, a, img, h1, h2, h3, h4, h5').length >= 1) {
-          el.owlCarousel({
-            animateIn: el.data('owl-animate-in') || '',
-            animateOut: el.data('owl-animate-out') || '',
-            margin: el.data('owl-gap'),
-            autoplay: el.data('owl-auto'),
-            autoplayTimeout: el.data('owl-speed'),
-            autoplayHoverPause: true,
-            loop: el.data('owl-loop'),
-            nav: el.data('owl-nav'),
-            mouseDrag: el.data('owl-mousedrag') === 'on',
-            touchDrag: true,
-            autoplaySpeed: duration,
-            navSpeed: duration,
-            dotsSpeed: duration,
-            dragEndSpeed: duration,
-            navText: [
-              el.data('owl-nav-left') || "<i class='icon-chevron-left'></i>",
-              el.data('owl-nav-right') || "<i class='icon-chevron-right'></i>"
-            ],
-            dots: el.data('owl-dots'),
-            items: el.data('owl-item'),
-            responsive: {
-              0: { items: el.data('owl-item-xs') },
-              480: { items: el.data('owl-item-sm') },
-              768: { items: el.data('owl-item-md') },
-              992: { items: el.data('owl-item-lg') },
-              1200: { items: el.data('owl-item-xl') },
-              1680: { items: el.data('owl-item') }
-            }
-          });
-        }
-      });
-    }
-  }
-};
+// ELIMINADO: OwlCarouselConfig — reemplazado por Swiper.js en componentes
 
+// REESCRITO: BackgroundImage (sin jQuery)
 export const BackgroundImage = {
   fnc(): void {
-    $('[data-background]').each(function (this: HTMLElement) {
-      const el = $(this);
-      const imagePath = el.attr('data-background');
+    document.querySelectorAll<HTMLElement>('[data-background]').forEach((el) => {
+      const imagePath = el.getAttribute('data-background');
       if (imagePath) {
-        el.css('background', `url(${imagePath})`);
+        el.style.background = `url(${imagePath})`;
       }
     });
   }
@@ -166,25 +120,8 @@ export const Search = {
   }
 };
 
-export const Tabs = {
-  fnc(): void {
-    $('.ps-tab-list  li > a ').on('click', function (this: HTMLElement, e: Event) {
-      e.preventDefault();
-      const target = $(this).attr('href');
-      $(this).closest('li').siblings('li').removeClass('active');
-      $(this).closest('li').addClass('active');
-      $(target).addClass('active').siblings('.ps-tab').removeClass('active');
-    });
-
-    $('.ps-tab-list.owl-slider .owl-item a').on('click', function (this: HTMLElement, e: Event) {
-      e.preventDefault();
-      const target = $(this).attr('href');
-      $(this).closest('.owl-item').siblings('.owl-item').removeClass('active');
-      $(this).closest('.owl-item').addClass('active');
-      $(target).addClass('active').siblings('.ps-tab').removeClass('active');
-    });
-  }
-};
+// ELIMINADO: Tabs — mover a componente con variable de estado (click handler)
+// Ya no se usa en nuevos componentes; controlar con *ngIf en template
 
 export class CarouselNavigation {
   static init(): void {
@@ -296,68 +233,18 @@ export const DinamicReviews = {
   }
 };
 
-/** Aplica efectos visuales: setea widths de .ps-progress y selecciona <select [reviews]> */
-export const Rating = {
-  fnc(): void {
-    // Barra de progreso de estrellas (usa data-value="%" que ya construyes en el componente)
-    $('.ps-progress').each(function (this: HTMLElement) {
-      const val = Number($(this).data('value') || 0);
-      $(this).find('span').css('width', `${val}%`);
-    });
+// ELIMINADO: Rating — reemplazado por ngx-star-rating en componentes
+// Ya no se necesita jQuery para manejar barras de progreso ni selects
 
-    // Selects con atributo [reviews] -> setear value visible
-    $('[reviews]').each(function (this: HTMLElement) {
-      const v = $(this).attr('reviews');
-      if (v != null) $(this).val(v);
-    });
-  }
-};
+// ELIMINADO: Pagination — usar Router.navigate() con queryParams en componente
 
-/* =============================================
-   Paginación con jQuery (clase .pagination)
-   ============================================= */
-export const Pagination = {
-  fnc(): void {
-    if ($('.pagination').length > 0) {
-      $('.pagination a').on('click', function (this: HTMLElement, e: Event) {
-        e.preventDefault();
-        const page = $(this).attr('href');
-        if (page) {
-          // Navegar a la página
-          window.location.href = page;
-        }
-      });
-    }
-  }
-};
+// ELIMINADO: Select2Cofig — reemplazado por ng-select en componentes
 
-/* =============================================
-   Configuración para Select2
-   ============================================= */
-export const Select2Cofig = {
-  fnc(): void {
-    if ($('.select2').length > 0) {
-      $('.select2').each(function (this: HTMLElement) {
-        const el = $(this);
-        el.select2({
-          placeholder: el.data('placeholder') || 'Select an option',
-          allowClear: true,
-          width: '100%'
-        });
-      });
-    }
-  }
-};
-
-/* =============================================
-   CountDown: [data-countdown="2025-12-31T23:59:59Z"]
-   Rellena el texto con: DDd HH:MM:SS y se detiene al llegar a 0.
-   ============================================= */
+// REESCRITO: CountDown (sin jQuery)
 export const CountDown = {
   fnc(): void {
-    $('[data-countdown]').each(function (this: HTMLElement) {
-      const el = $(this);
-      const endStr = el.attr('data-countdown');
+    document.querySelectorAll<HTMLElement>('[data-countdown]').forEach((el) => {
+      const endStr = el.getAttribute('data-countdown');
       if (!endStr) return;
       const end = new Date(endStr).getTime();
       if (isNaN(end)) return;
@@ -366,7 +253,7 @@ export const CountDown = {
         const now = Date.now();
         const dist = end - now;
         if (dist <= 0) {
-          el.text('Expired');
+          el.textContent = 'Expired';
           clearInterval(timer);
           return;
         }
@@ -374,9 +261,7 @@ export const CountDown = {
         const hours = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const mins = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
         const secs = Math.floor((dist % (1000 * 60)) / 1000);
-        el.text(
-          `${days}d ${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
-        );
+        el.textContent = `${days}d ${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
       };
 
       tick();
@@ -385,229 +270,73 @@ export const CountDown = {
   }
 };
 
-/* =============================================
-   ProgressBar: .progress-bar[data-value="70"]
-   Setea el width y (opcional) el texto.
-   ============================================= */
+// REESCRITO: ProgressBar (sin jQuery)
 export const ProgressBar = {
   fnc(): void {
-    $('.progress-bar').each(function (this: HTMLElement) {
-      const el = $(this);
-      const val = Number(el.data('value') ?? 0);
+    document.querySelectorAll<HTMLElement>('.progress-bar').forEach((el) => {
+      const val = Number(el.getAttribute('data-value') ?? 0);
       const pct = Math.max(0, Math.min(100, val));
-      el.css('width', `${pct}%`);
-      const label = el.find('.progress-label');
-      if (label.length) label.text(`${pct}%`);
+      el.style.width = `${pct}%`;
+      const label = el.querySelector('.progress-label');
+      if (label) label.textContent = `${pct}%`;
     });
   }
 };
 
-/* =============================================
-   SlickConfig: inicializa slick si está presente
-   Requiere: slick-carousel (jQuery plugin)
-   ============================================= */
-export const SlickConfig = {
-  fnc(): void {
-    const hasSlick = ($ as any).fn && ($ as any).fn.slick;
-    if (!hasSlick) {
-      console.warn(
-        '[SlickConfig] slick no encontrado. Instala "slick-carousel" o agrega el script.'
-      );
-      return;
-    }
-    $('.slick-slider').each(function (this: HTMLElement) {
-      const el = $(this);
-      // lee opciones por data-attrs si existen
-      el.slick({
-        slidesToShow: Number(el.data('slides')) || 4,
-        slidesToScroll: Number(el.data('scroll')) || 1,
-        autoplay: el.data('auto') ?? true,
-        autoplaySpeed: Number(el.data('speed')) || 3000,
-        arrows: el.data('arrows') ?? true,
-        dots: el.data('dots') ?? false,
-        infinite: el.data('loop') ?? true,
-        responsive: [
-          { breakpoint: 1200, settings: { slidesToShow: Number(el.data('xl')) || 4 } },
-          { breakpoint: 992, settings: { slidesToShow: Number(el.data('lg')) || 3 } },
-          { breakpoint: 768, settings: { slidesToShow: Number(el.data('md')) || 2 } },
-          { breakpoint: 576, settings: { slidesToShow: Number(el.data('sm')) || 1 } }
-        ]
-      });
-    });
-  }
-};
+// ELIMINADO: SlickConfig — reemplazado por Swiper.js en componentes
 
-/* =============================================
-   ProductLightbox: abre imágenes en lightbox si existe magnificPopup/lightGallery;
-   si no, fallback a abrir en nueva pestaña.
-   HTML esperado: <a class="product-lightbox" href="img.jpg"><img .../></a>
-   ============================================= */
-export const ProductLightbox = {
-  fnc(): void {
-    const hasMagnific = ($ as any).fn && ($ as any).fn.magnificPopup;
-    const sel = '.product-lightbox';
+// ELIMINADO: ProductLightbox — simplificar con *ngIf + overlay o (click) handler en componente
 
-    if (hasMagnific) {
-      $(sel).magnificPopup({
-        type: 'image',
-        gallery: { enabled: true },
-        delegate: 'a'
-      });
-      return;
-    }
+// ELIMINADO: Quantity — usar (click)="increment()" y (click)="decrement()" en componente
 
-    // Fallback simple
-    $(sel).on('click', function (this: HTMLElement, e: Event) {
-      const href = ($(this).attr('href') || $(this).data('src')) as string;
-      if (!href) return;
-      e.preventDefault();
-      window.open(href, '_blank');
-    });
-  }
-};
-
-/* =============================================
-   Quantity: botones +/− que afectan input.qty-input
-   Estructura: <div class="qty"><button class="qty-dec">-</button>
-               <input class="qty-input" type="number" min="1" value="1">
-               <button class="qty-inc">+</button></div>
-   ============================================= */
-export const Quantity = {
-  fnc(): void {
-    $(document).on('click', '.qty-inc, .qty-dec', function (this: HTMLElement, e: Event) {
-      e.preventDefault();
-      const isInc = $(this).hasClass('qty-inc');
-      const container = $(this).closest('.qty');
-      const input = container.find('.qty-input');
-      const min = Number(input.attr('min') ?? 1);
-      const max = Number(input.attr('max') ?? 9999999);
-      let val = Number(input.val() ?? min);
-
-      val = isNaN(val) ? min : val;
-      val = isInc ? val + 1 : val - 1;
-      if (val < min) val = min;
-      if (val > max) val = max;
-
-      input.val(val).trigger('change');
-    });
-  }
-};
-
-/* =============================================
-   Tooltip: usa Bootstrap si está; fallback title nativo
-   data-toggle="tooltip" title="Texto"
-   ============================================= */
+// REESCRITO: Tooltip (Bootstrap 5 nativo)
 export const Tooltip = {
   fnc(): void {
-    const hasBs = ($ as any).fn && ($ as any).fn.tooltip;
-    if (hasBs) {
-      $('[data-toggle="tooltip"]').tooltip();
-    } else {
-      // Fallback: nada que inicializar; el atributo title funciona nativo
-      console.warn('[Tooltip] Bootstrap tooltip no encontrado; usando title nativo.');
+    if (typeof (window as any).bootstrap !== 'undefined') {
+      document.querySelectorAll<HTMLElement>('[data-toggle="tooltip"]').forEach((el) => {
+        new (window as any).bootstrap.Tooltip(el);
+      });
     }
   }
 };
 
-/* =============================================
-   Share: usa Web Share API si disponible; fallback a copiar URL.
-   Elementos con [data-share] y opcional:
-     data-title="..." data-text="..." data-url="..."
-   ============================================= */
+// REESCRITO: Share (sin jQuery, Web Share API)
+const copyToClipboard = (data: any): void => {
+  navigator.clipboard.writeText(data.url).then(() => {
+    if (typeof (window as any).Swal !== 'undefined') {
+      (window as any).Swal.fire({ icon: 'success', title: 'Link copied', text: data.url });
+    } else {
+      alert('Link copied: ' + data.url);
+    }
+  }).catch(() => {
+    window.open(data.url, '_blank');
+  });
+};
+
 export const Share = {
   fnc(): void {
-    $(document).on('click', '[data-share]', async function (this: HTMLElement, e: Event) {
-      e.preventDefault();
-      const el = $(this);
-      const data = {
-        title: el.data('title') || document.title,
-        text: el.data('text') || '',
-        url: el.data('url') || window.location.href
-      };
+    document.querySelectorAll<HTMLElement>('[data-share]').forEach((el) => {
+      el.addEventListener('click', (e: Event) => {
+        e.preventDefault();
+        const data = {
+          title: el.getAttribute('data-title') || document.title,
+          text: el.getAttribute('data-text') || '',
+          url: el.getAttribute('data-url') || window.location.href
+        };
 
-      // Web Share API
-      if ((navigator as any).share) {
-        try {
-          await (navigator as any).share(data);
-          return;
-        } catch (err) {
-          // usuario canceló o no soportado; continuamos fallback
-        }
-      }
-
-      // Fallback: copiar al portapapeles
-      try {
-        await navigator.clipboard.writeText(data.url);
-        if (typeof (window as any).Swal !== 'undefined') {
-          (window as any).Swal.fire({ icon: 'success', title: 'Link copied', text: data.url });
+        if ((navigator as any).share) {
+          (navigator as any).share(data).catch(() => {
+            copyToClipboard(data);
+          });
         } else {
-          alert('Link copied: ' + data.url);
+          copyToClipboard(data);
         }
-      } catch {
-        // Fallback final: abrir popup de redes si shapeShare estuviera disponible
-        if (typeof (window as any).shapeShare !== 'undefined') {
-          try {
-            (window as any).shapeShare(data.url);
-          } catch {}
-        } else {
-          window.open(data.url, '_blank');
-        }
-      }
+      });
     });
   }
 };
 
-/* =============================================
-   Datepicker: inicializa si hay plugin jQuery
-   Soporta: jQuery UI datepicker, bootstrap-datepicker
-   Fallback: no hace nada (usa <input type="date"> nativo)
-   ============================================= */
-export const Datepicker = {
-  fnc(): void {
-    const hasJqui = ($ as any).fn && ($ as any).fn.datepicker; // jQuery UI
-    const hasBs = ($ as any).fn && ($ as any).fn.bootstrapDP; // alias eventual
-    const hasBs2 = ($ as any).fn && ($ as any).fn.datetimepicker; // tempusdominus, etc.
-
-    const $inputs = $('.datepicker, [data-datepicker]');
-
-    if (!($inputs && $inputs.length)) return;
-
-    if (hasJqui) {
-      $inputs.each(function (this: HTMLElement) {
-        const el = $(this);
-        el.datepicker({
-          dateFormat: el.data('format') || 'yy-mm-dd',
-          changeMonth: true,
-          changeYear: true
-        });
-      });
-      return;
-    }
-
-    if (hasBs || hasBs2) {
-      $inputs.each(function (this: HTMLElement) {
-        const el = $(this);
-        // Intenta bootstrap-datepicker si existe
-        if (($ as any).fn.bootstrapDP) {
-          (el as any).bootstrapDP({
-            format: el.data('format') || 'yyyy-mm-dd',
-            autoclose: true,
-            todayHighlight: true
-          });
-        } else if (($ as any).fn.datetimepicker) {
-          (el as any).datetimepicker({
-            format: el.data('format') || 'YYYY-MM-DD',
-            icons: { time: 'fa fa-clock' }
-          });
-        }
-      });
-      return;
-    }
-
-    // Fallback: no hay plugin; confía en <input type="date">
-    console.warn('[Datepicker] No se encontró plugin; usando input nativo.');
-  }
-};
+// ELIMINADO: Datepicker — usar <input type="date"> nativo en template HTML
 
 /* =============================================
    ChartJs: thin wrapper sobre window.Chart

@@ -54,7 +54,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
   /*=============================================
 	Variables para trabajar con DataTable
 	=============================================*/
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
   /*=============================================
@@ -608,7 +608,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
             	Ejecutamos la función Rating()
             	=============================================*/
 
-        Rating.fnc();
+        // Rating.fnc() - eliminado
       }, i * 10);
     }
   }
@@ -624,7 +624,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       if (!this.renderReview) {
         this.renderReview = true;
 
-        Rating.fnc();
+        // Rating.fnc() - eliminado
       }
     }
   }

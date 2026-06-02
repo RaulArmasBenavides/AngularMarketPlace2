@@ -153,23 +153,23 @@ export class ProductsService {
     return this.http.get(`${this.api}products/${value}.json`);
   }
 
-  patchDataAuth(id: string, value: object, idToken: string) {
-    return this.http.patch(`${this.api}products/${id}.json?auth=${idToken}`, value);
+  patchDataAuth(id: string, value: object) {
+    return this.http.patch(`${this.api}products/${id}.json`, value);
   }
 
   /*=============================================
 	Registro en Firebase Database
 	=============================================*/
 
-  registerDatabase(body: ProductsModel, idToken: string) {
-    return this.http.post(`${this.api}/products.json?auth=${idToken}`, body);
+  registerDatabase(body: ProductsModel) {
+    return this.http.post(`${this.api}/products.json`, body);
   }
 
   /*=============================================
 	Eliminar registro en Firebase
 	=============================================*/
 
-  deleteDataAuth(id: string, idToken: string) {
-    return this.http.delete(`${this.api}products/${id}.json?auth=${idToken}`);
+  deleteDataAuth(id: string) {
+    return this.http.delete(`${this.api}products/${id}.json`);
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import { Datepicker, ChartJs } from '../../../../functions';
+import { ChartJs } from '../../../../functions';
 
 import { OrdersService } from '../../../../services/orders.service';
 import { SalesService } from '../../../../services/sales.service';
@@ -32,7 +32,7 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
   dateFrom: any = null;
   dateTo: any = null;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
   constructor(
@@ -212,7 +212,7 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
       }
     });
 
-    Datepicker.fnc();
+    // Datepicker.fnc() - eliminado
   }
 
   /*=============================================

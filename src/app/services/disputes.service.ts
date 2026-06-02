@@ -19,9 +19,9 @@ export class DisputesService {
 	Registro en Firebase Database
 	=============================================*/
 
-	registerDatabase(body:DisputesModel, idToken:string){
+	registerDatabase(body:DisputesModel){
 
-		return this.http.post(`${this.api}/disputes.json?auth=${idToken}`, body);
+		return this.http.post(`${this.api}/disputes.json`, body);
 
 	}
 
@@ -29,9 +29,9 @@ export class DisputesService {
 	Actualizar en Firebase Database
 	=============================================*/
 
-	patchDataAuth(id:string, value:object, idToken:string){
+	patchDataAuth(id:string, value:object){
 
-		return this.http.patch(`${this.api}disputes/${id}.json?auth=${idToken}`,value);
+		return this.http.patch(`${this.api}disputes/${id}.json`,value);
 
 	}
 

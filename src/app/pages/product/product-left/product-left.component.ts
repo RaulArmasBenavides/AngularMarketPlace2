@@ -226,11 +226,11 @@ export class ProductLeftComponent implements OnInit {
     if (this.render) {
       this.render = false;
 
-      Rating.fnc();
+      // Rating.fnc() - eliminado
       CountDown.fnc();
       ProgressBar.fnc();
-      Tabs.fnc();
-      Quantity.fnc();
+      // Tabs.fnc() - eliminado
+      // Quantity.fnc() - eliminado
       Tooltip.fnc();
       Share.fnc();
 
@@ -356,8 +356,8 @@ export class ProductLeftComponent implements OnInit {
       setTimeout(function () {
         $('.ps-product__thumbnail').show();
 
-        SlickConfig.fnc();
-        ProductLightbox.fnc();
+        // SlickConfig.fnc() - eliminado
+        // ProductLightbox.fnc() - eliminado
       }, i * 500);
     }
   }

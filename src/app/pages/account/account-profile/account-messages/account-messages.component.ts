@@ -33,7 +33,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
   userMessage: any[] = [];
   email: string = Email.url;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
   constructor(

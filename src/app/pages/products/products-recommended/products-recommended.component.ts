@@ -115,7 +115,7 @@ export class ProductsRecommendedComponent implements OnInit {
         this.preload = false;
 
         setTimeout(function () {
-          Rating.fnc();
+          // Rating.fnc() - eliminado
         }, index * 100);
       }
     });
@@ -129,7 +129,7 @@ export class ProductsRecommendedComponent implements OnInit {
     if (this.render) {
       this.render = false;
 
-      OwlCarouselConfig.fnc();
+      // OwlCarouselConfig.fnc() - eliminado
       // CarouselNavigation.fnc();
     }
   }

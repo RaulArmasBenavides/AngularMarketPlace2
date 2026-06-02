@@ -327,10 +327,10 @@ export class HomeHotTodayComponent implements OnInit {
       setTimeout(function () {
         $('.ps-carousel--deal-hot').show();
 
-        OwlCarouselConfig.fnc();
+        // OwlCarouselConfig.fnc() - eliminado
         // CarouselNavigation.fnc();
-        SlickConfig.fnc();
-        ProductLightbox.fnc();
+        // SlickConfig.fnc() - eliminado
+        // ProductLightbox.fnc() - eliminado
 
         /*=============================================
 				Ejecutar funciones globales con respecto a las ofertas
@@ -342,7 +342,7 @@ export class HomeHotTodayComponent implements OnInit {
 				Ejecutar funciones globales con respecto a las reseñas
 				=============================================*/
 
-        Rating.fnc();
+        // Rating.fnc() - eliminado
 
         /*=============================================
 				Ejecutar funciones globales con respecto al Stock

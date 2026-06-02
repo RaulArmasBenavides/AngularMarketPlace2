@@ -18,9 +18,9 @@ export class MessagesService {
 	Registro en Firebase Database
 	=============================================*/
 
-	registerDatabase(body:MessagesModel, idToken:string){
+	registerDatabase(body:MessagesModel){
 
-		return this.http.post(`${this.api}/messages.json?auth=${idToken}`, body);
+		return this.http.post(`${this.api}/messages.json`, body);
 
 	}
 
@@ -28,9 +28,9 @@ export class MessagesService {
 	Actualizar en Firebase Database
 	=============================================*/
 
-	patchDataAuth(id:string, value:object, idToken:string){
+	patchDataAuth(id:string, value:object){
 
-		return this.http.patch(`${this.api}messages/${id}.json?auth=${idToken}`,value);
+		return this.http.patch(`${this.api}messages/${id}.json`,value);
 
 	}
 

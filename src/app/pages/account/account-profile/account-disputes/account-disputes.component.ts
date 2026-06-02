@@ -32,7 +32,7 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
   email: string = Email.url;
   userDispute: any[] = [];
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
 
   constructor(

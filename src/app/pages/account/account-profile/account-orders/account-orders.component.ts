@@ -24,6 +24,8 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
   idOrders: any[] = [];
   process: any[] = [];
   editNextProcess: any[] = [];
+  selectedOrderIndex: number = 0;
+  selectedOrderId: string = '';
   newNextProcess: any[] = [
     { stage: '', status: '', comment: '', date: '' },
     { stage: '', status: '', comment: '', date: '' },
@@ -81,29 +83,20 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
 
   nextProcess(idOrder: any, index: any) {
     this.editNextProcess = this.process[index];
+    this.selectedOrderIndex = index;
+    this.selectedOrderId = idOrder;
 
-    /*=============================================
-        Abrir la ventana modal
-        =============================================*/
-
-    $('#nextProcess').modal();
-
-    /*=============================================
-        Agregar el ID de la orden
-        =============================================*/
-
-    $('#nextProcess .modal-title span').html(idOrder);
-    $('#indexOrder').val(index);
-
-    /*=============================================
-        Esconder la edición de entrega si el producto aún no se ha enviado
-        =============================================*/
+    const el = document.getElementById('nextProcess');
+    if (el) {
+      new (window as any).bootstrap.Modal(el).show();
+    }
 
     if (this.editNextProcess[1]['status'] == 'pending') {
-      setTimeout(function () {
-        let block = $('.card-header');
-
-        $(block[2]).parent().remove();
+      setTimeout(() => {
+        const header = document.querySelectorAll('.card-header');
+        if (header.length > 2 && header[2].parentElement) {
+          header[2].parentElement.remove();
+        }
       }, this.editNextProcess.length * 10);
     }
   }
@@ -123,7 +116,7 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   onSubmitProcess() {
-    let idOrder = $('#nextProcess .modal-title span').html();
+    let idOrder = this.selectedOrderId;
 
     this.editNextProcess.map((item, index) => {
       if (this.newNextProcess[index]['status'] != '') {
@@ -141,18 +134,10 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
       return item;
     });
 
-    /*=============================================
-        Preguntamos si es la última parte del proceso
-        =============================================*/
-
     let status = '';
 
     if (this.newNextProcess[2]['status'] == 'ok') {
       status = 'delivered';
-
-      /*=============================================
-            Traemos la venta relacionada a la orden
-            =============================================*/
 
       this.salesService.getFilterData('id_order', idOrder).subscribe((resp) => {
         let idSale = Object.keys(resp)[0];
@@ -160,10 +145,6 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
         let body = {
           status: 'success'
         };
-
-        /*=============================================
-                Cambiar el estado de la venta
-                =============================================*/
 
         this.salesService
           .patchDataAuth(idSale, body)
@@ -173,34 +154,22 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
       status = 'pending';
     }
 
-    /*=============================================
-        Creamos el cuerpo 
-        =============================================*/
-
     let body = {
       status: status,
       process: JSON.stringify(this.editNextProcess)
     };
 
-    /*=============================================
-        Editar la orden en la BD
-        =============================================*/
-
     this.ordersService
       .patchDataAuth(idOrder, body)
       .subscribe(
         (resp) => {
-          /*=============================================
-            Enviar notificación por correo electrónico
-            =============================================*/
-
           const formData = new FormData();
 
           formData.append('email', 'yes');
           formData.append('comment', 'You have received an update on your order delivery process');
           formData.append('url', 'account/my-shopping');
-          formData.append('address', this.orders[$('#indexOrder').val()].email);
-          formData.append('name', this.orders[$('#indexOrder').val()].user);
+          formData.append('address', this.orders[this.selectedOrderIndex].email);
+          formData.append('name', this.orders[this.selectedOrderIndex].user);
 
           this.http.post(this.email, formData).subscribe((resp: any) => {
             if (resp['status'] == 200) {

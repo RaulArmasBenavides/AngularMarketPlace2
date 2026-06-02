@@ -28,6 +28,7 @@ export class StoreListComponent implements OnInit {
   sortItems: any[] = [];
   sortValues: any[] = [];
   currentRoute: string = 'store-list';
+  selectedSort: any = null;
 
   constructor(
     private readonly storesService: StoresService,
@@ -93,9 +94,11 @@ export class StoreListComponent implements OnInit {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
 
-      this.sortItems = ['Sort by Newest: old to news', 'Sort by Oldest: New to old'];
-
-      this.sortValues = ['first', 'latest'];
+      this.sortItems = [
+        { label: 'Sort by Newest: old to news', value: 'first' },
+        { label: 'Sort by Oldest: New to old', value: 'latest' }
+      ];
+      this.selectedSort = 'first';
     }
 
     if (this.param1 != null && this.param1 == 'latest') {
@@ -103,9 +106,11 @@ export class StoreListComponent implements OnInit {
         return new Date(a.date).getTime() - new Date(b.date).getTime();
       });
 
-      this.sortItems = ['Sort by Oldest: New to old', 'Sort by Newest: old to news'];
-
-      this.sortValues = ['latest', 'first'];
+      this.sortItems = [
+        { label: 'Sort by Oldest: New to old', value: 'latest' },
+        { label: 'Sort by Newest: old to news', value: 'first' }
+      ];
+      this.selectedSort = 'latest';
     }
 
     if (this.param1 != null && this.param1 == 'first') {
@@ -113,9 +118,11 @@ export class StoreListComponent implements OnInit {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
 
-      this.sortItems = ['Sort by Oldest: New to old', 'Sort by Newest: New to old'];
-
-      this.sortValues = ['first', 'latest'];
+      this.sortItems = [
+        { label: 'Sort by Oldest: New to old', value: 'latest' },
+        { label: 'Sort by Newest: New to old', value: 'first' }
+      ];
+      this.selectedSort = 'first';
     }
 
     /*=============================================
@@ -174,7 +181,6 @@ export class StoreListComponent implements OnInit {
 	=============================================*/
 
   onSortChange(event: any) {
-    const selectedValue = event.target.value;
-    window.open(`store-list/${selectedValue}`, '_top');
+    window.open(`store-list/${this.selectedSort}`, '_top');
   }
 }

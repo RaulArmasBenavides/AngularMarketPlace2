@@ -38,6 +38,7 @@ export class SearchShowcaseComponent implements OnInit {
   sort:any;
   sortItems: any[] = [];
   sortValues: any[] = [];
+  selectedSort: any = null;
   properties: any[] = ['category', 'name', 'store', 'sub_category', 'tags', 'title_list', 'url'];
   listProducts: any[] = [];
 
@@ -126,19 +127,16 @@ export class SearchShowcaseComponent implements OnInit {
 			Ordenamos el arreglo de objetos lo mas actual a lo más antiguo
 			=============================================*/
       if (this.sort == undefined || this.sort == 'fisrt') {
-        getProducts.sort(function (a, b) {
-          return b.date_created - a.date_created;
-        });
+        getProducts.sort((a, b) => b.date_created - a.date_created);
 
         this.sortItems = [
-          'Sort by first',
-          'Sort by latest',
-          'Sort by popularity',
-          'Sort by price: low to high',
-          'Sort by price: high to low'
+          { label: 'Sort by first', value: 'first' },
+          { label: 'Sort by latest', value: 'latest' },
+          { label: 'Sort by popularity', value: 'popularity' },
+          { label: 'Sort by price: low to high', value: 'low' },
+          { label: 'Sort by price: high to low', value: 'high' }
         ];
-
-        this.sortValues = ['first', 'latest', 'popularity', 'low', 'high'];
+        this.selectedSort = 'first';
       }
 
       /*=============================================
@@ -146,19 +144,16 @@ export class SearchShowcaseComponent implements OnInit {
 			=============================================*/
 
       if (this.sort == 'latest') {
-        getProducts.sort(function (a, b) {
-          return a.date_created - b.date_created;
-        });
+        getProducts.sort((a, b) => a.date_created - b.date_created);
 
         this.sortItems = [
-          'Sort by latest',
-          'Sort by first',
-          'Sort by popularity',
-          'Sort by price: low to high',
-          'Sort by price: high to low'
+          { label: 'Sort by latest', value: 'latest' },
+          { label: 'Sort by first', value: 'first' },
+          { label: 'Sort by popularity', value: 'popularity' },
+          { label: 'Sort by price: low to high', value: 'low' },
+          { label: 'Sort by price: high to low', value: 'high' }
         ];
-
-        this.sortValues = ['latest', 'first', 'popularity', 'low', 'high'];
+        this.selectedSort = 'latest';
       }
 
       /*=============================================
@@ -166,19 +161,16 @@ export class SearchShowcaseComponent implements OnInit {
 			=============================================*/
 
       if (this.sort == 'popularity') {
-        getProducts.sort(function (a, b) {
-          return b.views - a.views;
-        });
+        getProducts.sort((a, b) => b.views - a.views);
 
         this.sortItems = [
-          'Sort by popularity',
-          'Sort by first',
-          'Sort by latest',
-          'Sort by price: low to high',
-          'Sort by price: high to low'
+          { label: 'Sort by popularity', value: 'popularity' },
+          { label: 'Sort by first', value: 'first' },
+          { label: 'Sort by latest', value: 'latest' },
+          { label: 'Sort by price: low to high', value: 'low' },
+          { label: 'Sort by price: high to low', value: 'high' }
         ];
-
-        this.sortValues = ['popularity', 'first', 'latest', 'low', 'high'];
+        this.selectedSort = 'popularity';
       }
 
       /*=============================================
@@ -186,19 +178,16 @@ export class SearchShowcaseComponent implements OnInit {
 			=============================================*/
 
       if (this.sort == 'low') {
-        getProducts.sort(function (a, b) {
-          return a.price - b.price;
-        });
+        getProducts.sort((a, b) => a.price - b.price);
 
         this.sortItems = [
-          'Sort by price: low to high',
-          'Sort by first',
-          'Sort by latest',
-          'Sort by popularity',
-          'Sort by price: high to low'
+          { label: 'Sort by price: low to high', value: 'low' },
+          { label: 'Sort by first', value: 'first' },
+          { label: 'Sort by latest', value: 'latest' },
+          { label: 'Sort by popularity', value: 'popularity' },
+          { label: 'Sort by price: high to low', value: 'high' }
         ];
-
-        this.sortValues = ['low', 'first', 'latest', 'popularity', 'high'];
+        this.selectedSort = 'low';
       }
 
       /*=============================================
@@ -206,19 +195,16 @@ export class SearchShowcaseComponent implements OnInit {
 			=============================================*/
 
       if (this.sort == 'high') {
-        getProducts.sort(function (a, b) {
-          return b.price - a.price;
-        });
+        getProducts.sort((a, b) => b.price - a.price);
 
         this.sortItems = [
-          'Sort by price: high to low',
-          'Sort by first',
-          'Sort by latest',
-          'Sort by popularity',
-          'Sort by price: low to high'
+          { label: 'Sort by price: high to low', value: 'high' },
+          { label: 'Sort by first', value: 'first' },
+          { label: 'Sort by latest', value: 'latest' },
+          { label: 'Sort by popularity', value: 'popularity' },
+          { label: 'Sort by price: low to high', value: 'low' }
         ];
-
-        this.sortValues = ['high', 'first', 'latest', 'popularity', 'low'];
+        this.selectedSort = 'high';
       }
 
       /*=============================================
@@ -285,8 +271,7 @@ export class SearchShowcaseComponent implements OnInit {
 	=============================================*/
 
   onSortChange(event: any) {
-    const selectedValue = event.target.value;
-    window.open(`search/${this.params}&${selectedValue}`, '_top');
+    window.open(`search/${this.params}&${this.selectedSort}`, '_top');
   }
 
   /*=============================================

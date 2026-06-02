@@ -14,13 +14,16 @@ Products found
 
     <div class="ps-shopping__actions">
       @if (sortItems.length > 0) {
-        <select class="ps-select sortItems" (change)="onSortChange($event)" data-placeholder="Sort Items">
-          @for (item of sortItems; track item; let i = $index) {
-            <option [value]="sortValues[i]">
-              {{ item }}
-            </option>
-          }
-        </select>
+        <ng-select
+          [(ngModel)]="selectedSort"
+          (change)="onSortChange($event)"
+          [items]="sortItems"
+          bindLabel="label"
+          bindValue="value"
+          placeholder="Sort Items"
+          class="ps-select"
+        >
+        </ng-select>
       }
 
       <div class="ps-shopping__view">

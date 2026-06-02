@@ -204,10 +204,6 @@ export class AccountProfileComponent implements OnInit {
 		=============================================*/
 
     // Add the following code if you want the name of the file appear on select
-    // $('.custom-file-input').on('change', function () {
-    //   var fileName = $(this).val().split('\\').pop();
-    //   $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
-    // });
   }
 
   /*=============================================
@@ -217,15 +213,9 @@ export class AccountProfileComponent implements OnInit {
   validate(input: any) {
     let pattern;
 
-    if ($(input).attr('name') == 'password') {
+    if (input.name == 'password') {
       pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
     }
-
-    // if (!pattern.test(input.value)) {
-    //   $(input).parent().addClass('was-validated');
-
-    //   input.value = '';
-    // }
   }
 
   /*=============================================
@@ -298,17 +288,14 @@ export class AccountProfileComponent implements OnInit {
 
       return;
     } else {
-      /*=============================================
-        Mostramos la imagen temporal
-        =============================================*/
       let data = new FileReader();
-      // data.readAsDataURL(this.image);
 
-      $(data).on('load', function (event: any) {
-        let path = event.target.result;
-
-        $('.changePicture').attr('src', path);
-      });
+      data.onload = (event: any) => {
+        const imgElement = document.querySelector('.changePicture') as HTMLImageElement;
+        if (imgElement) {
+          imgElement.src = event.target.result;
+        }
+      };
     }
   }
 

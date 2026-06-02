@@ -15,6 +15,8 @@ export class ReviewsComponent implements OnInit {
   rating: any[] = [];
   totalReviews: string;
   itemReviews: any[] = [];
+  reviewOptions: number[] = [];
+  starRatings: any[] = [];
   render: boolean = true;
 
   constructor() {}
@@ -31,89 +33,25 @@ export class ReviewsComponent implements OnInit {
         =============================================*/
 
     let reviews = [];
-
     reviews.push(DinamicReviews.fnc(this.rating[0]));
 
     for (let i = 0; i < reviews[0].length; i++) {
-      $('.reviewsOption').append(`
-			
-				<option value="${reviews[0][i]}">${i + 1}</option>
-
-        	`);
+      this.reviewOptions.push(i + 1);
     }
 
-    // Rating.fnc() - eliminado
-
-    /*=============================================
-        Total Reviews
-        =============================================*/
     this.totalReviews = JSON.parse(this.childItem['reviews']).length;
 
-    /*=============================================
-        Star Block
-        =============================================*/
-
-    //Necesitamos un array vacío para almacenar los review
-    let arrayReview: any[] = [];
-
-    JSON.parse(this.childItem['reviews']).forEach((rev: any) => {
-      arrayReview.push(rev.review);
-    });
-
-    //Ordenamos el array de mayor a menor
-    arrayReview.sort();
-
-    let objectStar = {
-      '1': 0,
-      '2': 0,
-      '3': 0,
-      '4': 0,
-      '5': 0
-    };
-
-    //Identificamos que valores se repitem y cuales no se repiten
-    arrayReview.forEach((value: any, index: number, arr: any) => {
-      //Tomamos del array completo el primer índice de cada valor
-      let first_index = arr.indexOf(value);
-      //Tomamos del array completo el último índice de cada valor
-      let last_index = arr.lastIndexOf(value);
-
-      //Comparamos si tanto el primer índice como el último índice del mismo valor son diferentes, Si es diferente significa que se repite varias veces, si son iguales significa que nunca se repite
-      if (first_index !== last_index) {
-        //incrementamos valores repetidos en las propiedades del objeto Star
-        // objectStar[value] += 1;
-      } else {
-        //incrementamos valores que no se repiten en las propiedades del objeto Star
-        // objectStar[value] += 1;
-      }
-    });
-
-    //Hacemos un recorrido por cada uno de los renglones de estrellas
     for (let i = 5; i > 0; i--) {
-      //Hacemos una regla de 3: la cantidad que suma cada estella multiplicado por 100 dividido la cantidad de calificaciones
-      let starPercentage = 60//Math.round((objectStar[i] * 100) / arrayReview.length);
+      let starPercentage = 60;
 
       if (isNaN(starPercentage)) {
         starPercentage = 0;
       }
 
-      $('.ps-block--average-rating').append(`
-				
-			<div class="ps-block__star">
-
-            	<span>${i} Star</span>
-
-                <div class="ps-progress" data-value="${starPercentage}">
-
-                	<span></span>
-
-                </div>
-
-                <span>${starPercentage}%</span>
-
-            </div>
-
-	    	`);
+      this.starRatings.push({
+        star: i,
+        percentage: starPercentage
+      });
     }
 
     /*=============================================
@@ -126,24 +64,6 @@ export class ReviewsComponent implements OnInit {
   callback() {
     if (this.render) {
       this.render = false;
-
-      let reviews = $('[reviews]');
-
-      for (let i = 0; i < reviews.length; i++) {
-        for (let r = 0; r < 5; r++) {
-          $(reviews[i]).append(`
-						
-						<option value="2">${r + 1}</option>
-
-		        	`);
-
-          if ($(reviews[i]).attr('reviews') == r + 1) {
-            $(reviews[i]).children('option').val(1);
-          }
-        }
-      }
-
-      // Rating.fnc() - eliminado
     }
   }
 }

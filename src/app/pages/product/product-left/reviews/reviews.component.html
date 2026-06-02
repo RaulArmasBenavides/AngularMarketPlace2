@@ -4,10 +4,24 @@
       <div class="ps-block__header">
         <h3>{{ rating[0] }}</h3>
 
-        <select class="ps-rating reviewsOption" data-read-only="true"></select>
+        <select class="ps-rating reviewsOption" data-read-only="true">
+          @for (option of reviewOptions; track option) {
+            <option [value]="option">{{ option }}</option>
+          }
+        </select>
 
         <span>{{ totalReviews }} Reviews</span>
       </div>
+
+      @for (star of starRatings; track star.star) {
+        <div class="ps-block__star">
+          <span>{{ star.star }} Star</span>
+          <div class="ps-progress" [attr.data-value]="star.percentage">
+            <span></span>
+          </div>
+          <span>{{ star.percentage }}%</span>
+        </div>
+      }
     </div>
   </div>
 

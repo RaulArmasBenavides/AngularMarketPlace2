@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductComponent } from './product.component';
@@ -12,6 +12,9 @@ import { ProductRightComponent } from './product-right/product-right.component';
 import { SimilarBoughtComponent } from './similar-bought/similar-bought.component';
 import { RelatedProductComponent } from './related-product/related-product.component';
 import { SharedModule } from '../../shared/shared.module';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     SharedModule,
     RouterModule.forChild([{ path: '', component: ProductComponent }])
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ProductModule {}

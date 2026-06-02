@@ -8,25 +8,10 @@ Related products
       <h3>Related products</h3>
     </div>
     <div class="ps-section__content">
-      <div
-        class="ps-carousel--nav owl-slider"
-        data-owl-auto="true"
-        data-owl-loop="true"
-        data-owl-speed="10000"
-        data-owl-gap="30"
-        data-owl-nav="true"
-        data-owl-dots="true"
-        data-owl-item="6"
-        data-owl-item-xs="2"
-        data-owl-item-sm="2"
-        data-owl-item-md="3"
-        data-owl-item-lg="4"
-        data-owl-item-xl="6"
-        data-owl-duration="1000"
-        data-owl-mousedrag="on"
-      >
+      <swiper-container [config]="swiperConfig" class="ps-carousel--nav">
         @for (product of products; track product; let i = $index; let lastIndex = $last) {
-          <div class="ps-product">
+          <swiper-slide>
+            <div class="ps-product">
             <div class="ps-product__thumbnail">
               <a href="product/{{ product.url }}">
                 <img
@@ -90,9 +75,10 @@ Related products
               </div>
             </div>
             {{ lastIndex ? callback() : '' }}
-          </div>
+            </div>
+          </swiper-slide>
         }
-      </div>
+      </swiper-container>
     </div>
   </div>
 }

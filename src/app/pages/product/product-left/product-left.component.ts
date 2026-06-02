@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { register } from 'swiper/element/bundle';
 import { Path, Email } from '../../../config';
 import {
   DinamicRating,
@@ -19,6 +20,8 @@ import { ProductsService } from '../../../services/products.service';
 import { UsersService } from '../../../services/users.service';
 import { MessagesService } from '../../../services/messages.service';
 import { StoresService } from '../../../services/stores.service';
+
+register();
 
 @Component({
   selector: 'app-product-left',
@@ -54,6 +57,25 @@ export class ProductLeftComponent implements OnInit {
   questions: any[] = [];
 
   linkedin: string;
+
+  swiperMainConfig: any = {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    navigation: true,
+    pagination: false,
+    loop: true,
+    speed: 500
+  };
+
+  swiperThumbsConfig: any = {
+    slidesPerView: 4,
+    spaceBetween: 10,
+    navigation: false,
+    pagination: false,
+    loop: true,
+    speed: 500,
+    watchSlidesProgress: true
+  };
 
   constructor(
     private readonly activateRoute: ActivatedRoute,
@@ -287,8 +309,6 @@ export class ProductLeftComponent implements OnInit {
   callbackGallery(i: any) {
     if (this.renderGallery) {
       this.renderGallery = false;
-      // SlickConfig.fnc() - eliminado
-      // ProductLightbox.fnc() - eliminado
     }
   }
 

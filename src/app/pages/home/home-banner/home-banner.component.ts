@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { register } from 'swiper/element/bundle';
 import { Path } from '../../../config';
 import { BackgroundImage } from '../../../functions';
 
 import { ProductsService } from '../../../services/products.service';
+
+register();
 
 @Component({
   selector: 'app-home-banner',
@@ -17,6 +20,16 @@ export class HomeBannerComponent implements OnInit {
   url: any[] = [];
   render: boolean = true;
   preload: boolean = false;
+
+  swiperConfig: any = {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    navigation: true,
+    pagination: { clickable: true },
+    autoplay: { delay: 5000, disableOnInteraction: false },
+    loop: true,
+    speed: 1000
+  };
 
   constructor(private productsService: ProductsService) {}
 
@@ -38,7 +51,7 @@ export class HomeBannerComponent implements OnInit {
       }
 
       /*=============================================
-			Generar un número aleatorio 
+			Generar un número aleatorio
 			=============================================*/
 
       if (size > 5) {
@@ -70,8 +83,6 @@ export class HomeBannerComponent implements OnInit {
   callback() {
     if (this.render) {
       this.render = false;
-
-      // OwlCarouselConfig.fnc() - eliminado
       BackgroundImage.fnc();
     }
   }

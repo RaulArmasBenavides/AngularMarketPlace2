@@ -7,7 +7,6 @@ import {
   DinamicPrice,
   
   
-  Tabs
 } from '../../../functions';
 
 import { ProductsService } from '../../../services/products.service';

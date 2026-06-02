@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { register } from 'swiper/element/bundle';
 import { Path } from '../../../config';
 
 import {
-  
-  CarouselNavigation,
-  
   DinamicRating,
   DinamicReviews,
   DinamicPrice
@@ -14,6 +12,8 @@ import { ProductsService } from '../../../services/products.service';
 import { UsersService } from '../../../services/users.service';
 
 import { ActivatedRoute, Router } from '@angular/router';
+
+register();
 
 @Component({
   selector: 'app-products-recommended',
@@ -31,6 +31,23 @@ export class ProductsRecommendedComponent implements OnInit {
   preload: boolean = false;
   placeholder: any[] = [0, 1, 2, 3, 4, 5];
   notFound: boolean = false;
+
+  swiperConfig: any = {
+    slidesPerView: 6,
+    spaceBetween: 30,
+    navigation: false,
+    pagination: false,
+    autoplay: { delay: 10000, disableOnInteraction: false },
+    loop: true,
+    speed: 1000,
+    breakpoints: {
+      320: { slidesPerView: 2 },
+      576: { slidesPerView: 2 },
+      768: { slidesPerView: 3 },
+      992: { slidesPerView: 4 },
+      1200: { slidesPerView: 6 }
+    }
+  };
 
   constructor(
     private readonly productsService: ProductsService,
@@ -128,9 +145,6 @@ export class ProductsRecommendedComponent implements OnInit {
   callback() {
     if (this.render) {
       this.render = false;
-
-      // OwlCarouselConfig.fnc() - eliminado
-      // CarouselNavigation.fnc();
     }
   }
 

@@ -10,31 +10,35 @@
       <div class="ps-product__thumbnail" data-vertical="true">
         <figure>
           <div class="ps-wrapper">
-            <div class="ps-product__gallery" data-arrow="true">
+            <swiper-container [config]="swiperMainConfig" class="ps-product__gallery" data-arrow="true">
               @for (image of gallery[0]; track image) {
-                <div class="item">
-                  <a href="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}">
-                    <img
-                      src="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}"
-                      alt="{{ product[0].name }}"
-                    />
-                  </a>
-                </div>
+                <swiper-slide>
+                  <div class="item">
+                    <a href="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}">
+                      <img
+                        src="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}"
+                        alt="{{ product[0].name }}"
+                      />
+                    </a>
+                  </div>
+                </swiper-slide>
               }
-            </div>
+            </swiper-container>
           </div>
         </figure>
-        <div class="ps-product__variants" data-item="4" data-md="4" data-sm="4" data-arrow="false">
+        <swiper-container [config]="swiperThumbsConfig" class="ps-product__variants" data-item="4" data-md="4" data-sm="4" data-arrow="false">
           @for (image of gallery[0]; track image; let lastIndex = $last; let i = $index) {
-            <div class="item">
-              <img
-                src="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}"
-                alt="{{ product[0].name }}"
-              />
-              {{ lastIndex ? callbackGallery(i) : '' }}
-            </div>
+            <swiper-slide>
+              <div class="item">
+                <img
+                  src="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}"
+                  alt="{{ product[0].name }}"
+                />
+                {{ lastIndex ? callbackGallery(i) : '' }}
+              </div>
+            </swiper-slide>
           }
-        </div>
+        </swiper-container>
       </div>
       <!-- End Gallery -->
       <!--=====================================

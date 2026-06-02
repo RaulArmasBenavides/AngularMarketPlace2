@@ -591,7 +591,7 @@ export class AccountNewStoreComponent implements OnInit {
 
         return;
       } else {
-        if ($(input).attr('name') == 'stock' && input.value > 100) {
+        if (input.getAttribute('name') == 'stock' && input.value > 100) {
           input.value = '';
 
           Sweetalert.fnc('error', 'The product exceeds 100 units', null);

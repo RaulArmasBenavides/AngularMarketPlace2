@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Path } from '../../../../config';
-// DISABLED: import { Dinamic DinamicReviews } from '../../../../functions';
+import { DinamicRating, DinamicReviews } from '../../../../functions';
 
 
 @Component({

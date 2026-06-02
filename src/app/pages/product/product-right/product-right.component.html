@@ -70,4 +70,32 @@
             <div class="ps-product__content">
               <a class="ps-product__title" href="product/{{ product.url }}">{{ product.name }}</a>
               <div class="ps-product__rating">
-                        <star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></star-rating>
+                <select class="ps-rating" data-read-only="true">
+                  @for (review of reviews[i]; track review; let f = $index) {
+                    <option [value]="review">{{ f + 1 }}</option>
+                  }
+                </select>
+                <span>{{ rating[i] }}</span>
+              </div>
+              <div [innerHTML]="price[i][0]"></div>
+            </div>
+            <div class="ps-product__content hover">
+              <a class="ps-product__title" href="product/{{ product.url }}">{{ product.name }}</a>
+              <div [innerHTML]="price[i][0]"></div>
+            </div>
+          </div>
+          {{ lastIndex ? callback() : '' }}
+        </div>
+      }
+    </div>
+  </aside>
+}
+
+<!--=====================================
+Preload
+======================================-->
+@if (preload) {
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border text-muted my-5"></div>
+  </div>
+}

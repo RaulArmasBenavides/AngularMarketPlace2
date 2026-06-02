@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   totalShoppingCart: number = 0;
   renderShopping: boolean = true;
   subTotalValue: number = 0;
+  subTotal: string = '';
   lang: boolean = false;
 
   constructor(
@@ -290,6 +291,7 @@ export class HeaderComponent implements OnInit {
         }
 
         this.subTotalValue = totalPrice;
+        this.subTotal = `<strong>Subtotal: $${totalPrice.toFixed(2)}</strong>`;
       }, cartItems.length * 500);
     }
   }

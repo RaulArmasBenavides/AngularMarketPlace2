@@ -10,35 +10,31 @@
       <div class="ps-product__thumbnail" data-vertical="true">
         <figure>
           <div class="ps-wrapper">
-            <swiper-container [config]="swiperMainConfig" class="ps-product__gallery" data-arrow="true">
+            <div class="ps-product__gallery" data-arrow="true">
               @for (image of gallery[0]; track image) {
-                <swiper-slide>
-                  <div class="item">
-                    <a href="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}">
-                      <img
-                        src="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}"
-                        alt="{{ product[0].name }}"
-                      />
-                    </a>
-                  </div>
-                </swiper-slide>
+                <div class="item">
+                  <a href="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}">
+                    <img
+                      src="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}"
+                      alt="{{ product[0].name }}"
+                    />
+                  </a>
+                </div>
               }
-            </swiper-container>
+            </div>
           </div>
         </figure>
-        <swiper-container [config]="swiperThumbsConfig" class="ps-product__variants" data-item="4" data-md="4" data-sm="4" data-arrow="false">
+        <div class="ps-product__variants" data-item="4" data-md="4" data-sm="4" data-arrow="false">
           @for (image of gallery[0]; track image; let lastIndex = $last; let i = $index) {
-            <swiper-slide>
-              <div class="item">
-                <img
-                  src="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}"
-                  alt="{{ product[0].name }}"
-                />
-                {{ lastIndex ? callbackGallery(i) : '' }}
-              </div>
-            </swiper-slide>
+            <div class="item">
+              <img
+                src="{{ path }}img/products/{{ product[0].category }}/gallery/{{ image }}"
+                alt="{{ product[0].name }}"
+              />
+              {{ lastIndex ? callbackGallery(i) : '' }}
+            </div>
           }
-        </swiper-container>
+        </div>
       </div>
       <!-- End Gallery -->
       <!--=====================================
@@ -49,7 +45,12 @@
           <h1>{{ p.name }}</h1>
           <div class="ps-product__meta">
             <div class="ps-product__rating">
-              <star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></star-rating>
+              <select class="ps-rating" data-read-only="true">
+                @for (review of reviews[i]; track review; let f = $index) {
+                  <option [value]="review">{{ f + 1 }}</option>
+                }
+              </select>
+              <span>{{ rating[i] }}</span>
             </div>
           </div>
           <div [innerHTML]="price[i][0]"></div>

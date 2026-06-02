@@ -538,7 +538,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
       let globalRating = 0;
       let globalReviews = 0;
 
-      setTimeout(function () {
+      setTimeout(() => {
         /*=============================================
             	Agregamos el tooltip para mostrar comentario de revisión
             	=============================================*/

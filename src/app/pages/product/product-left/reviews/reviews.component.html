@@ -26,7 +26,7 @@
   </div>
 
   <div class="col-lg-7 col-12">
-    @for (item of itemReviews[0]; track item; let lastIndex = $last) {
+    @for (item of itemReviews[0]; track item; let i = $index; let lastIndex = $last) {
       <div class="media border p-3">
         @if (item.image != undefined && item.method == 'direct') {
           <img

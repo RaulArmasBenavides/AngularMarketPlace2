@@ -80,8 +80,12 @@ Home Deal Hot Today
                               <span class="offer_2"></span>
                               <del> ${{ products[i].price }}</del>
                             </h4>
-                            <div class="ps-product__rating review_1">
-                              <star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></star-rating>
+                            <div
+                              [attr.reviews]="products[i].reviews"
+                              class="ps-product__rating review_1"
+                            >
+                              <select class="ps-rating review_2" data-read-only="true"></select>
+                              <span class="review_3"></span>
                             </div>
                             <div class="ps-product__specification">
                               <p>Status:<strong class="in-stock"> In Stock</strong></p>

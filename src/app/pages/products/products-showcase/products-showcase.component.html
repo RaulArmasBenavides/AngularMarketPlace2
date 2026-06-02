@@ -111,7 +111,12 @@ Products found
                         {{ product.name }}</a
                       >
                       <div class="ps-product__rating">
-                        <star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></star-rating>
+                        <select class="ps-rating" data-read-only="true">
+                          @for (review of reviews[i]; track review; let f = $index) {
+                            <option [value]="review">{{ f + 1 }}</option>
+                          }
+                        </select>
+                        <span>{{ rating[i] }}</span>
                       </div>
                       <div [innerHTML]="price[i][0]"></div>
                     </div>
@@ -162,4 +167,77 @@ Products found
                     {{ product.name }}</a
                   >
                   <div class="ps-product__rating">
-                        <star-rating [value]="rating[i]" [totalStars]="5" [readOnly]="true" [color]="'#FFB400'"></star-rating>
+                    <select class="ps-rating" data-read-only="true">
+                      @for (review of reviews[i]; track review; let f = $index) {
+                        <option [value]="review">{{ f + 1 }}</option>
+                      }
+                    </select>
+                    <span>{{ rating[i] }}</span>
+                  </div>
+                  <p class="ps-product__vendor">
+                    Sold by:
+                    <a href="#">{{ product.store }}</a>
+                  </p>
+                  <div [innerHTML]="product.summary"></div>
+                </div>
+                <div class="ps-product__shopping">
+                  <div [innerHTML]="price[i][0]"></div>
+                  <a class="ps-btn" href="#">Add to cart</a>
+                  <ul class="ps-product__actions">
+                    <li>
+                      <a routerLink="/product/{{ product.url }}"><i class="icon-eye"></i>View</a>
+                    </li>
+                    <li>
+                      <a href="#"><i class="icon-heart"></i> Wishlist</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {{ lastIndex ? callback(params) : '' }}
+            </div>
+          }
+          <!-- End Product -->
+        </div>
+        <div class="ps-pagination">
+          <ul
+            class="pagination"
+            [attr.data-total-pages]="totalPage"
+            [attr.data-actual-page]="page"
+            [attr.data-current-route]="currentRoute"
+          ></ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!--=====================================
+      Preload
+      ======================================-->
+
+  @if (preload) {
+    <div class="d-lg-flex justify-content-center d-none">
+      <!-- <div class="spinner-border text-muted my-5"></div> -->
+      <div class="container">
+        <div class="ph-item border-0">
+          @for (place of placeholder; track place) {
+            <div class="ph-col-2">
+              <div class="ph-picture"></div>
+              <div class="ph-row">
+                <div class="ph-col-12 big"></div>
+                <div class="ph-col-10"></div>
+                <div class="ph-col-2 empty"></div>
+                <div class="ph-col-12"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (preload) {
+    <div class="d-flex justify-content-center d-lg-none">
+      <div class="spinner-border text-muted my-5"></div>
+    </div>
+  }
+</div>

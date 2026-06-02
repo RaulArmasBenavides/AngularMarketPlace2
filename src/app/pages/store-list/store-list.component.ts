@@ -166,13 +166,15 @@ export class StoreListComponent implements OnInit {
   callback() {
     if (this.render) {
       this.render = false;
-      // Select2Cofig.fnc() - eliminado
-      // Pagination.fnc() - eliminado
-
-      $('.sortItems').on('change', (e: any) => {
-        const val = ($(e.currentTarget) as any<HTMLInputElement>).val() as string;
-        window.open(`store-list/${val}`, '_top');
-      });
     }
+  }
+
+  /*=============================================
+	Manejar cambio de ordenamiento
+	=============================================*/
+
+  onSortChange(event: any) {
+    const selectedValue = event.target.value;
+    window.open(`store-list/${selectedValue}`, '_top');
   }
 }

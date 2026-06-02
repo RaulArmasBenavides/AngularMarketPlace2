@@ -14,7 +14,7 @@ Products found
 
     <div class="ps-shopping__actions">
       @if (sortItems.length > 0) {
-        <select class="ps-select sortItems" data-placeholder="Sort Items">
+        <select class="ps-select sortItems" (change)="onSortChange($event)" data-placeholder="Sort Items">
           @for (item of sortItems; track item; let i = $index) {
             <option [value]="sortValues[i]">
               {{ item }}

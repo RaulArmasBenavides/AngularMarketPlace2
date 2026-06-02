@@ -277,18 +277,20 @@ export class SearchShowcaseComponent implements OnInit {
       // Select2Cofig.fnc() - eliminado
       // Tabs.fnc() - eliminado
 
-      /*=============================================
-			Captura del Select Sort Items
-			=============================================*/
-
-      $('.sortItems').change(function (this: HTMLElement) {
-        window.open(`search/${params}&${$(this).val()}`, '_top');
-      });
     }
   }
 
   /*=============================================
-	Función para agregar productos a la lista de deseos	
+	Manejar cambio de ordenamiento
+	=============================================*/
+
+  onSortChange(event: any) {
+    const selectedValue = event.target.value;
+    window.open(`search/${this.params}&${selectedValue}`, '_top');
+  }
+
+  /*=============================================
+	Función para agregar productos a la lista de deseos
 	=============================================*/
 
   addWishlist(product:any) {

@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TagInputModule } from 'ngx-chips';
-import { RatingModule } from 'ng-starrating';
 import { AccountComponent } from './account.component';
 import { AccountBreadcrumbComponent } from './account-breadcrumb/account-breadcrumb.component';
 import { AccountProfileComponent } from './account-profile/account-profile.component';
@@ -39,12 +38,12 @@ import { SharedModule } from '../../shared/shared.module';
     SharedModule,
     NgxDropzoneModule,
     TagInputModule,
-    RatingModule,
     ConfirmationPopoverModule,
     RouterModule.forChild([
       { path: '', component: AccountComponent },
       { path: ':param', component: AccountComponent }
     ])
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AccountModule {}

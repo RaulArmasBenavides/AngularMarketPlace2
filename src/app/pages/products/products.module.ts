@@ -1,7 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { RatingModule } from 'ng-starrating';
 import { ProductsComponent } from './products.component';
 import { ProductsBreadcrumbComponent } from './products-breadcrumb/products-breadcrumb.component';
 import { BestSalesItemComponent } from './best-sales-item/best-sales-item.component';
@@ -23,7 +22,6 @@ import 'swiper/css/pagination';
   imports: [
     CommonModule,
     SharedModule,
-    RatingModule,
     RouterModule.forChild([{ path: '', component: ProductsComponent }])
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

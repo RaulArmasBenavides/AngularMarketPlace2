@@ -677,7 +677,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos las redes sociales de la tienda
         =============================================*/
 
-    if ($(input).attr('social') == 'socialNetwork') {
+    if (input.getAttribute('social') == 'socialNetwork') {
       /*=============================================
             Validamos expresión regular de la dirección de la tienda
             =============================================*/
@@ -744,7 +744,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos los TAGS de los Banner's y Slider's
         =============================================*/
 
-    if ($(input).attr('tags') == 'tags') {
+    if (input.getAttribute('tags') == 'tags') {
       /*=============================================
             Validamos expresión regular
             =============================================*/
@@ -765,7 +765,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos el video del producto
         =============================================*/
 
-    if ($(input).attr('name') == 'id_video') {
+    if (input.getAttribute('name') == 'id_video') {
       /*=============================================
             Validamos expresión regular
             =============================================*/
@@ -784,7 +784,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos el precio de envío y el precio de venta
         =============================================*/
 
-    if ($(input).attr('tags') == 'prices') {
+    if (input.getAttribute('tags') == 'prices') {
       /*=============================================
             Validamos expresión regular
             =============================================*/
@@ -802,7 +802,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
         Validamos dias de entrega y stock
         =============================================*/
 
-    if ($(input).attr('tags') == 'intNumber') {
+    if (input.getAttribute('tags') == 'intNumber') {
       /*=============================================
             Validamos expresión regular
             =============================================*/
@@ -814,7 +814,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
         return;
       } else {
-        if ($(input).attr('name') == 'stock' && input.value > 100) {
+        if (input.getAttribute('name') == 'stock' && input.value > 100) {
           input.value = '';
 
           Sweetalert.fnc('error', 'The product exceeds 100 units', null);

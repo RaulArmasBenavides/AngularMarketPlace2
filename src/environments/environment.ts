@@ -11,6 +11,7 @@ export const environment = {
   mpPublicKey: 'mercad',
   mpAccessToken: 'mpAccessToken',
   payuAccountId: 'payuAccountId',
+  paypalClientId: 'TU_CLIENT_ID_AQUI', // Obtén esto de https://developer.paypal.com/
 
   firebase: {
     apiKey: 'api-key',

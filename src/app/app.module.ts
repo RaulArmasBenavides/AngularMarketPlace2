@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { MockFirebaseInterceptor } from './core/interceptors/mock-firebase.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     })
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: MockFirebaseInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

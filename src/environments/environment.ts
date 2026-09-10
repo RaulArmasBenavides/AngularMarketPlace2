@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:3700/api',
   apiKey: 'sfasdfdsafasdfdsafsafdsf',
   payuMerchantId: '2224234',
   payuApiKey: 'asdasd',

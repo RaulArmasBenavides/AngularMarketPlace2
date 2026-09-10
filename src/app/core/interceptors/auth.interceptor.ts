@@ -6,12 +6,26 @@ import { environment } from 'src/environments/environment';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('idToken');
-    const isFirebaseDB = req.url.includes(environment.firebase.databaseURL);
+    const firebaseToken = localStorage.getItem('idToken');
+    const tantooToken = localStorage.getItem('tantooToken');
 
-    if (token && isFirebaseDB) {
+    const isFirebaseDB = req.url.includes(environment.firebase.databaseURL);
+    const isTantooApi = req.url.includes(environment.apiUrl);
+
+    // Firebase Realtime DB: inyecta token como query param
+    if (firebaseToken && isFirebaseDB) {
       const authReq = req.clone({
-        params: req.params.set('auth', token)
+        params: req.params.set('auth', firebaseToken)
+      });
+      return next.handle(authReq);
+    }
+
+    // TantooServiceRestNode: inyecta token como header x-token
+    if (tantooToken && isTantooApi) {
+      const authReq = req.clone({
+        setHeaders: {
+          'x-token': tantooToken
+        }
       });
       return next.handle(authReq);
     }

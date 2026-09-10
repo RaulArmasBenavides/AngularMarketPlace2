@@ -43,6 +43,11 @@ export const Api: Endpoint = {
   url: environment.firebase.databaseURL || '' // e.g. 'https://<project>.firebaseio.com/'
 };
 
+/** TantooServiceRestNode API base */
+export const TantooApi: Endpoint = {
+  url: environment.apiUrl || 'http://localhost:3700/api'
+};
+
 /** Firebase Auth endpoints */
 export const Register: Endpoint = {
   url: `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseApiKey || '[YOUR_API_KEY]'}`

@@ -11,7 +11,6 @@ import { MessagesModel } from '../../../../models/messages.model';
 import { MessagesService } from '../../../../services/messages.service';
 import { UsersService } from '../../../../services/users.service';
 
-import { Subject } from 'rxjs';
 
  
 
@@ -33,8 +32,6 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
   userMessage: any[] = [];
   email: string = Email.url;
 
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   constructor(
     private messagesService: MessagesService,
@@ -45,14 +42,7 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    /*=============================================
-	  	Agregamos opciones a DataTable
-	  	=============================================*/
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true
-    };
 
     let load = 0;
 
@@ -84,7 +74,6 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
       }
 
       if (load == this.messages.length) {
-        this.dtTrigger.next(null);
       }
     });
   }
@@ -160,6 +149,5 @@ export class AccountMessagesComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

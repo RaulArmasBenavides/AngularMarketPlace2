@@ -91,7 +91,7 @@ export class ProductLeftComponent implements OnInit {
 
   ngOnInit(): void {
     this.preload = true;
-    this.linkedin = window.location.href;
+    this.linkedin = typeof window !== 'undefined' ? window.location.href : '';
 
     this.productsService
       .getFilterData('url', this.activateRoute.snapshot.params['param'])

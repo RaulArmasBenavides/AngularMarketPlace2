@@ -77,21 +77,7 @@ export class AccountNewStoreComponent implements OnInit {
   categories: any[] = [];
   subcategories: any[] = [];
 
-  /*=============================================
-    Configuración inicial de Summernote 
-    =============================================*/
 
-  config = {
-    placeholder: '',
-    tabsize: 2,
-    height: '400px',
-    toolbar: [
-      ['misc', ['codeview', 'undo', 'redo']],
-      ['style', ['bold', 'italic', 'underline', 'clear']],
-      ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
-      ['insert', ['link', 'picture', 'hr']]
-    ]
-  };
 
   /*=============================================
     Variables de tipo arreglo con objeto para el resumen del producto

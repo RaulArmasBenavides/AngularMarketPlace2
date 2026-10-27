@@ -8,7 +8,6 @@ import { UsersService } from '../../../../services/users.service';
 import { ProductsService } from '../../../../services/products.service';
 import { StoresService } from '../../../../services/stores.service';
 
-import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,8 +26,6 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
   render: boolean = true;
   is_vendor: boolean = false;
 
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   popoverMessage: string = 'Are you sure to remove it?';
 
@@ -40,14 +37,7 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    /*=============================================
-  	Agregamos opciones a DataTable
-  	=============================================*/
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true
-    };
 
     /*=============================================
   	Seleccionamos el id del usuario
@@ -112,7 +102,6 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
             	  =============================================*/
 
                 if (load == this.wishlist.length) {
-                  this.dtTrigger.next(null);
                 }
               }
             });
@@ -183,6 +172,5 @@ export class AccountWishlistComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

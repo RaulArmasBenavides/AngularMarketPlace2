@@ -13,7 +13,6 @@ import { UsersService } from '../../../../services/users.service';
 import { DisputesService } from '../../../../services/disputes.service';
 import { ProductsService } from '../../../../services/products.service';
 
-import { Subject } from 'rxjs';
 
 
 @Component({
@@ -44,8 +43,6 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
   reviewValue: number = 0;
   render: boolean = false;
 
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   constructor(
     private ordersService: OrdersService,
@@ -58,15 +55,7 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    /*=============================================
-	  	Agregamos opciones a DataTable
-	  	=============================================*/
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true,
-      order: [[0, 'desc']]
-    };
 
     /*=============================================
 		Validamos si el usuario ya tiene una tienda habilitada
@@ -138,12 +127,8 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
         });
       }
 
-      /*=============================================
-			Pintar el render en DataTable
-			=============================================*/
 
       if (load == this.myShopping.length) {
-        this.dtTrigger.next(null);
       }
 
       // Rating.fnc() - eliminado
@@ -353,6 +338,5 @@ export class AccountMyShoppingComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

@@ -11,7 +11,6 @@ import { DisputesModel } from '../../../../models/disputes.model';
 import { DisputesService } from '../../../../services/disputes.service';
 import { UsersService } from '../../../../services/users.service';
 
-import { Subject } from 'rxjs';
 
 
 @Component({
@@ -30,8 +29,6 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
   email: string = Email.url;
   userDispute: any[] = [];
 
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   constructor(
     private disputesService: DisputesService,
@@ -42,14 +39,7 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    /*=============================================
-	  	Agregamos opciones a DataTable
-	  	=============================================*/
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true
-    };
 
     let load = 0;
 
@@ -81,7 +71,6 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
       }
 
       if (load == this.disputes.length) {
-        this.dtTrigger.next(null);
       }
     });
   }
@@ -160,6 +149,5 @@ export class AccountDisputesComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

@@ -28,6 +28,11 @@ export const Capitalize = {
 
 export const Sweetalert = {
   fnc(type: string, text: string, url: string | null = null): void {
+    // En el servidor (SSR) no existe SweetAlert: no hay nada que mostrar
+    if (typeof Swal === 'undefined') {
+      return;
+    }
+
     const config: any = {
       icon: type,
       title: type === 'success' ? 'Success' : 'Error',

@@ -8,7 +8,6 @@ import { SalesService } from '../../../../services/sales.service';
 
 import { Sweetalert } from '../../../../functions';
 
-import { Subject } from 'rxjs';
 
 
 @Component({
@@ -33,8 +32,6 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
   ];
   email: string = Email.url;
 
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   constructor(
     private ordersService: OrdersService,
@@ -43,16 +40,8 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    /*=============================================
-	  	Agregamos opciones a DataTable
-	  	=============================================*/
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true
-    };
 
-    let load = 0;
 
     /*=============================================
 		Preguntamos si esta tienda tiene órdenes
@@ -61,7 +50,6 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
     this.ordersService.getFilterData('store', this.childItem).subscribe((resp: any) => {
       if (Object.keys(resp).length > 0) {
         for (const i in resp) {
-          load++;
 
           this.orders.push(resp[i]);
 
@@ -70,9 +58,6 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
           this.process.push(JSON.parse(resp[i].process));
         }
 
-        if (load == this.orders.length) {
-          this.dtTrigger.next(null);
-        }
       }
     });
   }
@@ -190,6 +175,5 @@ export class AccountOrdersComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

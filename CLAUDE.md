@@ -22,9 +22,18 @@ ng serve               # Same as npm start
 
 ### Build & Production
 ```bash
-npm run build          # Build project (artifacts go to dist/my-app)
-npm run build -- --prod  # Production build with optimization
+npm run build                                 # Build de desarrollo (dist/my-app/browser y dist/my-app/server)
+npm run build -- --configuration production   # Build de producción (sustituye la antigua opción --prod, ya no existe en Angular 21)
+node dist/my-app/server/server.mjs            # Servidor SSR tras el build (PORT, NG_ALLOWED_HOSTS, API_INTERNAL_URL)
 ```
+
+Docker: `Dockerfile` multi-etapa en esta carpeta; `docker-compose.yml` en `Marketplace2/` levanta frontend, backend y MongoDB.
+
+### SSR
+- Solo `''`, `products/:param`, `product/:param`, `search/:param` y `store-list` se renderizan en servidor (`src/app/app.routes.server.ts`). El resto es cliente.
+- `src/server-polyfills.ts` define `localStorage`/`sessionStorage` como no-op en Node. No añadir lógica que dependa de storage en código que corra en el render de servidor sin comprobar `isPlatformBrowser`.
+- `src/app/app.module.server.ts` reescribe `environment.apiUrl` a `API_INTERNAL_URL` solo en el servidor.
+- `.npmrc` tiene `legacy-peer-deps=true`: el lock lo necesita para que `npm ci` funcione.
 
 ### Testing
 ```bash
@@ -166,7 +175,7 @@ Due to **AuthInterceptor**, services no longer need `idToken: string` parameters
 - **Global CSS**: `src/styles.css`
 - **Bootstrap**: v5.3.8 for grid and utilities
 - **Angular Material**: Used for some components (Material Design UI)
-- **Summernote**: Rich text editor CSS included in build
+- **jQuery**: eliminado por completo (junto con DataTables, Summernote y sus scripts/CSS). No reintroducirlo; usar Angular o librerías sin jQuery
 
 ---
 
@@ -228,7 +237,7 @@ export class MyFeatureModule {}
 ### Known Configuration Notes
 - `allowedCommonJsDependencies` in angular.json: ['js-cookie', 'firebase'] (for CommonJS imports)
 - Production build has size budgets: initial 2mb warning/5mb error, component styles 6kb warning/10kb error
-- `types: ["jquery"]` in tsconfig.json for jQuery type support
+- No hay tipos de jQuery en `tsconfig.json` (jQuery eliminado)
 
 ---
 
@@ -272,11 +281,11 @@ this.myService.getData().subscribe(
 ### UI Components
 - **Angular Material**: Dialog, form controls, typography
 - **Bootstrap**: Grid, spacing, utilities
-- **Summernote**: WYSIWYG editor
 - **ngx-chips**: Tag input component
 - **ngx-dropzone**: File upload zones
-- **DataTables.net**: Data tables with sorting/filtering
+- **Swiper**: Carruseles
 - **angular-confirmation-popover**: Confirm dialogs
+- **Chart.js** (`assets/js/plugins/Chart.min.js`) y **SweetAlert2** (CDN en `index.html`)
 
 ### Utilities
 - **RxJS**: Reactive programming (map, filter, tap, etc.)
@@ -314,7 +323,8 @@ this.myService.getData().subscribe(
 - Firebase 12.5.0 — Realtime DB and Auth (REST API, not SDK-based)
 - Bootstrap 5.3.8 — CSS framework
 - TypeScript 5.9.3 — Strict type checking enabled
-- jQuery 3.x — Used in legacy code via `declare var $`
+- Angular SSR (`@angular/ssr`) con Express 5 para las rutas públicas
+- Sin jQuery
 
 ---
 

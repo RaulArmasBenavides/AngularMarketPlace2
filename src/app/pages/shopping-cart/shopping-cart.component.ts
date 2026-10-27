@@ -196,7 +196,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   }
 
   // =========================================================
-  // Remover producto (sin jQuery ni DataTables)
+  // Remover producto
   // =========================================================
   removeProduct(product: any, details: any): void {
     const listStr = localStorage.getItem('list');
@@ -223,7 +223,5 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     Sweetalert.fnc('success', 'product removed', this.router.url);
   }
 
-  ngOnDestroy(): void {
-    // ya no hay dtTrigger ni DataTables que destruir
-  }
+  ngOnDestroy(): void {}
 }

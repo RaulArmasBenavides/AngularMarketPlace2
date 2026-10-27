@@ -7,7 +7,6 @@ import { SalesService } from '../../../../services/sales.service';
 
 import { ActivatedRoute } from '@angular/router';
 
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-account-my-sales',
@@ -32,8 +31,6 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
   dateFrom: any = null;
   dateTo: any = null;
 
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   constructor(
     private readonly ordersService: OrdersService,
@@ -49,14 +46,7 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
     this.dateFrom = this.activatedRoute.snapshot.params['param'].split('&')[1];
     this.dateTo = this.activatedRoute.snapshot.params['param'].split('&')[2];
 
-    /*=============================================
-	  	Agregamos opciones a DataTable
-	  	=============================================*/
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true
-    };
 
     let load = 0;
 
@@ -202,7 +192,6 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
 										Disparamos el trigger de Datatable
 										=============================================*/
 
-                  this.dtTrigger.next(null);
                   }
                 }
               }
@@ -220,6 +209,5 @@ export class AccountMySalesComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

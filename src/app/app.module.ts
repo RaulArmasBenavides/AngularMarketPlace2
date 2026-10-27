@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -25,9 +25,9 @@ import { MockFirebaseInterceptor } from './core/interceptors/mock-firebase.inter
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: MockFirebaseInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    provideClientHydration(withEventReplay())
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
-

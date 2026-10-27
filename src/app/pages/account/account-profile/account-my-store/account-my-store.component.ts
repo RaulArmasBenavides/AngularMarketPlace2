@@ -22,7 +22,6 @@ import { SubCategoriesService } from '../../../../services/sub-categories.servic
 import { StoresModel } from '../../../../models/stores.model';
 import { ProductsModel } from '../../../../models/products.model';
 
-import { Subject } from 'rxjs';
 
 
 @Component({
@@ -49,20 +48,12 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 	=============================================*/
   products: any[] = [];
 
-  /*=============================================
-	Variables para trabajar con DataTable
-	=============================================*/
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
 
   /*=============================================
 	Variable para identificar cuando  termina la carga de los productos
 	=============================================*/
   loadProduct: number = 0;
 
-  /*=============================================
-	Variable render de DataTable
-	=============================================*/
   render: boolean = false;
 
   /*=============================================
@@ -129,21 +120,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 
   productModel: ProductsModel;
 
-  /*=============================================
-    Configuración inicial de Summernote 
-    =============================================*/
 
-  config = {
-    placeholder: '',
-    tabsize: 2,
-    height: '400px',
-    toolbar: [
-      ['misc', ['codeview', 'undo', 'redo']],
-      ['style', ['bold', 'italic', 'underline', 'clear']],
-      ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
-      ['insert', ['link', 'picture', 'hr']]
-    ]
-  };
 
   /*=============================================
     Variables de tipo arreglo para categorías y subcategorías
@@ -286,14 +263,7 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.preload = true;
 
-    /*=============================================
-	  	Agregamos opciones a DataTable
-	  	=============================================*/
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true
-    };
 
     /*=============================================
       	Validamos si el usuario ya tiene una tienda habilitada
@@ -469,12 +439,8 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
               return product;
             });
 
-            /*=============================================
-					Pintar el render en DataTable
-					=============================================*/
 
             if (this.loadProduct == this.products.length) {
-              this.dtTrigger.next(null);
             }
           });
 
@@ -527,9 +493,6 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
     });
   }
 
-  /*=============================================
-	Callback DataTable
-	=============================================*/
 
   callback(i: number, totalReviews: number[]) {
     if (!this.render) {
@@ -1864,8 +1827,5 @@ export class AccountMyStoreComponent implements OnInit, OnDestroy {
 	=============================================*/
 
   ngOnDestroy(): void {
-    if (this.dtTrigger) {
-      this.dtTrigger.unsubscribe();
-    }
   }
 }
